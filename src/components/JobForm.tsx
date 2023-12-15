@@ -58,7 +58,7 @@ const validateForm = (): boolean => {
     const newErrors: { [key: string]: string } = {};
   
     // Required field validation
-    const requiredFields = ['company', 'jobTitle', 'location', 'applicationType', 'resume', 'coverLetter', 'jobPostingURL' ];
+    const requiredFields = ['company', 'location', 'applicationType', 'resume', 'coverLetter', 'jobPostingURL' ];
     requiredFields.forEach(field => {
       if (!jobApplication[field].trim()) {
         newErrors[field] = `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
@@ -171,7 +171,7 @@ const validateForm = (): boolean => {
 
 {/* Resume field */}
 <div>
-  <label htmlFor="resume">Resume (URL/File Path):</label>
+  <label htmlFor="resume">Resume Version:</label>
   <input
     type="text"
     id="resume"
@@ -184,7 +184,7 @@ const validateForm = (): boolean => {
 
 {/* Cover Letter field */}
 <div>
-  <label htmlFor="coverLetter">Cover Letter (URL/File Path):</label>
+  <label htmlFor="coverLetter">Cover Letter? (n/a or filename if included):</label>
   <input
     type="text"
     id="coverLetter"

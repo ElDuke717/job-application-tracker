@@ -9,7 +9,8 @@ function App() {
 
   return (
     <>
-    <img src={logo} className="App-logo" alt="logo" />
+    <img src={logo} className="logo" alt="logo" />
+    
       <JobForm />
     </>
   )

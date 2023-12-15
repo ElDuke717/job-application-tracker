@@ -101,6 +101,7 @@ const validateForm = (): boolean => {
   return (
     // JSX form
     <>
+    <div className="form-container">
     <h1>Job Application Form</h1>
     <h2>Enter Job Application Details Here</h2>
     <form onSubmit={handleSubmit}>
@@ -262,6 +263,7 @@ const validateForm = (): boolean => {
 
       <button type="submit">Submit</button>
     </form>
+    </div>
     </>
   );
 };

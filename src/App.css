@@ -26,6 +26,14 @@
   background: #f9f9f9; /* Light grey background */
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex; /* Use flexbox to center children */
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center children horizontally */
+  justify-content: center; /* Center children vertically */
+}
+
+form {
+  width: 100%; /* Use the full width of the form container */
 }
 
 h1,

@@ -58,6 +58,7 @@ textarea {
   padding: 8px;
   border: 1px solid #ccc; /* Light grey border */
   border-radius: 4px;
+  max-width: 400px; /* Set a max-width to prevent fields from stretching too wide */
 }
 
 input[type="checkbox"] {

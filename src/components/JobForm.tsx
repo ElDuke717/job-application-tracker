@@ -84,19 +84,36 @@ const validateForm = (): boolean => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // handle form submission
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    const isValid = validateForm();
-    if (isValid) {
-      console.log(jobApplication);
-      // Proceed with submitting data
-    } else {
-      console.log("Validation errors", errors);
-      // Handle the display of validation errors
-    }
-  };
+  // handle form submission and save data to local databbase
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const isValid = validateForm();
+        if (isValid) {
+        try {
+            const response = await fetch('http://localhost:3001/save-application', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(jobApplication),
+            });
+    
+            if (response.ok) {
+            alert('Application saved successfully');
+            // Reset the form or perform other actions
+            } else {
+            alert('Failed to save application');
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+            alert('Network error when trying to save application');
+        }
+        } else {
+        console.log("Validation errors", errors);
+        }
+    };
   
+   
 
   return (
     // JSX form

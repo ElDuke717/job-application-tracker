@@ -28,7 +28,10 @@ const JobForm = () => {
   );
 
   // state variable for form errors
-const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  // state variable for showing modal
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   // update state when user types in input fields
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -80,39 +83,48 @@ if (jobApplication.internalContactEmail) {
   };
 
   // handle form submission and save data to local databbase
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const isValid = validateForm();
-        if (isValid) {
-        try {
-            const response = await fetch('http://localhost:3001/save-application', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(jobApplication),
-            });
-    
-            if (response.ok) {
-            alert('Application saved successfully');
-            // Reset the form or perform other actions
-            } else {
-            alert('Failed to save application');
-            }
-        } catch (error) {
-            console.error('Network error:', error);
-            alert('Network error when trying to save application');
-        }
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const isValid = validateForm();
+    if (isValid) {
+      try {
+        const response = await fetch('http://localhost:3001/save-application', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(jobApplication),
+        });
+
+        if (response.ok) {
+          // Reset the form to initial state
+          setJobApplication(initialJobApplicationState);
+          // Show modal
+          setShowModal(true);
+          // Hide modal after 3 seconds
+          setTimeout(() => setShowModal(false), 3000);
         } else {
-        console.log("Validation errors", errors);
+          console.log('Failed to save application');
         }
-    };
+      } catch (error) {
+        console.error('Network error:', error);
+      }
+    } else {
+      console.log("Validation errors", errors);
+    }
+  };
   
-   
+   // JSX for modal (simple example)
+  const modal = (
+    <div style={{ display: showModal ? 'block' : 'none', position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '20px', borderRadius: '5px', boxShadow: '0px 0px 10px rgba(0,0,0,0.5)', color: "black" }}>
+      <p>Application saved successfully!</p>
+    </div>
+  );
 
   return (
     // JSX form
     <>
+    {modal}
     <div className="form-container">
     <h1>Job Application Form</h1>
     <h2>Enter Job Application Details Here</h2>

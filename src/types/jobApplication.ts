@@ -5,13 +5,11 @@ export interface JobApplication {
   location: string;
   applicationStatus: string;
   applicationType: string;
-  resume: string; // URL or file path
-  coverLetter: string; // URL or file path
+  resume: string; // filename
+  coverLetter: string; // yes or no
   jobPostingURL: string;
-  internalContact: {
-    name: string;
-    title: string;
-  };
+  internalContactName: string;
+  internalContactTitle: string;
   internalContactEmail: string;
   doubleDown: boolean;
   notesComments: string;

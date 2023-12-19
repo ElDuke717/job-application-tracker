@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import logo from './assets/job-app-logo.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import JobForm from './components/JobForm'
 

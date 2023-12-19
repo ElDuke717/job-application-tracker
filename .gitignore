@@ -7,6 +7,9 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 .env 
+Job Application & Network Tracker.xlsx
+jobs_and_network_tracker.xlsx
+previous-applications.json
 .env.local
 node_modules
 dist

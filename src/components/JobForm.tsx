@@ -9,13 +9,11 @@ const initialJobApplicationState: JobApplication = {
   location: "",
   applicationStatus: "Not Submitted", // default status
   applicationType: "",
-  resume: "", // URL or file path
-  coverLetter: "", // URL or file path
+  resume: "", // filename or other details
+  coverLetter: "", // yes or no or other details
   jobPostingURL: "",
-  internalContact: {
-    name: "",
-    title: "",
-  },
+  internalContactName: "",
+  internalContactTitle: "",
   internalContactEmail: "",
   doubleDown: false,
   notesComments: "",
@@ -34,24 +32,14 @@ const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   // update state when user types in input fields
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value, type } = event.target as HTMLInputElement | HTMLTextAreaElement;
-    const checked = type === "checkbox" ? (event.target as HTMLInputElement).checked : false;
-
+    const { name, value, type, checked } = event.target;
     if (type === "checkbox") {
       setJobApplication(prevState => ({ ...prevState, [name]: checked }));
-    } else if (name === "internalContactName" || name === "internalContactTitle") {
-      const field = name === "internalContactName" ? "name" : "title";
-      setJobApplication(prevState => ({
-        ...prevState,
-        internalContact: {
-          ...prevState.internalContact,
-          [field]: value,
-        },
-      }));
     } else {
       setJobApplication(prevState => ({ ...prevState, [name]: value }));
     }
   };
+  
 
   // validate form errors
 const validateForm = (): boolean => {
@@ -66,9 +54,16 @@ const validateForm = (): boolean => {
     });
   
     // Email format validation
-    if (jobApplication.internalContactEmail && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(jobApplication.internalContactEmail)) {
+if (jobApplication.internalContactEmail) {
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(jobApplication.internalContactEmail)) {
       newErrors.internalContactEmail = 'Invalid email format';
     }
+  } else {
+    // If the email field is blank, do not add an error (assuming it's optional)
+    // If the email field is mandatory, you can add an error here
+    // newErrors.internalContactEmail = 'Email is required';
+  }
+  
   
     // URL validation for jobPostingURL
     const urlFields = ['jobPostingURL'];
@@ -226,6 +221,19 @@ const validateForm = (): boolean => {
   {errors.jobPostingURL && <div style={{ color: "red" }}>{errors.jobPostingURL}</div>}
 </div>
 
+{/* Internal Contact Name field */}
+<div>
+  <label htmlFor="internalContactName">Internal Contact Name:</label>
+  <input
+    type="text"
+    id="internalContactName"
+    name="internalContactName"
+    value={jobApplication.internalContactName}
+    onChange={handleInputChange}
+  />
+  {/* Display error message if any */}
+</div>
+
 {/* Internal Contact Title field */}
 <div>
   <label htmlFor="internalContactTitle">Internal Contact Title:</label>
@@ -233,10 +241,10 @@ const validateForm = (): boolean => {
     type="text"
     id="internalContactTitle"
     name="internalContactTitle"
-    value={jobApplication.internalContact?.title}
+    value={jobApplication.internalContactTitle}
     onChange={handleInputChange}
   />
-  {errors.internalContactTitle && <div style={{ color: "red" }}>{errors.internalContactTitle}</div>}
+  {/* Display error message if any */}
 </div>
 
 {/* Internal Contact Email field */}

@@ -89,4 +89,78 @@ button[type="submit"] {
   margin-top: 5px; /* Space above the error message */
 }
 
-/* Add additional styling as needed */
+/* App.css */
+.App-logo {
+  height: 40px; /* Adjust the size of the logo as needed */
+  margin-right: 20px; /* Space between logo and nav items */
+}
+
+nav {
+  display: flex;
+  align-items: center; /* Align logo and links vertically */
+  justify-content: center; /* Center the navigation bar */
+  background-color: #f3f3f3; /* Background color of the nav bar */
+  padding: 10px 0; /* Padding around the nav bar */
+  border-radius: 5px;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin: 0 10px; /* Space between nav items */
+}
+
+li a {
+  text-decoration: none;
+  color: #333; /* Color of the nav links */
+}
+
+/* Table Styles */
+.table-container {
+  padding: 20px;
+}
+
+.job-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.job-table th,
+.job-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.job-table thead {
+  background-color: #f3f3f3; /* Match this with the navbar background color */
+}
+
+.job-table th {
+  font-weight: bold;
+}
+
+/* Pagination Styles */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-btn {
+  margin: 0 5px;
+  padding: 5px 10px;
+  background-color: grey; /* Default background */
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.pagination-btn.active {
+  background-color: blue; /* Active page background */
+}

@@ -5,7 +5,7 @@ const JobList = () => {
     const [jobApplications, setJobApplications] = useState<JobApplication[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
-    const itemsPerPage = 10;
+    const itemsPerPage = 20;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,26 +31,28 @@ const JobList = () => {
       };
 
   return (
-    <div style={{ padding: '20px' }}>
-      {jobApplications.length > 0 ? (
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+    <div className="table-container">
+    {jobApplications.length > 0 ? (
+      <table className="job-table">
           <thead>
             <tr>
-              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Date Submitted</th>
-              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Job Title</th>
-              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Company</th>
-              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Double Down</th>
-              <th style={{ border: '1px solid #ddd', padding: '8px' }}>Notes</th>
+              <th>Date Submitted</th>
+              <th>Job Title</th>
+              <th>Company</th>
+              <th>Status</th>
+              <th>Double Down</th>
+              <th>Notes</th>
             </tr>
           </thead>
           <tbody>
             {jobApplications.map((application, index) => (
               <tr key={index}>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{application.dateSubmitted}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{application.jobTitle}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{application.company}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{application.doubleDown ? 'Yes' : 'No'}</td>
-                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{application.notesComments}</td>
+                <td >{application.dateSubmitted}</td>
+                <td >{application.jobTitle}</td>
+                <td >{application.company}</td>
+                <td >{application.applicationStatus }</td>
+                <td >{application.doubleDown ? 'Yes' : 'No'}</td>
+                <td >{application.notesComments}</td>
               </tr>
             ))}
           </tbody>
@@ -59,22 +61,15 @@ const JobList = () => {
         <p>No job applications found.</p>
       )}
       {/* Pagination Controls */}
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+      <div className="pagination-container">
         {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
           <button
-            key={pageNumber}
-            onClick={() => goToPage(pageNumber)}
-            style={{
-              margin: '0 5px',
-              padding: '5px 10px',
-              background: currentPage === pageNumber ? 'blue' : 'grey',
-              color: 'white',
-              border: 'none',
-              cursor: 'pointer',
-            }}
-          >
-            {pageNumber}
-          </button>
+          key={pageNumber}
+          onClick={() => goToPage(pageNumber)}
+          className={`pagination-btn ${currentPage === pageNumber ? 'active' : ''}`}
+        >
+          {pageNumber}
+        </button>
         ))}
       </div>
     </div>

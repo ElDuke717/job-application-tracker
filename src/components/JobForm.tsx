@@ -49,7 +49,7 @@ const validateForm = (): boolean => {
     const newErrors: { [key: string]: string } = {};
   
     // Required field validation
-    const requiredFields = ['company', 'location', 'applicationType', 'resume', 'coverLetter', 'jobPostingURL' ];
+    const requiredFields = ['company', 'jobTitle','location', 'applicationType', 'resume', 'coverLetter', 'jobPostingURL' ];
     requiredFields.forEach(field => {
       if (!jobApplication[field].trim()) {
         newErrors[field] = `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
@@ -140,6 +140,19 @@ if (jobApplication.internalContactEmail) {
     onChange={handleInputChange}
   />
   {errors.company && <div style={{ color: "red" }}>{errors.company}</div>}
+</div>
+
+{/* Job Title field */}
+<div>
+  <label htmlFor="jobTitle">Job Title:</label>
+  <input
+    type="text"
+    id="jobTitle"
+    name="jobTitle"
+    value={jobApplication.jobTitle}
+    onChange={handleInputChange}
+  />
+  {errors.jobTitle && <div style={{ color: "red" }}>{errors.jobTitle}</div>}
 </div>
 
 {/* Date Submitted field */}

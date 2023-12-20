@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
+import BarGraph from './BarGraph';
 
 const Metrics = () => {
   const d3Container = useRef(null);
@@ -28,7 +29,8 @@ const Metrics = () => {
   return (
     <div>
       <h1>Metrics</h1>
-      <div ref={d3Container} />
+
+        <BarGraph />
     </div>
   );
 }

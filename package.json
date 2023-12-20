@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.0.1",
+    "@visx/axis": "^3.5.0",
+    "@visx/group": "^3.3.0",
     "axios": "^1.6.2",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",

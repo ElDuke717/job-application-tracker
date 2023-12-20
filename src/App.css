@@ -165,3 +165,7 @@ li a {
 .pagination-btn.active {
   background-color: blue; /* Active page background */
 }
+
+.graph {
+  background-color: #f3f3f3;
+}

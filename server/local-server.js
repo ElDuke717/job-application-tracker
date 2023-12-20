@@ -11,6 +11,10 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+// Serve static files from the server/data directory
+const dirname = path.dirname(new URL(import.meta.url).pathname);
+app.use('/data', express.static(path.join(dirname, 'data')));
+
 // will append the JSON file
 app.post("/save-application", (req, res) => {
   const newApplication = req.body;

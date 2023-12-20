@@ -42,7 +42,7 @@ const screens = Math.floor(applicationValue * 0.2);
 
 export default function BarGraph() {
   return (
-    <>
+    <div className='graph'>
      
       <svg width={width} height={height}>
         <Group>
@@ -79,7 +79,7 @@ export default function BarGraph() {
         {screens > 1 ? "screens" : "screen"} with your current rate of
         applications.
       </h3>
-    </>
+    </div>
   );
 }
 

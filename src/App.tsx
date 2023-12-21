@@ -23,7 +23,7 @@ function App() {
         <Route path="/job-form" element={<JobForm />} />
         <Route path="/job-list" element={<JobList />} />
         <Route path="/metrics" element={<Metrics />} />
-        <Route path="/" element={<h1>Welcome to the Job Application Tracker</h1>} />
+        <Route path="/" element={<h1 className='graph'>Welcome to the Job Application Tracker</h1>} />
       </Routes>
     </Router>
   );

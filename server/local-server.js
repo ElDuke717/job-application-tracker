@@ -1,10 +1,11 @@
-// server.js or app.js
+// local-server.js, not adapted to work with a database
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import fs from "fs";
 import path from "path";
 import process from "process";
+import cron from "node-cron";
 
 const app = express();
 
@@ -13,7 +14,52 @@ app.use(bodyParser.json());
 
 // Serve static files from the server/data directory
 const dirname = path.dirname(new URL(import.meta.url).pathname);
-app.use('/data', express.static(path.join(dirname, 'data')));
+app.use("/data", express.static(path.join(dirname, "data")));
+
+// Functionality to update applications that are older than two months
+// Read job applications from file
+function readJobApplications() {
+  const data = fs.readFileSync(filePath, "utf8");
+  return JSON.parse(data);
+}
+
+// Write job applications to file
+function writeJobApplications(applications) {
+  fs.writeFileSync(filePath, JSON.stringify(applications, null, 2));
+}
+
+// Update job applications status
+function updateJobApplications() {
+  const applications = readJobApplications();
+  const twoMonthsAgo = new Date();
+  twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
+
+  const updatedApplications = applications.map((app) => {
+    if (
+      new Date(app.dateSubmitted) < twoMonthsAgo &&
+      app.applicationStatus !== "Rejected"
+    ) {
+      return { ...app, applicationStatus: "Older than two months" };
+    }
+    return app;
+  });
+
+  writeJobApplications(updatedApplications);
+}
+
+// Schedule the update job to run once a day
+cron.schedule(
+  "0 0 * * *",
+  () => {
+    console.log("Running a job at 00:00 at America/New_York timezone");
+    updateJobApplications();
+  },
+  {
+    scheduled: true,
+    timezone: "America/New_York",
+  }
+);
+
 
 // will append the JSON file
 app.post("/save-application", (req, res) => {
@@ -30,15 +76,14 @@ app.post("/save-application", (req, res) => {
     // Parse the data to JSON, append the new application, then convert back to string
     let applications = [];
     try {
-        applications = JSON.parse(data);
-        if (!Array.isArray(applications)) {
-            applications = []; // Reset to an empty array if parsed data is not an array
-        }
+      applications = JSON.parse(data);
+      if (!Array.isArray(applications)) {
+        applications = []; // Reset to an empty array if parsed data is not an array
+      }
     } catch (parseErr) {
-        console.error('Error parsing JSON, starting with a new array', parseErr);
-        applications = []; // Reset to an empty array if there's a parsing error
+      console.error("Error parsing JSON, starting with a new array", parseErr);
+      applications = []; // Reset to an empty array if there's a parsing error
     }
-    
 
     applications.push(newApplication);
 

@@ -207,8 +207,9 @@ if (jobApplication.internalContactEmail) {
         name="applicationType"
         value={jobApplication.applicationType}
         onChange={handleInputChange}
-    >
-        <option value="">Select application type</option>
+    >   
+        <option value="choose one">Choose One</option>
+        <option value="LinkedIn Easy Apply">LinkedIn Easy Apply</option>
         <option value="Quick apply">Quick apply</option>
         <option value="Traditional">Traditional</option>
         <option value="Codesmith style">Codesmith style</option>

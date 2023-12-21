@@ -1,3 +1,75 @@
+:root {
+  /* Base Colors from Pallete 01 */
+  /* Primary Colors */
+  --cyan-050: #e0fcff;
+  --cyan-100: #bef8fd;
+  --cyan-200: #87eaf2;
+  --cyan-300: #54d1db;
+  --cyan-400: #38bec9;
+  --cyan-500: #2cb1bc;
+  --cyan-600: #14919b;
+  --cyan-700: #0e7c86;
+  --cyan-800: #0a6c74;
+  --cyan-900: #044e54;
+
+  /* Neutral Colors */
+  --grey-050: #f0f4f8;
+  --grey-100: #d9e2ec;
+  --grey-200: #bcccdc;
+  --grey-300: #9fb3c8;
+  --grey-400: #829ab1;
+  --grey-500: #627d98;
+  --grey-600: #486581;
+  --grey-700: #334e68;
+  --grey-800: #243b53;
+  --grey-900: #102a43;
+
+  /* Supporting Colors */
+  --indigo-050: #e0e8f9;
+  --indigo-100: #bed0f7;
+  --indigo-200: #98aeeb;
+  --indigo-300: #7b93db;
+  --indigo-400: #647acb;
+  --indigo-500: #4c63b6;
+  --indigo-600: #4055a8;
+  --indigo-700: #35469c;
+  --indigo-800: #2d3a8c;
+  --indigo-900: #19216c;
+
+  --pink-050: #ffe0f0;
+  --pink-100: #fab8d9;
+  --pink-200: #f191c1;
+  --pink-300: #e668a7;
+  --pink-400: #da4a91;
+  --pink-500: #c42d78;
+  --pink-600: #ad2167;
+  --pink-700: #9b1b5a;
+  --pink-800: #781244;
+  --pink-900: #5c0b33;
+
+  --red-050: #ffeeee;
+  --red-100: #facdcd;
+  --red-200: #f29b9b;
+  --red-300: #e66a6a;
+  --red-400: #d64545;
+  --red-500: #ba2525;
+  --red-600: #a61b1b;
+  --red-700: #911111;
+  --red-800: #780a0a;
+  --red-900: #610404;
+
+  --yellow-050: #fffaeb;
+  --yellow-100: #fcefc7;
+  --yellow-200: #f8e3a3;
+  --yellow-300: #f9da8b;
+  --yellow-400: #f7d070;
+  --yellow-500: #e9b949;
+  --yellow-600: #c99a2e;
+  --yellow-700: #a27c1a;
+  --yellow-800: #7c5e10;
+  --yellow-900: #513c06;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -12,24 +84,24 @@
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em var(--indigo-400));
 }
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 2em var(--cyan-300));
 }
 
 /* Base styles for the form */
 .form-container {
-  max-width: 600px; /* Adjust the width as needed */
+  max-width: 600px;
   margin: 20px auto;
   padding: 20px;
-  background: #f9f9f9; /* Light grey background */
+  background: var(--grey-050);
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex; /* Use flexbox to center children */
-  flex-direction: column; /* Stack children vertically */
-  align-items: center; /* Center children horizontally */
-  justify-content: center; /* Center children vertically */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 form {
@@ -39,7 +111,7 @@ form {
 h1,
 h2 {
   text-align: center;
-  color: #333; /* Dark text for better contrast */
+  color: var(--grey-900); /* Dark text for better contrast */
   margin-bottom: 20px; /* Spacing after headings */
 }
 
@@ -54,7 +126,7 @@ form div {
 
 label {
   display: block;
-  color: black;
+  color: var(--grey-900);
   margin-bottom: 5px; /* Space between label and input */
 }
 
@@ -64,7 +136,7 @@ input[type="email"],
 textarea {
   width: 100%;
   padding: 8px;
-  border: 1px solid #ccc; /* Light grey border */
+  border: 1px solid var(--grey-200); /* Light grey border */
   border-radius: 4px;
   max-width: 400px; /* Set a max-width to prevent fields from stretching too wide */
 }
@@ -76,15 +148,15 @@ input[type="checkbox"] {
 button[type="submit"] {
   padding: 10px;
   border: none;
-  background: #333; /* Dark background for the button */
-  color: white;
+  background: var(--grey-900); /* Dark background for the button */
+  color: var(--grey-050);
   border-radius: 4px;
   cursor: pointer;
   margin-top: 10px; /* Space above the submit button */
 }
 
 .error-message {
-  color: red;
+  color: var(--red-500); /* Red text for errors */
   font-size: 0.85em;
   margin-top: 5px; /* Space above the error message */
 }
@@ -99,7 +171,7 @@ nav {
   display: flex;
   align-items: center; /* Align logo and links vertically */
   justify-content: center; /* Center the navigation bar */
-  background-color: #f3f3f3; /* Background color of the nav bar */
+  background-color: var(--grey-050); /* Background color of the nav bar */
   padding: 10px 0; /* Padding around the nav bar */
   border-radius: 5px;
 }
@@ -117,7 +189,7 @@ li {
 
 li a {
   text-decoration: none;
-  color: #333; /* Color of the nav links */
+  color: var(--grey-900); /* Color of the nav links */
 }
 
 /* Table Styles */
@@ -138,12 +210,12 @@ li a {
 }
 
 .job-table thead {
-  background-color: #f3f3f3; /* Match this with the navbar background color */
+  background-color: var(--grey-050); /* Match this with the navbar background color */
 }
 
 .job-table th {
   font-weight: bold;
-  color: #242424;
+  color: var(--grey-900);
 }
 
 /* Pagination Styles */
@@ -156,16 +228,36 @@ li a {
 .pagination-btn {
   margin: 0 5px;
   padding: 5px 10px;
-  background-color: grey; /* Default background */
+  background-color: var(--grey-600);  /* Default background */
   color: white;
   border: none;
   cursor: pointer;
 }
 
 .pagination-btn.active {
-  background-color: blue; /* Active page background */
+  background-color: var(--indigo-500);  /* Active page background */
 }
 
 .graph {
-  background-color: #f3f3f3;
+  background-color: var(--grey-050);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px;
+}
+
+.graph-info {
+  color: #333333;
+  font-size: 1em;
+}
+
+.metrics-container {
+  background-color: var(--grey-050);
+  border-radius: 8px;
+  padding: 20px;
+}
+.metrics {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  color: var(--grey-900);
 }

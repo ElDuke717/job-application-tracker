@@ -14,23 +14,24 @@ const Metrics = () => {
     const fetchData = async () => {
       try {
         const response = await fetch('server/data/jobApplications.json');
-        console.log(response)
+       
         const jobApplications = await response.json();
+        console.log('jobApplications', jobApplications);
 
         // Calculate metrics
         const totalApplications = jobApplications.length;
-        const totalRejections = jobApplications.filter(app => app.applicationStatus === 'Rejected').length;
-        const phoneScreens = jobApplications.filter(app => app.notesComments.toLowerCase().includes('phone')).length;
-        const emails = jobApplications.filter(app => app.notesComments.toLowerCase().includes('email')).length;
-        const interviews = jobApplications.filter(app => app.notesComments.toLowerCase().includes('interview')).length;
+        const totalRejections = jobApplications.filter(app => app.applicationStatus && app.applicationStatus.toLowerCase() === 'rejected').length;
+        const phoneScreens = jobApplications.filter(app => app.phoneScreen && app.phoneScreen.trim() !== '').length;
+        const emails = jobApplications.filter(app => app.notesComments && app.notesComments.toLowerCase().includes('email')).length;
+        const interviews = jobApplications.filter(app => app.notesComments && app.notesComments.toLowerCase().includes('interview')).length;
 
         // Set metrics state
         setMetrics({ 
             totalApplications, 
             totalRejections, 
             phoneScreens,
-            emails: 0, 
-            interviews: 0 
+            emails, 
+            interviews 
         });
 
       } catch (error) {
@@ -42,17 +43,28 @@ const Metrics = () => {
   }, []);
 
   return (
-    <div>
+    <>
+     <div className='metrics-container'>
       <h1>Metrics</h1>
-      <div>
+      <div className='metrics'>
         <p>Total Applications: {metrics.totalApplications}</p>
         <p>Total Rejections: {metrics.totalRejections}</p>
         <p>Phone Screens: {metrics.phoneScreens}</p>
         <p>Emails: {metrics.emails}</p>
         <p>Interviews: {metrics.interviews}</p>
       </div>
-      <BarGraph />
-    </div>
+      </div>
+      <BarGraph
+        totalApplications={metrics.totalApplications}
+        totalEmails={metrics.emails} // Assuming you have this metric
+        totalPhoneScreens={metrics.phoneScreens}
+        totalInterviews={metrics.interviews}
+        totalRejections={metrics.totalRejections}
+        totalAcceptances={metrics.totalAcceptances} // Assuming you have this metric
+        totalOffers={metrics.totalOffers} // Assuming you have this metric
+        />
+     
+    </>
   );
 }
 

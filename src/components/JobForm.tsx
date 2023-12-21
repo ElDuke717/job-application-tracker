@@ -7,7 +7,7 @@ const initialJobApplicationState: JobApplication = {
   company: "",
   jobTitle: "",
   location: "",
-  applicationStatus: "Not Submitted", // default status
+  applicationStatus: "Submitted", // default status
   applicationType: "",
   resume: "", // filename or other details
   coverLetter: "", // yes or no or other details
@@ -183,28 +183,40 @@ if (jobApplication.internalContactEmail) {
 
 {/* Application Status field */}
 <div>
-  <label htmlFor="applicationStatus">Application Status:</label>
-  <input
-    type="text"
-    id="applicationStatus"
-    name="applicationStatus"
-    value={jobApplication.applicationStatus}
-    onChange={handleInputChange}
-  />
-  {errors.applicationStatus && <div style={{ color: "red" }}>{errors.applicationStatus}</div>}
+    <label htmlFor="applicationStatus">Application Status:</label>
+    <select
+        id="applicationStatus"
+        name="applicationStatus"
+        value={jobApplication.applicationStatus}
+        onChange={handleInputChange}
+    >
+        <option value="Not Submitted">Not Submitted</option>
+        <option value="Submitted">Submitted</option>
+        <option value="Rejected">Rejected</option>
+        <option value="Phone Screen">Phone Screen</option>
+        <option value="Move to interview">Move to interview</option>
+    </select>
+    {errors.applicationStatus && <div style={{ color: "red" }}>{errors.applicationStatus}</div>}
 </div>
 
 {/* Application Type field */}
 <div>
-  <label htmlFor="applicationType">Application Type:</label>
-  <input
-    type="text"
-    id="applicationType"
-    name="applicationType"
-    value={jobApplication.applicationType}
-    onChange={handleInputChange}
-  />
-  {errors.applicationType && <div style={{ color: "red" }}>{errors.applicationType}</div>}
+    <label htmlFor="applicationType">Application Type:</label>
+    <select
+        id="applicationType"
+        name="applicationType"
+        value={jobApplication.applicationType}
+        onChange={handleInputChange}
+    >
+        <option value="">Select application type</option>
+        <option value="Quick apply">Quick apply</option>
+        <option value="Traditional">Traditional</option>
+        <option value="Codesmith style">Codesmith style</option>
+        <option value="Workday application">Workday application</option>
+        <option value="Other company system">Other company system</option>
+        <option value="Other">Other</option>
+    </select>
+    {errors.applicationType && <div style={{ color: "red" }}>{errors.applicationType}</div>}
 </div>
 
 {/* Resume field */}

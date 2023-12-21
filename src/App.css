@@ -210,7 +210,9 @@ li a {
 }
 
 .job-table thead {
-  background-color: var(--grey-050); /* Match this with the navbar background color */
+  background-color: var(
+    --grey-050
+  ); /* Match this with the navbar background color */
 }
 
 .job-table th {
@@ -228,14 +230,14 @@ li a {
 .pagination-btn {
   margin: 0 5px;
   padding: 5px 10px;
-  background-color: var(--grey-600);  /* Default background */
+  background-color: var(--grey-600); /* Default background */
   color: white;
   border: none;
   cursor: pointer;
 }
 
 .pagination-btn.active {
-  background-color: var(--indigo-500);  /* Active page background */
+  background-color: var(--indigo-500); /* Active page background */
 }
 
 .graph {
@@ -254,7 +256,9 @@ li a {
   background-color: var(--grey-050);
   border-radius: 8px;
   padding: 20px;
+  margin: 20px;  
 }
+
 .metrics {
   display: flex;
   justify-content: space-between;

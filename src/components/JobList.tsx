@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { JobApplication } from '../types/jobApplication';
+import getApplicationAgeInDays from '../utils/getApplicationAgeInDays';
 
 const JobList = () => {
     const [jobApplications, setJobApplications] = useState<JobApplication[]>([]);
@@ -8,25 +9,34 @@ const JobList = () => {
     const itemsPerPage = 20;
 
     useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await fetch('server/data/jobApplications.json'); // Adjust the URL as needed
-            const data = await response.json();
-            setTotalPages(Math.ceil(data.length / itemsPerPage));
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            const paginatedData = data.sort((a, b) => 
-              new Date(b.dateSubmitted).getTime() - new Date(a.dateSubmitted).getTime()
-            ).slice(startIndex, startIndex + itemsPerPage);
-            setJobApplications(paginatedData);
-          } catch (error) {
-            console.error('Error fetching job applications:', error);
-          }
-        };
+      const fetchData = async () => {
+        try {
+          const response = await fetch('server/data/jobApplications.json'); // Adjust the URL as needed
+          const data = await response.json();
+          setTotalPages(Math.ceil(data.length / itemsPerPage));
+          const startIndex = (currentPage - 1) * itemsPerPage;
+          const sortedData = data.sort((a: { dateSubmitted: string | number | Date; }, b: { dateSubmitted: string | number | Date; }) => 
+            new Date(b.dateSubmitted).getTime() - new Date(a.dateSubmitted).getTime()
+          );
+          const paginatedData = sortedData.slice(startIndex, startIndex + itemsPerPage);
+          
+          // Add age to each job application
+          const dataWithAge = paginatedData.map((app: { dateSubmitted: string; }) => ({
+            ...app,
+            age: getApplicationAgeInDays(app.dateSubmitted)
+          }));
     
-        fetchData();
-      }, [currentPage]);
+          setJobApplications(dataWithAge);
+        } catch (error) {
+          console.error('Error fetching job applications:', error);
+        }
+      };
+    
+      fetchData();
+    }, [currentPage]);
+    
 
-      const goToPage = (pageNumber) => {
+      const goToPage = (pageNumber: React.SetStateAction<number>) => {
         setCurrentPage(pageNumber);
       };
 
@@ -40,6 +50,7 @@ const JobList = () => {
               <th>Job Title</th>
               <th>Company</th>
               <th>Status</th>
+              <th>Age</th>
               <th>Double Down</th>
               <th>Notes</th>
             </tr>
@@ -51,6 +62,7 @@ const JobList = () => {
                 <td >{application.jobTitle}</td>
                 <td >{application.company}</td>
                 <td >{application.applicationStatus }</td>
+                <td >{application.age}</td>
                 <td >{application.doubleDown ? 'Yes' : 'No'}</td>
                 <td >{application.notesComments}</td>
               </tr>

@@ -1,4 +1,5 @@
 export interface JobApplication {
+  age: ReactNode;
   dateSubmitted: string;
   company: string;
   jobTitle: string;

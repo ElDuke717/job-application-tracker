@@ -240,7 +240,8 @@ li a {
   background-color: var(--indigo-500); /* Active page background */
 }
 
-.graph {
+.graph,
+.pie-chart {
   background-color: var(--grey-050);
   border-radius: 8px;
   padding: 20px;
@@ -248,15 +249,23 @@ li a {
 }
 
 .graph-info {
-  color: #333333;
+  color: var(--grey-900);
   font-size: 1em;
 }
 
-.metrics-container {
+.legend {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  color: var(--grey-900);
+}
+
+.metrics-container,
+.metrics-notes {
   background-color: var(--grey-050);
   border-radius: 8px;
   padding: 20px;
-  margin: 20px;  
+  margin: 20px;
 }
 
 .metrics {
@@ -264,4 +273,10 @@ li a {
   justify-content: space-between;
   margin-bottom: 20px;
   color: var(--grey-900);
+}
+
+.metrics p {
+  font-size: 1em;
+  font-weight: bold;
+  margin: 10px;
 }

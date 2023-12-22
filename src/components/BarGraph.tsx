@@ -6,6 +6,7 @@ import { AxisLeft, AxisBottom } from "@visx/axis";
 
 type BarGraphProps = {
     totalApplications: number;
+    coverLetters: number;
     totalEmails: number;
     totalPhoneScreens: number;
     totalInterviews: number;
@@ -16,21 +17,23 @@ type BarGraphProps = {
 
 const BarGraph = ({
     totalApplications,
+    coverLetters,
     totalEmails,
     totalPhoneScreens,
     totalInterviews,
     totalRejections,
-    totalAcceptances,
-    totalOffers
+    // totalAcceptances,
+    // totalOffers
 }: BarGraphProps) => {
     const data = [
         { type: "Applications", value: totalApplications },
-        { type: "E-mails", value: totalEmails },
+        { type: "Cover \n Letters", value: coverLetters},
+        { type: "E-mail", value: totalEmails },
         { type: "Phone Screens", value: totalPhoneScreens },
         { type: "Interviews", value: totalInterviews },
         { type: "Rejections", value: totalRejections },
-        { type: "Acceptances", value: 0 },
-        { type: "Offers", value: 0 },
+        // { type: "Acceptances", value: 0 },
+        // { type: "Offers", value: 0 },
     ];
    
     // Define the graph dimensions and margins
@@ -54,14 +57,16 @@ const BarGraph = ({
     const yAxisTicks = yScale.ticks().filter((tick) => Number.isInteger(tick));
 
     return (
+        
         <div className='graph'>
+            <h2>Applications and Responses</h2>
             <svg width={width} height={height}>
                 <Group>
         
 
                     {data.map((d) => {
                         const barHeight = height - margin.bottom - yScale(d.value);
-                        console.log(data.map(d => d.value)); // This should be an array of numbers
+                        // console.log(data.map(d => d.value)); // This should be an array of numbers
 
                         return (
                             <Bar
@@ -85,15 +90,6 @@ const BarGraph = ({
                     />
                 </Group>
             </svg>
-            <h3 className="graph-info">
-                Target 20% conversion from application full CS style application to
-                phone screen.
-            </h3>
-            <h3 className="graph-info">
-                You could possibly get {Math.floor(totalApplications * 0.2)} phone{" "}
-                {totalPhoneScreens > 1 ? "screens" : "screen"} with your current rate of
-                applications.
-            </h3>
         </div>
     );
 };

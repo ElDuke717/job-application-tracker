@@ -92,15 +92,15 @@ const Metrics = () => {
           <h3>Metrics Notes</h3>
           <p>Applications Today: {metrics.applicationsToday}</p>
           <p>Total Applications: {metrics.totalApplications}</p>
-          <h3 className="graph-info">
-                Target 20% conversion from application full CS style application to
-                phone screen.
-            </h3>
-            <h3 className="graph-info">
-                You could possibly get {Math.floor(metrics.totalApplications * 0.2)} phone{" "}
-                {metrics.phoneScreens > 1 ? "screens" : "screen"} with your current rate of
-                applications.
-            </h3>
+          <p className="graph-info">
+              Target 20% conversion from application full CS style application to
+              phone screen.
+          </p>
+          <p className="graph-info">
+              You could possibly get {Math.floor(metrics.totalApplications * 0.2)} phone{" "}
+              {metrics.phoneScreens > 1 ? "screens" : "screen"} with your current rate of
+              applications.
+          </p>
         </div>
 
     </>

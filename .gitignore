@@ -16,6 +16,7 @@ dist
 dist-ssr
 *.local
 
+contacts.json
 jobApplications.json
 
 # Editor directories and files

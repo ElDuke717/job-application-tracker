@@ -72,7 +72,7 @@ const Metrics = () => {
         <p>Cover Letters: {metrics.coverLetters}</p>
         <p>Total Rejections: {metrics.totalRejections}</p>
         <p>Phone Screens: {metrics.phoneScreens}</p>
-        <p>Emails: {metrics.emails}</p>
+        <p>Email Contacts: {metrics.emails}</p>
         <p>Interviews: {metrics.interviews}</p>
       </div>
       </div>
@@ -92,6 +92,8 @@ const Metrics = () => {
           <h3>Metrics Notes</h3>
           <p>Applications Today: {metrics.applicationsToday}</p>
           <p>Total Applications: {metrics.totalApplications}</p>
+          <p>Cover Letters: {metrics.coverLetters}</p>
+          <p>Total Rejections: {metrics.totalRejections}</p>
           <p className="graph-info">
               Target 20% conversion from application full CS style application to
               phone screen.

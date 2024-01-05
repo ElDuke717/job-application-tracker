@@ -6,6 +6,7 @@ import JobForm from './components/JobForm';
 import JobList from './components/JobList';
 import Metrics from './components/Metrics';
 import Home from './components/Home';
+import JobContactForm from './components/JobContactForm';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <li><Link to="/">Home</Link></li>
           <li><Link to="/job-form">Job Form</Link></li>
           <li><Link to="/job-list">Job List</Link></li>
+          <li><Link to="/job-contact-form">Enter Contact</Link></li>
           <li><Link to="/metrics">Metrics</Link></li>
         </ul>
       </nav>
@@ -24,6 +26,7 @@ function App() {
         <Route path="/job-form" element={<JobForm />} />
         <Route path="/job-list" element={<JobList />} />
         <Route path="/metrics" element={<Metrics />} />
+        <Route path="/job-contact-form" element={<JobContactForm />} />
         <Route path="/" element={<Home />} />
       </Routes>
     </Router>

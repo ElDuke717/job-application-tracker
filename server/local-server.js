@@ -102,6 +102,49 @@ app.post("/save-application", (req, res) => {
   });
 });
 
+
+
+// Appends contact information to the contacts.json file.
+app.post("/save-contact", (req, res) => {
+  const newContact = req.body;
+  const filePath = path.join(process.cwd(), "data", "contacts.json");
+
+  // Read the existing data from the file
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading file", err);
+      return res.status(500).send("Error reading existing applications");
+    }
+
+    // Parse the data to JSON, append the new application, then convert back to string
+    let contacts = [];
+    try {
+      contacts = JSON.parse(data);
+      if (!Array.isArray(contacts)) {
+        contacts = []; // Reset to an empty array if parsed data is not an array
+      }
+    } catch (parseErr) {
+      console.error("Error parsing JSON, starting with a new array", parseErr);
+      contacts = []; // Reset to an empty array if there's a parsing error
+    }
+
+    contacts.push(newContact);
+
+    // Save the updated applications back to the file
+    fs.writeFile(
+      filePath,
+      JSON.stringify(contacts, null, 2),
+      (writeErr) => {
+        if (writeErr) {
+          console.error("Error writing file", writeErr);
+          return res.status(500).send("Error saving contact");
+        }
+        res.send("Contact saved successfully");
+      }
+    );
+  });
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

@@ -284,3 +284,73 @@ li a {
   font-weight: bold;
   margin: 10px;
 }
+
+
+/* JobContactForm Styles */
+
+.job-contact-form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: var(--grey-050);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.job-contact-form form {
+  width: 100%;
+}
+
+.job-contact-form h1,
+.job-contact-form h2 {
+  text-align: center;
+  color: var(--grey-900);
+  margin-bottom: 20px;
+}
+
+.job-contact-form form div {
+  margin-bottom: 15px;
+}
+
+.job-contact-form label {
+  display: block;
+  color: var(--grey-900);
+  margin-bottom: 5px;
+}
+
+.job-contact-form input[type="text"],
+.job-contact-form input[type="date"],
+.job-contact-form input[type="email"],
+.job-contact-form input[type="tel"],
+.job-contact-form input[type="url"],
+.job-contact-form textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--grey-200);
+  border-radius: 4px;
+  max-width: 400px;
+}
+
+.job-contact-form input[type="checkbox"] {
+  margin-top: 5px;
+}
+
+.job-contact-form button[type="submit"] {
+  padding: 10px;
+  border: none;
+  background: var(--grey-900);
+  color: var(--grey-050);
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.job-contact-form .error-message {
+  color: var(--red-500);
+  font-size: 0.85em;
+  margin-top: 5px;
+}

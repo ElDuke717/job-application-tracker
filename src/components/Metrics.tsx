@@ -5,6 +5,7 @@ import PieChart from './PieChart';
 const Metrics = () => {
   const [metrics, setMetrics] = useState({
     applicationsToday: 0,
+    applicationRate: 0,
     totalApplications: 0,
     totalRejections: 0,
     phoneScreens: 0,
@@ -32,6 +33,11 @@ const Metrics = () => {
         return submittedDate === today;
       }).length;
 
+      //Application rate
+        // Target at least 30 applications per week
+      const applicationTarget = 30;
+      const applicationRate = applicationsToday / 7;
+
         // Calculate metrics
         const totalApplications = jobApplications.length;
         const coverLetters = jobApplications.filter(app => app.coverLetter && app.coverLetter.trim() !== '').length;
@@ -44,6 +50,7 @@ const Metrics = () => {
         // Set metrics state
         setMetrics({ 
             applicationsToday,
+            applicationRate,
             totalApplications,
             coverLetters, 
             totalRejections, 
@@ -66,15 +73,7 @@ const Metrics = () => {
     <>
      <div className='metrics-container'>
       <h1>Metrics</h1>
-      <div className='metrics'>
-        <p>Applications Today: {metrics.applicationsToday}</p>
-        <p>Total Applications: {metrics.totalApplications}</p>
-        <p>Cover Letters: {metrics.coverLetters}</p>
-        <p>Total Rejections: {metrics.totalRejections}</p>
-        <p>Phone Screens: {metrics.phoneScreens}</p>
-        <p>Email Contacts: {metrics.emails}</p>
-        <p>Interviews: {metrics.interviews}</p>
-      </div>
+      <p>Metrics are a great way to track your progress and help you stay motivated.</p>
       </div>
       
       <BarGraph
@@ -92,6 +91,9 @@ const Metrics = () => {
           <h3>Metrics Notes</h3>
           <p>Applications Today: {metrics.applicationsToday}</p>
           <p>Total Applications: {metrics.totalApplications}</p>
+          <p>Application Rate: {metrics.applicationRate.toFixed()} </p>
+          <p>Phone Screens: {metrics.phoneScreens}</p>
+          <p>Emails: {metrics.emails}</p>
           <p>Cover Letters: {metrics.coverLetters}</p>
           <p>Total Rejections: {metrics.totalRejections}</p>
           <p className="graph-info">

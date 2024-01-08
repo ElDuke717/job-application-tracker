@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 const initialContactState = {
+  id: uuidv4,
   name: '',
   title: '',
   email: '',
@@ -19,8 +21,6 @@ const initialContactState = {
   links: '',
   sharedDocuments: ''
 };
-
-
 
 const JobContactForm = ({ initialData = initialContactState }) => {
   const [contact, setContact] = useState(initialData);
@@ -49,12 +49,20 @@ const JobContactForm = ({ initialData = initialContactState }) => {
   
 
   const onSaveContact = async (contactData: ContactData) => {
+    
+
+    // Generate a unique ID for a new contact
+    const contactToSave = {
+      ...contactData,
+      id: contactData.id || uuidv4(), // Only generate a new ID if one doesn't already exist
+    };
+        
     const response = await fetch('http://localhost:3001/save-contact', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(contactData),
+      body: JSON.stringify(contactToSave),
     });
     if (response.ok) {
      // Reset the form to initial state

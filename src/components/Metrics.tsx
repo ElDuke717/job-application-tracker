@@ -20,7 +20,6 @@ const Metrics = () => {
         const response = await fetch('server/data/jobApplications.json');
        
         const jobApplications = await response.json();
-        // console.log('jobApplications', jobApplications);
 
       // Today's date in the correct format
       const today = new Date().toISOString().split('T')[0];
@@ -33,24 +32,41 @@ const Metrics = () => {
         return submittedDate === today;
       }).length;
 
-      //Application rate
-        // Target at least 30 applications per week
-      const applicationTarget = 30;
-      const applicationRate = applicationsToday / 7;
+      // Determine this Monday's date
+      const thisMonday = new Date();
+      thisMonday.setDate(thisMonday.getDate() - thisMonday.getDay() );
+      // console.log('This Monday:', thisMonday);
+    
 
-        // Calculate metrics
-        const totalApplications = jobApplications.length;
-        const coverLetters = jobApplications.filter(app => app.coverLetter && app.coverLetter.trim() !== '').length;
-        const totalRejections = jobApplications.filter(app => app.applicationStatus && app.applicationStatus.toLowerCase() === 'rejected').length;
-        const phoneScreens = jobApplications.filter(app => app.phoneScreen && app.phoneScreen.trim() !== '').length;
-        const emails = jobApplications.filter(app => app.notesComments && app.notesComments.toLowerCase().includes('email')).length;
-        const interviews = jobApplications.filter(app => app.notesComments && app.notesComments.toLowerCase().includes('interview')).length;
+      // Figure how many applications have been submitted this week
+      const applicationsThisWeek = jobApplications.filter(app => {
+        const submittedDate = new Date(app.dateSubmitted);
+        console.log('Submitted Date:', submittedDate)
+        return submittedDate >= thisMonday;
+      }).length;
+
+      console.log('Applications this week:', applicationsThisWeek)
+
+      // Weekly application rate
+      const weeklyApplicationRate = 30;
+
+      // Determine application rate
+      const applicationRate = Math.floor(applicationsThisWeek / weeklyApplicationRate * 100) + '%';
+
+      // Calculate metrics
+      const totalApplications = jobApplications.length;
+      const coverLetters = jobApplications.filter(app => app.coverLetter && app.coverLetter.trim() !== '').length;
+      const totalRejections = jobApplications.filter(app => app.applicationStatus && app.applicationStatus.toLowerCase() === 'rejected').length;
+      const phoneScreens = jobApplications.filter(app => app.phoneScreen && app.phoneScreen.trim() !== '').length;
+      const emails = jobApplications.filter(app => app.notesComments && app.notesComments.toLowerCase().includes('email')).length;
+      const interviews = jobApplications.filter(app => app.notesComments && app.notesComments.toLowerCase().includes('interview')).length;
        
 
         // Set metrics state
         setMetrics({ 
             applicationsToday,
             applicationRate,
+            weeklyApplicationRate,
             totalApplications,
             coverLetters, 
             totalRejections, 
@@ -90,20 +106,21 @@ const Metrics = () => {
         <div className='metrics-notes'>
           <h3>Metrics Notes</h3>
           <p>Applications Today: {metrics.applicationsToday}</p>
+          <p>Application Rate: {metrics.applicationRate}</p>
+          <p className="application-notes">Application Rate is based on {metrics.weeklyApplicationRate} applications per week</p>
           <p>Total Applications: {metrics.totalApplications}</p>
-          <p>Application Rate: {metrics.applicationRate.toFixed()} </p>
           <p>Phone Screens: {metrics.phoneScreens}</p>
           <p>Emails: {metrics.emails}</p>
           <p>Cover Letters: {metrics.coverLetters}</p>
           <p>Total Rejections: {metrics.totalRejections}</p>
-          <p className="graph-info">
-              Target 20% conversion from application full CS style application to
-              phone screen.
+          <p className="application-notes">
+              Conventional target conversion from application full CS style application to
+              phone screen is 20%.
           </p>
-          <p className="graph-info">
+          <p className="application-notes">
               You could possibly get {Math.floor(metrics.totalApplications * 0.2)} phone{" "}
               {metrics.phoneScreens > 1 ? "screens" : "screen"} with your current rate of
-              applications.
+              applications if they were all Codesmith style applications.
           </p>
         </div>
 

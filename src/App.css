@@ -418,3 +418,7 @@ li a {
 .contact-details a:hover {
   text-decoration: underline;
 }
+
+.application-notes {
+  font-size: 0.75em;
+}

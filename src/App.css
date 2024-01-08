@@ -354,3 +354,36 @@ li a {
   font-size: 0.85em;
   margin-top: 5px;
 }
+
+/* JobList Styles */  
+
+.table-container {
+  overflow-x: auto; /* Ensures the table is scrollable horizontally if it overflows */
+}
+
+.contacts-table {
+  width: 100%; /* Makes the table use up all available space */
+  table-layout: fixed; /* Ensures columns are of a fixed width */
+  border-collapse: collapse; /* Collapses the borders */
+  font-size: 0.8em; /* Makes the text of each column smaller */
+}
+
+.contacts-table th,
+.contacts-table td {
+  text-align: left; /* Aligns text to the left */
+  padding: 8px; /* Adds some padding around the content */
+}
+
+.contacts-table th {
+  position: sticky; /* Makes the headers "sticky" at the top when scrolling */
+  top: 0;
+  background-color: #fff; /* Change as needed */
+  z-index: 10;
+}
+
+.pagination-container {
+  margin-top: 1em;
+  display: flex;
+  justify-content: center;
+}
+

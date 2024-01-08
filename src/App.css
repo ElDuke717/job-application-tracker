@@ -75,7 +75,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  color: var( --grey-900);
+  color: var(--grey-900);
 }
 
 .logo {
@@ -194,7 +194,8 @@ li a {
 }
 
 /* Table Styles */
-.table-container {
+.table-container,
+.contact-details {
   padding: 20px;
   background-color: var(--grey-050);
 }
@@ -285,7 +286,6 @@ li a {
   margin: 10px;
 }
 
-
 /* JobContactForm Styles */
 
 .job-contact-form {
@@ -355,7 +355,7 @@ li a {
   margin-top: 5px;
 }
 
-/* JobList Styles */  
+/* JobList Styles */
 
 .table-container {
   overflow-x: auto; /* Ensures the table is scrollable horizontally if it overflows */
@@ -387,3 +387,34 @@ li a {
   justify-content: center;
 }
 
+/* Contact Detail Styles */
+
+.contact-details {
+  text-align: left;
+  max-width: 800px; /* Adjust as needed */
+  margin: auto;
+}
+
+.contact-details .section {
+  margin-bottom: 20px;
+}
+
+.contact-details h3 {
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 1.2em;
+}
+
+.contact-details p {
+  margin-left: 20px;
+  margin-bottom: 5px;
+}
+
+.contact-details a {
+  color: #065a82;
+  text-decoration: none;
+}
+
+.contact-details a:hover {
+  text-decoration: underline;
+}

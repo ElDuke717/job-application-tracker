@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 const initialContactState = {
-  id: uuidv4,
+  id: uuidv4(),
   name: '',
+  company: '',
   title: '',
   email: '',
   phoneNumber: '',
@@ -109,6 +110,17 @@ const JobContactForm = ({ initialData = initialContactState }) => {
     id="title"
     name="title"
     value={contact.title}
+    onChange={handleChange}
+  />
+</div>
+
+<div>
+  <label htmlFor="title">Company:</label>
+  <input
+    type="text"
+    id="company"
+    name="company"
+    value={contact.company}
     onChange={handleChange}
   />
 </div>

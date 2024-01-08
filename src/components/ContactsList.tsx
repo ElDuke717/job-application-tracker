@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Define the contact interface based on your JSON structure
 interface Contact {
@@ -19,6 +20,7 @@ interface Contact {
   feedback: string;
   links: string;
   sharedDocuments: string;
+  id: string;
 }
 
 const ContactsList: React.FC = () => {
@@ -45,6 +47,12 @@ const ContactsList: React.FC = () => {
     fetchData();
   }, [currentPage]);
 
+  const navigate = useNavigate(); // useNavigate hook for navigation
+
+  const goToDetails = (contactId: string) => {
+    navigate(`/contact-details/${contactId}`); // Navigate to contact details page
+  };
+
   const goToPage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
@@ -57,21 +65,8 @@ const ContactsList: React.FC = () => {
             <tr>
               <th>Name</th>
               <th>Title</th>
-              <th>Email</th>
-              <th>Phone Number</th>
-              <th>LinkedIn</th>
-              <th>Twitter</th>
-              <th>Relationship</th>
-              <th>Interaction History</th>
-              <th>Professional Interests</th>
-              <th>Opportunities</th>
-              <th>Personal Notes</th>
+              <th>Company</th>
               <th>Last Contact Date</th>
-              <th>Future Plans</th>
-              <th>Referral Status</th>
-              <th>Feedback</th>
-              <th>Links</th>
-              <th>Shared Documents</th>
             </tr>
           </thead>
           <tbody>
@@ -79,21 +74,13 @@ const ContactsList: React.FC = () => {
               <tr key={index}>
                 <td>{contact.name}</td>
                 <td>{contact.title}</td>
-                <td>{contact.email}</td>
-                <td>{contact.phoneNumber}</td>
-                <td>{contact.linkedIn}</td>
-                <td>{contact.twitter}</td>
-                <td>{contact.relationship}</td>
-                <td>{contact.interactionHistory}</td>
-                <td>{contact.professionalInterests}</td>
-                <td>{contact.opportunities}</td>
-                <td>{contact.personalNotes}</td>
+                <td>{contact.company}</td>
                 <td>{contact.lastContactDate}</td>
-                <td>{contact.futurePlans}</td>
-                <td>{contact.referralStatus}</td>
-                <td>{contact.feedback}</td>
-                <td>{contact.links}</td>
-                <td>{contact.sharedDocuments}</td>
+                <td>
+                  <button onClick={() => goToDetails(contact.id)}>
+                    View Details
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>

@@ -1,6 +1,6 @@
 import logo from "./assets/job-app-logo.png";
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Link, NavLink } from "react-router-dom";
 import JobForm from "./components/JobForm";
 import JobList from "./components/JobList";
 import Metrics from "./components/Metrics";
@@ -10,28 +10,35 @@ import ContactsList from "./components/ContactsList";
 import ContactDetails from "./components/ContactDetails";
 
 function App() {
+  // Define a custom class for active links
+  const activeStyle = {
+    color: 'blue', // Example active color
+    textDecoration: 'underline' // Example styling for active link
+  };
+
   return (
     <Router>
+      
       <nav className="app-nav">
         <img src={logo} className="App-logo" alt="logo" />
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <NavLink to="/" className={({ isActive }) => isActive ? 'active-link' : undefined}>Home</NavLink>
           </li>
           <li>
-            <Link to="/job-form">Job Form</Link>
+            <NavLink to="/job-form" className={({ isActive }) => isActive ? 'active-link' : undefined}>Job Form</NavLink>
           </li>
           <li>
-            <Link to="/job-list">Job List</Link>
+            <NavLink to="/job-list" className={({ isActive }) => isActive ? 'active-link' : undefined}>Job List</NavLink>
           </li>
           <li>
-            <Link to="/job-contact-form">Enter Contact</Link>
+            <NavLink to="/job-contact-form" className={({ isActive }) => isActive ? 'active-link' : undefined}>Enter Contact</NavLink>
           </li>
           <li>
-            <Link to="/job-contact-list">Contact List</Link>
+            <NavLink to="/job-contact-list" className={({ isActive }) => isActive ? 'active-link' : undefined}>Contact List</NavLink>
           </li>
           <li>
-            <Link to="/metrics">Metrics</Link>
+            <NavLink to="/metrics" className={({ isActive }) => isActive ? 'active-link' : undefined}>Metrics</NavLink>
           </li>
         </ul>
       </nav>

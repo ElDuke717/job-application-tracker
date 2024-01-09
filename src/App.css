@@ -205,11 +205,18 @@ li a {
   color: var(--grey-900); /* Color of the nav links */
 }
 
+/* Active Styles */
+
+.active-link {
+  background-color: var(--grey-200);
+}
+
 /* Table Styles */
-.table-container, .contact-details {
-	padding: 20px;
-	background-color: var(--grey-050);
-	margin-top: 20px;
+.table-container,
+.contact-details {
+  padding: 20px;
+  background-color: var(--grey-050);
+  margin-top: 20px;
 }
 
 .job-table {

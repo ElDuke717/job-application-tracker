@@ -65,6 +65,7 @@ const Metrics = () => {
         // Set metrics state
         setMetrics({ 
             applicationsToday,
+            applicationsThisWeek,
             applicationRate,
             weeklyApplicationRate,
             totalApplications,
@@ -96,8 +97,9 @@ const Metrics = () => {
           <hr />
           
             <p>Applications Today: {metrics.applicationsToday}</p>
+            <p>Applications This Week: {metrics.applicationsThisWeek}</p>
             <p>Application Rate: {metrics.applicationRate}</p>
-            <p className="application-notes">Application Rate is based on {metrics.weeklyApplicationRate} applications per week</p>
+            <p className="application-notes">Application Rate is based on {metrics.applicationRate} applications per week</p>
             <p>Total Applications: {metrics.totalApplications}</p>
             <p>Cover Letters: {metrics.coverLetters}</p>
             <p>Total Rejections: {metrics.totalRejections}</p>

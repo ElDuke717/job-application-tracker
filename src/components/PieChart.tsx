@@ -39,6 +39,7 @@ const PieChartComponent = ({ data, groupByKey, width = 400, height = 400 }) => {
   return (
     <div className='pie-chart'>
         <h2>Applications by Type</h2>
+        <hr />
     <svg width={width} height={height}>
       <Group top={height / 2} left={width / 2}>
         <Pie

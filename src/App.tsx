@@ -1,4 +1,4 @@
-import logo from "./assets/job-app-logo.svg";
+import logo from "./assets/job-app-logo.png";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import JobForm from "./components/JobForm";
@@ -12,7 +12,7 @@ import ContactDetails from "./components/ContactDetails";
 function App() {
   return (
     <Router>
-      <nav>
+      <nav className="app-nav">
         <img src={logo} className="App-logo" alt="logo" />
         <ul>
           <li>

@@ -166,6 +166,8 @@ button[type="submit"] {
 .App-logo {
   height: 40px; /* Adjust the size of the logo as needed */
   margin-right: 20px; /* Space between logo and nav items */
+  border: var(--grey-900) 1px solid; /* Border around the logo */
+  border-radius: 50%; /* Make the logo circular */
 }
 
 nav {
@@ -173,8 +175,18 @@ nav {
   align-items: center; /* Align logo and links vertically */
   justify-content: center; /* Center the navigation bar */
   background-color: var(--grey-050); /* Background color of the nav bar */
-  padding: 10px 0; /* Padding around the nav bar */
+  padding: 10px 20px; /* Padding around the nav bar */
   border-radius: 5px;
+}
+
+nav a {
+  background-color: var(--grey-100);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+nav a:hover {
+  background-color: var(--grey-200);
 }
 
 ul {
@@ -194,10 +206,10 @@ li a {
 }
 
 /* Table Styles */
-.table-container,
-.contact-details {
-  padding: 20px;
-  background-color: var(--grey-050);
+.table-container, .contact-details {
+	padding: 20px;
+	background-color: var(--grey-050);
+	margin-top: 20px;
 }
 
 .job-table {
@@ -367,6 +379,7 @@ li a {
 
 .table-container {
   overflow-x: auto; /* Ensures the table is scrollable horizontally if it overflows */
+  border-radius: 5px;
 }
 
 .contacts-table {

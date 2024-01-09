@@ -286,6 +286,14 @@ li a {
   margin: 10px;
 }
 
+.all-metrics {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+  color: var(--grey-900);
+}
+
 /* JobContactForm Styles */
 
 .job-contact-form {

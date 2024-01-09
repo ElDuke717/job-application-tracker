@@ -28,7 +28,7 @@ const Metrics = () => {
       // Calculate applications submitted today
       const applicationsToday = jobApplications.filter(app => {
         const submittedDate = new Date(app.dateSubmitted).toISOString().split('T')[0];
-        console.log('Submitted Date:', submittedDate);
+        // console.log('Submitted Date:', submittedDate);
         return submittedDate === today;
       }).length;
 
@@ -41,7 +41,7 @@ const Metrics = () => {
       // Figure how many applications have been submitted this week
       const applicationsThisWeek = jobApplications.filter(app => {
         const submittedDate = new Date(app.dateSubmitted);
-        console.log('Submitted Date:', submittedDate)
+        // console.log('Submitted Date:', submittedDate)
         return submittedDate >= thisMonday;
       }).length;
 
@@ -55,7 +55,7 @@ const Metrics = () => {
 
       // Calculate metrics
       const totalApplications = jobApplications.length;
-      const coverLetters = jobApplications.filter(app => app.coverLetter && app.coverLetter.trim() !== '').length;
+      const coverLetters = jobApplications.filter(app => app.coverLetter && app.coverLetter.trim() !== '' && app.coverLetter.trim() !== 'none').length;
       const totalRejections = jobApplications.filter(app => app.applicationStatus && app.applicationStatus.toLowerCase() === 'rejected').length;
       const phoneScreens = jobApplications.filter(app => app.phoneScreen && app.phoneScreen.trim() !== '').length;
       const emails = jobApplications.filter(app => app.notesComments && app.notesComments.toLowerCase().includes('email')).length;
@@ -91,7 +91,36 @@ const Metrics = () => {
       <h1>Metrics</h1>
       <p>Metrics are a great way to track your progress and help you stay motivated.</p>
       </div>
-      
+      <div className='metrics-notes'>
+          <h2>Application Metrics</h2>
+          <hr />
+          
+            <p>Applications Today: {metrics.applicationsToday}</p>
+            <p>Application Rate: {metrics.applicationRate}</p>
+            <p className="application-notes">Application Rate is based on {metrics.weeklyApplicationRate} applications per week</p>
+            <p>Total Applications: {metrics.totalApplications}</p>
+            <p>Cover Letters: {metrics.coverLetters}</p>
+            <p>Total Rejections: {metrics.totalRejections}</p>
+            <p>Rejections to total applications: {Math.floor(metrics.totalRejections / metrics.totalApplications * 100)}%</p>
+            
+            <h2>Interview Metrics</h2>
+            <hr />
+            <p>Phone Screens: {metrics.phoneScreens}</p>
+            <p>Emails: {metrics.emails}</p>
+            <p>Interviews: {metrics.interviews}</p>
+            
+            <p className="application-notes">
+                Conventional target conversion rate from full CS style application to
+                phone screen is 20%.
+            </p>
+            <p className="application-notes">
+                You could possibly get {Math.floor(metrics.totalApplications * 0.2)} phone{" "}
+                {Math.floor(metrics.totalApplications * 0.2) > 1 ? "screens" : "screen"} with your current rate of
+                applications if they were all Codesmith style applications.
+            </p>
+        
+        </div>
+
       <BarGraph
         totalApplications={metrics.totalApplications}
         coverLetters={metrics.coverLetters}
@@ -103,27 +132,7 @@ const Metrics = () => {
         totalOffers={metrics.totalOffers} // Assuming you have this metric
         />
         <PieChart  data={jobApplications} groupByKey="applicationType" />
-        <div className='metrics-notes'>
-          <h3>Metrics Notes</h3>
-          <p>Applications Today: {metrics.applicationsToday}</p>
-          <p>Application Rate: {metrics.applicationRate}</p>
-          <p className="application-notes">Application Rate is based on {metrics.weeklyApplicationRate} applications per week</p>
-          <p>Total Applications: {metrics.totalApplications}</p>
-          <p>Phone Screens: {metrics.phoneScreens}</p>
-          <p>Emails: {metrics.emails}</p>
-          <p>Cover Letters: {metrics.coverLetters}</p>
-          <p>Total Rejections: {metrics.totalRejections}</p>
-          <p className="application-notes">
-              Conventional target conversion rate from full CS style application to
-              phone screen is 20%.
-          </p>
-          <p className="application-notes">
-              You could possibly get {Math.floor(metrics.totalApplications * 0.2)} phone{" "}
-              {metrics.phoneScreens > 1 ? "screens" : "screen"} with your current rate of
-              applications if they were all Codesmith style applications.
-          </p>
-        </div>
-
+        
     </>
   );
 }

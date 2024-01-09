@@ -28,7 +28,7 @@ const Metrics = () => {
       // Calculate applications submitted today
       const applicationsToday = jobApplications.filter(app => {
         const submittedDate = new Date(app.dateSubmitted).toISOString().split('T')[0];
-        // console.log('Submitted Date:', submittedDate);
+        console.log('Submitted Date:', submittedDate);
         return submittedDate === today;
       }).length;
 
@@ -114,7 +114,7 @@ const Metrics = () => {
           <p>Cover Letters: {metrics.coverLetters}</p>
           <p>Total Rejections: {metrics.totalRejections}</p>
           <p className="application-notes">
-              Conventional target conversion from application full CS style application to
+              Conventional target conversion rate from full CS style application to
               phone screen is 20%.
           </p>
           <p className="application-notes">

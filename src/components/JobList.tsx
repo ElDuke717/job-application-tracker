@@ -79,7 +79,7 @@ const JobList = () => {
         <table className="job-table">
           <thead>
             <tr>
-              <th>Date Submitted</th>
+              <th>Date Submitted / Last Updated</th>
               <th>Job Title</th>
               <th>Company</th>
               <th>Status</th>
@@ -201,13 +201,13 @@ const EditJobApplicationModal = ({ application, onClose, onSave }) => {
                 onChange={handleInputChange}
               >
               <option value="none">Select an option</option>
-              <option value="rejected">Rejected</option>
-              <option value="phone screen">Phone Screen</option>
-              <option value="interview">Interview</option>
-              <option value="offer">Offer</option>
-              <option value="accepted">Accepted</option>
-              <option value="declined">Declined</option>
-              <option value="ghosted">Ghosted</option>
+              <option value="Rejected">Rejected</option>
+              <option value="Phone screen">Phone Screen</option>
+              <option value="Interview">Interview</option>
+              <option value="Offer">Offer</option>
+              <option value="Accepted">Accepted</option>
+              <option value="Declined">Declined</option>
+              <option value="Ghosted">Ghosted</option>
             </select>
             </div>
 

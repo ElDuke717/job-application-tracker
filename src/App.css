@@ -450,3 +450,38 @@ li a {
 .application-notes {
   font-size: 0.75em;
 }
+
+/* JobList Styles - Modal */
+
+.modal {
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+  background-color: var(--grey-050);
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid var(--grey-200);
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.close {
+  color: var(--grey-300);
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: var(--grey-900);
+  text-decoration: none;
+  cursor: pointer;
+}

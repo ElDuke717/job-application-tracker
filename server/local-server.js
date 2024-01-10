@@ -102,6 +102,71 @@ app.post("/save-application", (req, res) => {
   });
 });
 
+// Endpoint to get all job data
+// Define a function to read job applications from file
+function getJobApplications() {
+  try {
+    const filePath = path.join(process.cwd(), "data", "jobApplications.json");
+    const data = fs.readFileSync(filePath, "utf8");
+    return JSON.parse(data);
+  } catch (err) {
+    console.error("Error reading job applications:", err);
+    throw err; // Rethrow the error to handle it in the endpoint
+  }
+}
+
+// Define a GET endpoint to retrieve all job applications
+app.get("/job-applications", (req, res) => {
+  try {
+    const applications = getJobApplications();
+    res.json(applications); // Send the job applications data as JSON
+  } catch (error) {
+    res.status(500).send("Error retrieving job applications");
+  }
+});
+
+
+// Endpoint to update an existing job application
+app.put("/update-application/:id", (req, res) => {
+  const updatedApplication = req.body;
+  const applicationId = req.params.id;  // Extract ID from the request URL
+  const filePath = path.join(process.cwd(), "data", "jobApplications.json");
+
+  // Read the existing data from the file
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading file", err);
+      return res.status(500).send("Error reading applications");
+    }
+
+    // Parse the data to JSON
+    let applications;
+    try {
+      applications = JSON.parse(data);
+    } catch (parseErr) {
+      console.error("Error parsing JSON", parseErr);
+      return res.status(500).send("Error parsing applications data");
+    }
+
+    // Find the index of the application to update
+    const index = applications.findIndex(app => app.id === applicationId);
+    if (index === -1) {
+      return res.status(404).send("Application not found");
+    }
+
+    // Update the application at the found index
+    applications[index] = { ...applications[index], ...updatedApplication };
+
+    // Save the updated applications back to the file
+    fs.writeFile(filePath, JSON.stringify(applications, null, 2), (writeErr) => {
+      if (writeErr) {
+        console.error("Error writing file", writeErr);
+        return res.status(500).send("Error updating application");
+      }
+      res.send(applications[index]);  // Return the updated application
+    });
+  });
+});
 
 
 // Appends contact information to the contacts.json file.

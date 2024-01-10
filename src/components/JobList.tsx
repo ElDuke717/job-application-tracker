@@ -19,11 +19,29 @@ const JobList = () => {
     setEditingApplication(null);
   };
 
-  const handleSaveChanges = (updatedApplication) => {
-    const updatedApplications = jobApplications.map(app =>
-      app.id === updatedApplication.id ? updatedApplication : app
-    );
-    setJobApplications(updatedApplications);
+  const handleSaveChanges = async (updatedApplication) => {
+
+    try {
+      const response = await fetch(`http://localhost:3001/update-application/${updatedApplication.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedApplication),
+          });
+          console.log('Response:', response);
+          if (response.ok) {
+            const updatedApplications = jobApplications.map(app =>
+            app.id === updatedApplication.id ? updatedApplication : app
+          );
+          setJobApplications(updatedApplications);
+          } else {
+            console.error('Error saving job application:', response);
+          }
+    } catch (error) {
+      console.error('Error saving job application:', error);
+    }
+    
     handleCloseModal();
   };
   
@@ -32,10 +50,11 @@ const JobList = () => {
   // Add pagination logic here
   const itemsPerPage = 20;
 
+  // Get the job application data from the server
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("server/data/jobApplications.json"); // Adjust the URL as needed
+        const response = await fetch('http://localhost:3001/job-applications'); // Adjust the URL as needed
         const data = await response.json();
         setTotalPages(Math.ceil(data.length / itemsPerPage));
         const startIndex = (currentPage - 1) * itemsPerPage;
@@ -146,12 +165,16 @@ const EditJobApplicationModal = ({ application, onClose, onSave }) => {
   }, [application]);
 
   const handleInputChange = (e) => {
-    setEditedApplication({ ...editedApplication, [e.target.name]: e.target.value });
+    const target = e.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    setEditedApplication({ ...editedApplication, [name]: value });
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
-    onSave(editedApplication);
+    await onSave(editedApplication);
     onClose();
   };
 
@@ -176,8 +199,6 @@ const EditJobApplicationModal = ({ application, onClose, onSave }) => {
                 onChange={handleInputChange}
               />
             </div>
-
-            
 
             <div className="form-group">
               <label htmlFor="applicationStatus">Application Status</label>

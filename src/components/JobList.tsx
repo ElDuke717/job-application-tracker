@@ -6,6 +6,30 @@ const JobList = () => {
   const [jobApplications, setJobApplications] = useState<JobApplication[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [editingApplication, setEditingApplication] = useState<JobApplication | null>(null);
+
+  const handleEditClick = (application) => {
+    setEditingApplication(application);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setEditingApplication(null);
+  };
+
+  const handleSaveChanges = (updatedApplication) => {
+    const updatedApplications = jobApplications.map(app =>
+      app.id === updatedApplication.id ? updatedApplication : app
+    );
+    setJobApplications(updatedApplications);
+    handleCloseModal();
+  };
+  
+
+
+  // Add pagination logic here
   const itemsPerPage = 20;
 
   useEffect(() => {
@@ -74,9 +98,17 @@ const JobList = () => {
                 <td>{application.age}</td>
                 <td>{application.doubleDown ? "Yes" : "No"}</td>
                 <td>{application.notesComments}</td>
+                <button className="job-data-edit" onClick={() => handleEditClick(application)}>Edit</button>
               </tr>
             ))}
           </tbody>
+          {showModal && (
+            <EditJobApplicationModal
+              application={editingApplication}
+              onClose={handleCloseModal}
+              onSave={handleSaveChanges}
+            />
+          )}
         </table>
       ) : (
         <p>No job applications found.</p>
@@ -96,6 +128,27 @@ const JobList = () => {
             </button>
           )
         )}
+      </div>
+    </div>
+  );
+};
+
+const EditJobApplicationModal = ({ application, onClose, onSave }) => {
+  const [editedApplication, setEditedApplication] = useState(application);
+
+  const handleSave = () => {
+    onSave(editedApplication);
+    onClose();
+  };
+
+  return (
+    <div className="modal">
+      <div className="modal-content">
+        <span className="close" onClick={onClose}>&times;</span>
+        <form>
+          {/* Form fields here, bind value to editedApplication fields */}
+          <button type="button" onClick={handleSave}>Save Changes</button>
+        </form>
       </div>
     </div>
   );

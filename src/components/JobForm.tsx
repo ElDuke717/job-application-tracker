@@ -1,9 +1,11 @@
 import React, { useState, ChangeEventHandler } from "react";
 import { JobApplication } from "../types/jobApplication";
+import { v4 as uuidv4 } from "uuid";
 
 // initial state for form
 const initialJobApplicationState: JobApplication = {
   dateSubmitted: new Date().toISOString().split("T")[0], // current date in YYYY-MM-DD format, type is a string rather than a Date object
+  id: uuidv4(), // generate a unique ID for each job application
   company: "",
   jobTitle: "",
   location: "",

@@ -137,12 +137,22 @@ const JobList = () => {
 };
 
 const EditJobApplicationModal = ({ application, onClose, onSave }) => {
-  const [editedApplication, setEditedApplication] = useState(application);
+  const [editedApplication, setEditedApplication] = useState(application || {});
 
-  const handleSave = () => {
+  useEffect(() => {
+    setEditedApplication(application || {});
+  }, [application]);
+
+  const handleInputChange = (e) => {
+    setEditedApplication({ ...editedApplication, [e.target.name]: e.target.value });
+  };
+
+  const handleSave = (e) => {
+    e.preventDefault();
     onSave(editedApplication);
     onClose();
   };
+
 
   return (
     <div className="modal">
@@ -150,7 +160,7 @@ const EditJobApplicationModal = ({ application, onClose, onSave }) => {
         <span className="close" onClick={onClose}>&times;</span>
         <form onSubmit={handleSave}>
             <div className="form-group">
-              <label htmlFor="dateSubmitted">Date Submitted</label>
+              <label htmlFor="dateSubmitted">Date Submitted / Last Updated</label>
               <input
                 type="date"
                 id="dateSubmitted"
@@ -183,19 +193,47 @@ const EditJobApplicationModal = ({ application, onClose, onSave }) => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="applicationStatus">Status</label>
-              <input
-                type="text"
+              <label htmlFor="applicationStatus">Application Status</label>
+              <select
                 id="applicationStatus"
                 name="applicationStatus"
                 value={editedApplication.applicationStatus}
                 onChange={handleInputChange}
+              >
+              <option value="none">Select an option</option>
+              <option value="rejected">Rejected</option>
+              <option value="phone screen">Phone Screen</option>
+              <option value="interview">Interview</option>
+              <option value="offer">Offer</option>
+              <option value="accepted">Accepted</option>
+              <option value="declined">Declined</option>
+              <option value="ghosted">Ghosted</option>
+            </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="doubleDown">Double Down</label>
+              <input
+                type="checkbox"
+                id="doubleDown"
+                name="doubleDown"
+                checked={editedApplication.doubleDown}
+                onChange={handleInputChange}
               />
             </div>
 
-            {/* Add more fields as needed... */}
+            <div className="form-group">
+              <label htmlFor="notesComments">Notes</label>
+              <textarea
+                id="notesComments"
+                name="notesComments"
+                value={editedApplication.notesComments}
+                onChange={handleInputChange}
+              />
+            </div>
 
-            <button type="submit">Save Changes</button>
+           <button type="submit">Save Changes</button>
+            
           </form>
 
       </div>

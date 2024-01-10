@@ -462,6 +462,7 @@ li a {
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  border-radius: 5px;
 }
 
 .modal-content {
@@ -470,6 +471,14 @@ li a {
   padding: 20px;
   border: 1px solid var(--grey-200);
   width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.submit-button {
+  margin-top: 20px;
+  width: 25%;
+  margin-left: auto; /* Center the button */
+  margin-right: auto; /* Center the button */
+  display: block; /* Make sure it's a block element */
 }
 
 .close {
@@ -484,4 +493,21 @@ li a {
   color: var(--grey-900);
   text-decoration: none;
   cursor: pointer;
+}
+
+.drop-down {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--grey-200);
+  border-radius: 4px;
+  max-width: 400px;
+}
+
+ .notes-textarea {
+  width: 100%; /* Full width of the container */
+  height: 250px; /* Set a fixed height */
+  padding: 8px; /* Optional: Add some padding */
+  border: 1px solid var(--grey-200);
+  border-radius: 4px;
+  resize: vertical; /* Allow vertical resizing, if desired */
 }

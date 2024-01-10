@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 // initial state for form
 const initialJobApplicationState: JobApplication = {
   dateSubmitted: new Date().toISOString().split("T")[0], // current date in YYYY-MM-DD format, type is a string rather than a Date object
+  updatedDate: "",
   id: uuidv4(), // generate a unique ID for each job application
   company: "",
   jobTitle: "",
@@ -226,6 +227,7 @@ const JobForm = () => {
             <select
               id="applicationStatus"
               name="applicationStatus"
+              className="drop-down"
               value={jobApplication.applicationStatus}
               onChange={handleInputChange}
             >
@@ -246,6 +248,7 @@ const JobForm = () => {
             <select
               id="applicationType"
               name="applicationType"
+              className="drop-down"
               value={jobApplication.applicationType}
               onChange={handleInputChange}
             >
@@ -376,6 +379,7 @@ const JobForm = () => {
             <textarea
               id="notesComments"
               name="notesComments"
+              className="notes-textarea"
               value={jobApplication.notesComments}
               onChange={
                 handleInputChange as unknown as ChangeEventHandler<HTMLTextAreaElement>
@@ -383,7 +387,7 @@ const JobForm = () => {
             />
           </div>
 
-          <button type="submit">Submit</button>
+          <button className="submit-button" type="submit">Submit</button>
         </form>
       </div>
     </>

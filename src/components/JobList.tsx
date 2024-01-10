@@ -79,7 +79,8 @@ const JobList = () => {
         <table className="job-table">
           <thead>
             <tr>
-              <th>Date Submitted / Last Updated</th>
+              <th>Date Submitted</th>
+              <th>Date Updated</th>
               <th>Job Title</th>
               <th>Company</th>
               <th>Status</th>
@@ -90,9 +91,10 @@ const JobList = () => {
             </tr>
           </thead>
           <tbody>
-            {jobApplications.map((application, index) => (
+            {jobApplications.map((application) => (
               <tr key={application.id}>
                 <td>{application.dateSubmitted}</td>
+                <td>{application.updatedDate === '' ? 'None' : application.updatedDate}</td>
                 <td>{application.jobTitle}</td>
                 <td>{application.company}</td>
                 <td>{application.applicationStatus}</td>
@@ -158,45 +160,31 @@ const EditJobApplicationModal = ({ application, onClose, onSave }) => {
     <div className="modal">
       <div className="modal-content">
         <span className="close" onClick={onClose}>&times;</span>
+        <h2>Edit Job Application</h2>
+        <hr />
+        <h2>{editedApplication.company}</h2>
+        <h3>{editedApplication.jobTitle}</h3>
+        
         <form onSubmit={handleSave}>
             <div className="form-group">
-              <label htmlFor="dateSubmitted">Date Submitted / Last Updated</label>
+              <label htmlFor="dateSubmitted">Update Date</label>
               <input
                 type="date"
-                id="dateSubmitted"
-                name="dateSubmitted"
-                value={editedApplication.dateSubmitted}
+                id="updatedDate"
+                name="updatedDate"
+                value={editedApplication.updatedDate}
                 onChange={handleInputChange}
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="jobTitle">Job Title</label>
-              <input
-                type="text"
-                id="jobTitle"
-                name="jobTitle"
-                value={editedApplication.jobTitle}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="company">Company</label>
-              <input
-                type="text"
-                id="company"
-                name="company"
-                value={editedApplication.company}
-                onChange={handleInputChange}
-              />
-            </div>
+            
 
             <div className="form-group">
               <label htmlFor="applicationStatus">Application Status</label>
               <select
                 id="applicationStatus"
                 name="applicationStatus"
+                className="drop-down"
                 value={editedApplication.applicationStatus}
                 onChange={handleInputChange}
               >
@@ -227,12 +215,13 @@ const EditJobApplicationModal = ({ application, onClose, onSave }) => {
               <textarea
                 id="notesComments"
                 name="notesComments"
+                className="notes-textarea"
                 value={editedApplication.notesComments}
                 onChange={handleInputChange}
               />
             </div>
 
-           <button type="submit">Save Changes</button>
+           <button className="submit-button" type="submit">Save Changes</button>
             
           </form>
 

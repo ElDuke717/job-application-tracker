@@ -130,7 +130,7 @@ const JobForm = () => {
     }
   };
 
-  // JSX for modal (simple example)
+  // JSX for modal 
   const modal = (
     <div
       style={{

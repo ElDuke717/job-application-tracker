@@ -8,6 +8,7 @@ const JobList = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [editingApplication, setEditingApplication] = useState<JobApplication | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleEditClick = (application) => {
     setEditingApplication(application);
@@ -44,7 +45,13 @@ const JobList = () => {
     handleCloseModal();
   };
   
-
+  // Filter job applications based on the search term
+  const filteredApplications = jobApplications.filter(
+    (application) =>
+      application.jobTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      application.company.toLowerCase().includes(searchTerm.toLowerCase())
+      // You can add more fields to filter by if necessary
+  );
 
   // Add pagination logic here
   const itemsPerPage = 20;
@@ -91,9 +98,20 @@ const JobList = () => {
     setCurrentPage(pageNumber);
   };
 
+
+  
+
   return (
     <div className="table-container">
-      {jobApplications.length > 0 ? (
+      {/* Search Input */}
+      <input
+        className="search-input"
+        type="text"
+        placeholder="Search by job title or company..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      {filteredApplications.length > 0 ? (
         <table className="job-table">
           <thead>
             <tr>
@@ -109,7 +127,7 @@ const JobList = () => {
             </tr>
           </thead>
           <tbody>
-            {jobApplications.map((application) => (
+            {filteredApplications.map((application) => (
               <tr key={application.id}>
                 <td>{application.dateSubmitted}</td>
                 <td>{application.updatedDate === '' ? 'No updates yet' : application.updatedDate}</td>

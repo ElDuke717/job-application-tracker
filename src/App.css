@@ -441,7 +441,7 @@ li a {
 }
 
 .contact-details a {
-  color: #065a82;
+  color: var(--indigo-600);
   text-decoration: none;
 }
 
@@ -529,7 +529,7 @@ li a {
 }
 
 .modal-content {
-  background-color: white;
+  background-color: var(--grey-050);
   padding: 20px;
   border-radius: 8px;
   width: 80%; /* Adjust the width as needed */
@@ -575,11 +575,36 @@ li a {
 }
 
 .modal-content button[type="submit"] {
-  background-color: #4caf50;
+  background-color: var(--cyan-400);
   color: white;
 }
 
 .modal-content button[type="button"] {
-  background-color: #f44336;
-  color: white;
+  background-color: var(--red-400);
+  color: var(--grey-050);
 }
+
+.search-input {
+  padding: 8px;
+  margin: 10px;
+  border: 1px solid var(--grey-200);
+  border-radius: 4px;
+}
+
+.back-to-contacts {
+  margin: 10px;
+  padding: 10px;
+  border: none;
+  background-color: var(--grey-900);
+  color: var(--grey-050); /* Assuming this is a variable for white color */
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none; /* Removes underline */
+}
+
+.back-to-contacts:hover {
+  background-color: var(--grey-800);
+  text-decoration: none; /* Ensures underline doesn't appear on hover */
+  color: var(--grey-050);
+}
+

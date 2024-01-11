@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import EditContactDetailsModal from "./EditContactDetailsModal";
 
 const ContactDetails = () => {
@@ -61,6 +61,7 @@ const ContactDetails = () => {
         handleCloseModal();
     };
 
+    
   return (
     <div className="contact-details">
       <h2>Contact Details</h2>
@@ -115,7 +116,9 @@ const ContactDetails = () => {
         onClick={handleOpenModal}
         > Edit Details 
         </button>
-        {/* <button href="/job-contacts-list" className="back-button">Back to Contacts List</button> */}
+        <Link to="/job-contact-list" className="back-to-contacts">
+      Back to Contacts List
+    </Link>
         {showModal && (
         <EditContactDetailsModal
           contact={contact}

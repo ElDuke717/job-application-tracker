@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import EditContactDetailsModal from "./EditContactDetailsModal";
 
 const ContactDetails = () => {
   const [contact, setContact] = useState(null);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const { contactId } = useParams(); // Extract UUID from the URL
 
   useEffect(() => {
@@ -23,9 +25,41 @@ const ContactDetails = () => {
     fetchContactDetails();
   }, [contactId]);
 
+  // Function to handle opening the modal
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+    // Function to handle closing the modal
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
   if (!contact) {
     return <div>Loading...</div>;
   }
+
+  // Function to handle saving changes
+    const handleSaveChanges = async (updatedContact) => {
+        try {
+        const response = await fetch(`http://localhost:3001/contacts/${updatedContact.id}`, {
+            method: 'PUT',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedContact),
+            });
+            if (response.ok) {
+                setContact(updatedContact);
+            } else {
+                console.error('Error saving contact:', response);
+            }
+        } catch (error) {
+        console.error('Error saving contact:', error);
+        }
+        
+        handleCloseModal();
+    };
 
   return (
     <div className="contact-details">
@@ -76,6 +110,19 @@ const ContactDetails = () => {
           <p>Shared Documents: {contact.sharedDocuments}</p>
         )}
       </div>
+      <button
+        className="edit-details-button"
+        onClick={handleOpenModal}
+        > Edit Details 
+        </button>
+        {/* <button href="/job-contacts-list" className="back-button">Back to Contacts List</button> */}
+        {showModal && (
+        <EditContactDetailsModal
+          contact={contact}
+          onClose={handleCloseModal}
+          onSave={handleSaveChanges}
+        /> 
+        )}
     </div>
   );
 };

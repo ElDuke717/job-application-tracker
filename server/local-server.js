@@ -233,6 +233,48 @@ app.post("/save-contact", (req, res) => {
   });
 });
 
+// Endpoint to update an existing contact
+app.put("/contacts/:id", (req, res) => {
+  // Check for correct content type (optional but recommended)
+  if (req.headers['content-type'] !== 'application/json') {
+    return res.status(400).send('Incorrect content type');
+  }
+
+  const updatedContact = req.body;
+  const contactId = req.params.id; // Extract ID from the request URL
+  const filePath = path.join(process.cwd(), "data", "contacts.json");
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    // Existing error handling...
+    
+    let contacts;
+    try {
+      contacts = JSON.parse(data);
+    } catch (parseErr) {
+      console.error("Error parsing JSON", parseErr);
+      return res.status(500).send("Error parsing contacts data");
+    }
+
+    const index = contacts.findIndex(contact => contact.id === contactId);
+    if (index === -1) {
+      return res.status(404).send("Contact not found");
+    }
+
+    // Update and validate contact
+    contacts[index] = { ...contacts[index], ...updatedContact };
+    // Add validation here if needed
+
+    fs.writeFile(filePath, JSON.stringify(contacts, null, 2), (writeErr) => {
+      if (writeErr) {
+        console.error("Error writing file", writeErr);
+        return res.status(500).send("Error updating contact");
+      }
+      res.status(200).send(contacts[index]); // Explicitly send 200 status
+    });
+  });
+});
+
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

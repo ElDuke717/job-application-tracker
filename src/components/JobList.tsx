@@ -156,6 +156,7 @@ const JobList = () => {
   );
 };
 
+// Modal for editing job application data
 const EditJobApplicationModal = ({ application, onClose, onSave }) => {
   const [editedApplication, setEditedApplication] = useState(application || {});
 

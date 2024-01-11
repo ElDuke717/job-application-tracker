@@ -169,6 +169,29 @@ app.put("/update-application/:id", (req, res) => {
 });
 
 
+// Endpoint to get all job data
+// Define a function to read job applications from file
+function getContacts() {
+  try {
+    const filePath = path.join(process.cwd(), "data", "contacts.json");
+    const data = fs.readFileSync(filePath, "utf8");
+    return JSON.parse(data);
+  } catch (err) {
+    console.error("Error reading job contacts:", err);
+    throw err; // Rethrow the error to handle it in the endpoint
+  }
+}
+// GET contacts
+app.get("/contacts", (req, res) => {
+  try {
+    const contacts = getContacts();
+    res.json(contacts); // Send the job applications data as JSON
+  } catch (error) {
+    res.status(500).send("Error retrieving job applications");
+  }
+});
+
+
 // Appends contact information to the contacts.json file.
 app.post("/save-contact", (req, res) => {
   const newContact = req.body;

@@ -32,7 +32,7 @@ const ContactsList: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("server/data/contacts.json"); // Adjust the URL as needed
+        const response = await fetch("http://localhost:3001/contacts"); // Adjust the URL as needed
         const data: Contact[] = await response.json();
         setTotalPages(Math.ceil(data.length / itemsPerPage));
         const startIndex = (currentPage - 1) * itemsPerPage;

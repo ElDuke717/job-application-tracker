@@ -29,7 +29,6 @@ const JobList = () => {
           },
           body: JSON.stringify(updatedApplication),
           });
-          console.log('Response:', response);
           if (response.ok) {
             const updatedApplications = jobApplications.map(app =>
             app.id === updatedApplication.id ? updatedApplication : app
@@ -113,8 +112,8 @@ const JobList = () => {
             {jobApplications.map((application) => (
               <tr key={application.id}>
                 <td>{application.dateSubmitted}</td>
-                <td>{application.updatedDate === '' ? 'None' : application.updatedDate}</td>
-                <td>{application.jobTitle}</td>
+                <td>{application.updatedDate === '' ? 'No updates yet' : application.updatedDate}</td>
+                <td><a href={application.jobPostingURL} target="_blank" rel="noreferrer"> {application.jobTitle}</a></td>
                 <td>{application.company}</td>
                 <td>{application.applicationStatus}</td>
                 <td>{application.age}</td>

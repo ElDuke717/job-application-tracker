@@ -234,6 +234,7 @@ const EditJobApplicationModal = ({ application, onClose, onSave }) => {
               <option value="Offer">Offer</option>
               <option value="Accepted">Accepted</option>
               <option value="Declined">Declined</option>
+              <option value="Expired">Expired</option>
               <option value="Ghosted">Ghosted</option>
             </select>
             </div>

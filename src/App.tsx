@@ -39,7 +39,7 @@ function App() {
             <NavLink to="/job-contact-list" className={({ isActive }) => isActive ? 'active-link' : undefined}>Contact List</NavLink>
           </li>
           <li>
-            <NavLink to="/job-site-form" className={({ isActive }) => isActive ? 'active-link' : undefined}>Job Site Form</NavLink>
+            <NavLink to="/job-site-form" className={({ isActive }) => isActive ? 'active-link' : undefined}>Job Search Sites </NavLink>
           </li>
           <li>
             <NavLink to="/metrics" className={({ isActive }) => isActive ? 'active-link' : undefined}>Metrics</NavLink>
@@ -53,6 +53,7 @@ function App() {
         <Route path="/metrics" element={<Metrics />} />
         <Route path="/job-contact-form" element={<JobContactForm />} />
         <Route path="/job-contact-list" element={<ContactsList />} />
+        <Route path="/job-site-form" element={<JobSiteForm />} />
         <Route path="/" element={<Home />} />
         <Route
           path="/contact-details/:contactId"

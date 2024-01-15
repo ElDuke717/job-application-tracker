@@ -22,7 +22,7 @@ const initialFormState = {
   notes: '',
 };
 
-const JobSiteForm = () => {
+const JobSiteForm = ({closeModal}) => {
   const [formData, setFormData] = useState(initialFormState);
   const [errors, setErrors] = useState({});
 
@@ -59,7 +59,7 @@ const JobSiteForm = () => {
     if (validateForm()) {
       try {
         // Replace with your actual API endpoint
-        const response = await fetch('http://localhost:3001/job-sites', {
+        const response = await fetch('http://localhost:3001/save-job-site', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -70,6 +70,7 @@ const JobSiteForm = () => {
         if (!response.ok) throw new Error('Network response was not ok.');
         // Handle success, e.g., clear form, show success message, etc.
         setFormData(initialFormState);
+        closeModal();
       } catch (error) {
         console.error('Error submitting form:', error);
       }

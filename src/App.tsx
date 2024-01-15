@@ -8,7 +8,7 @@ import Home from "./components/Home";
 import JobContactForm from "./components/JobContactForm";
 import ContactsList from "./components/ContactsList";
 import ContactDetails from "./components/ContactDetails";
-import JobSiteForm from "./components/JobSiteForm";
+import JobSiteList from "./components/JobSiteList";
 
 function App() {
   // Define a custom class for active links
@@ -39,7 +39,7 @@ function App() {
             <NavLink to="/job-contact-list" className={({ isActive }) => isActive ? 'active-link' : undefined}>Contact List</NavLink>
           </li>
           <li>
-            <NavLink to="/job-site-form" className={({ isActive }) => isActive ? 'active-link' : undefined}>Job Search Sites </NavLink>
+            <NavLink to="/job-site-list" className={({ isActive }) => isActive ? 'active-link' : undefined}>Job Search Sites </NavLink>
           </li>
           <li>
             <NavLink to="/metrics" className={({ isActive }) => isActive ? 'active-link' : undefined}>Metrics</NavLink>
@@ -53,7 +53,7 @@ function App() {
         <Route path="/metrics" element={<Metrics />} />
         <Route path="/job-contact-form" element={<JobContactForm />} />
         <Route path="/job-contact-list" element={<ContactsList />} />
-        <Route path="/job-site-form" element={<JobSiteForm />} />
+        <Route path="/job-site-list" element={<JobSiteList />} />
         <Route path="/" element={<Home />} />
         <Route
           path="/contact-details/:contactId"

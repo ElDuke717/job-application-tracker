@@ -315,7 +315,7 @@ li a {
 
 /* JobContactForm Styles */
 
-.job-contact-form {
+.job-contact-form .job-site-form {
   max-width: 600px;
   margin: 20px auto;
   padding: 20px;

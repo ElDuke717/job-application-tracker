@@ -274,6 +274,71 @@ app.put("/contacts/:id", (req, res) => {
   });
 });
 
+// Job List Details
+// Define a function to read job site data from file
+function getJobSites() {
+  try {
+    const filePath = path.join(process.cwd(), "data", "job-sites.json");
+    const data = fs.readFileSync(filePath, "utf8");
+    return JSON.parse(data);
+  } catch (err) {
+    console.error("Error reading job contacts:", err);
+    throw err; // Rethrow the error to handle it in the endpoint
+  }
+}
+
+// GET site from job site list
+app.get("/job-site-list", (req, res) => {
+  try {
+    const contacts = getJobSites();
+    res.json(contacts); 
+  } catch (error) {
+    res.status(500).send("Error retrieving job sites");
+  }
+});
+
+// Appends site information to the job-site.json file.
+app.post("/save-job-site", (req, res) => {
+  const newSite = req.body;
+  const filePath = path.join(process.cwd(), "data", "job-sites.json");
+
+  // Read the existing data from the file
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading file", err);
+      return res.status(500).send("Error reading existing job sites");
+    }
+
+    // Parse the data to JSON, append the new site, then convert back to string
+    let sites = [];
+    try {
+      sites = JSON.parse(data);
+      if (!Array.isArray(sites)) {
+        sites = []; // Reset to an empty array if parsed data is not an array
+      }
+    } catch (parseErr) {
+      console.error("Error parsing JSON, starting with a new array", parseErr);
+      sites = []; // Reset to an empty array if there's a parsing error
+    }
+
+    sites.push(newSite);
+
+    // Save the updated applications back to the file
+    fs.writeFile(
+      filePath,
+      JSON.stringify(sites, null, 2),
+      (writeErr) => {
+        if (writeErr) {
+          console.error("Error writing file", writeErr);
+          return res.status(500).send("Error saving site");
+        }
+        res.send("Site saved successfully");
+      }
+    );
+  });
+});
+
+
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

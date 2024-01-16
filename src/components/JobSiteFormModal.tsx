@@ -7,16 +7,8 @@ const initialFormState = {
   siteName: '',
   url: '',
   accountInfo: '',
-  typeOfJobsListed: '',
-  frequencyOfPosts: '',
-  qualityOfListings: '',
   responseRate: '',
   description: '',
-  networkingCapabilities: '',
-  resourcesOffered: '',
-  successRate: '',
-  costOrFees: '',
-  privacyAndSecurity: '',
   reviews: '',
   rating: 1, // Initialize the rating to the lowest possible value
   notes: '',
@@ -81,7 +73,7 @@ const JobSiteForm = ({closeModal}) => {
     <div className="modal">
       <div className="modal-content">
         <button className="close-button" onClick={closeModal}>X</button>
-        <h1>Enter Another Job Application Entry Site</h1>
+        <h2>Enter Another Job Application Entry Site</h2>
         
       <form onSubmit={handleSubmit}>
         {/* Render input fields for form data */}
@@ -100,20 +92,6 @@ const JobSiteForm = ({closeModal}) => {
             Account Information:
             <textarea name="accountInfo" value={formData.accountInfo} onChange={handleInputChange} />
         </label>
-        <label>
-            Type of Jobs Listed:
-            <input type="text" name="jobType" value={formData.typeOfJobsListed} onChange={handleInputChange} />
-        </label>
-        <label>
-            Frequency of Posts:
-            <input type="text" name="postFrequency" value={formData.frequencyOfPosts} onChange={handleInputChange} />
-        </label>
-
-        <label>
-            Quality of Listings:
-            <input type="text" name="listingQuality" value={formData.qualityOfListings} onChange={handleInputChange} />
-        </label>
-
         <label>
             Response Rate:
             <input type="text" name="responseRate" value={formData.responseRate} onChange={handleInputChange} />

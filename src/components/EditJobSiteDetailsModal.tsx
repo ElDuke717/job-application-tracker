@@ -11,7 +11,7 @@ const JobSiteDetailsModal = ({ site, onClose, onSave }) => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `http://localhost:3001/contacts/${site.id}`,
+        `http://localhost:3001/job-site-list/${site.id}`,
         {
           method: "PUT",
           headers: {
@@ -63,36 +63,6 @@ const JobSiteDetailsModal = ({ site, onClose, onSave }) => {
               type="text"
               name="accountInfo"
               value={updatedSite.accountInfo || ""}
-              onChange={handleChange}
-            />
-          </label>
-          {/* Type of Jobs Listed */}
-          <label>
-            Type of Jobs Listed:
-            <input
-              type="text"
-              name="typeOfJobsListed"
-              value={updatedSite.typeOfJobsListed || ""}
-              onChange={handleChange}
-            />
-          </label>
-          {/* Frequency of Posts */}
-          <label>
-            Frequency of Posts:
-            <input
-              type="text"
-              name="frequencyOfPosts"
-              value={updatedSite.frequencyOfPosts || ""}
-              onChange={handleChange}
-            />
-          </label>
-          {/* Quality of Listings */}
-          <label>
-            Quality of Listings:
-            <input
-              type="text"
-              name="qualityOfListings"
-              value={updatedSite.qualityOfListings || ""}
               onChange={handleChange}
             />
           </label>

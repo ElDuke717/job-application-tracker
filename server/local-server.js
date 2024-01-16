@@ -338,7 +338,46 @@ app.post("/save-job-site", (req, res) => {
   });
 });
 
+// Endpoint to update an existing job site  
+app.put("/job-site-list/:id", (req, res) => {
+  // Check for correct content type (optional but recommended)
+  if (req.headers['content-type'] !== 'application/json') {
+    return res.status(400).send('Incorrect content type');
+  }
 
+  const updatedSite = req.body;
+  const siteId = req.params.id; // Extract ID from the request URL
+  const filePath = path.join(process.cwd(), "data", "job-sites.json");
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    // Existing error handling...
+    
+    let sites;
+    try {
+      sites = JSON.parse(data);
+    } catch (parseErr) {
+      console.error("Error parsing JSON", parseErr);
+      return res.status(500).send("Error parsing sites data");
+    }
+
+    const index = sites.findIndex(site => site.id === siteId);
+    if (index === -1) {
+      return res.status(404).send("Contact not found");
+    }
+
+    // Update and validate contact
+    sites[index] = { ...sites[index], ...updatedSite };
+    // Add validation here if needed
+
+    fs.writeFile(filePath, JSON.stringify(sites, null, 2), (writeErr) => {
+      if (writeErr) {
+        console.error("Error writing file", writeErr);
+        return res.status(500).send("Error updating site");
+      }
+      res.status(200).send(sites[index]); // Explicitly send 200 status
+    });
+  });
+});
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

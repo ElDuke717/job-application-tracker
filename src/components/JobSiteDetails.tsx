@@ -73,23 +73,41 @@ const JobSiteDetails = () => {
             {site.url && <p>URL: <a href={site.url} target="_blank" rel="noopener noreferrer">{site.url}</a></p>}
           </div>
       
-          {/* Professional Details Section */}
-          <div className="section">
-            <h3>Professional Details</h3>
-            {site.typeOfJobsListed && <p>Type of Jobs Listed: {site.typeOfJobsListed}</p>}
-            {site.frequencyOfPosts && <p>Frequency of Posts: {site.frequencyOfPosts}</p>}
-            {site.qualityOfListings && <p>Quality of Listings: {site.qualityOfListings}</p>}
-            {site.responseRate && <p>Response Rate: {site.responseRate}</p>}
-            {site.description && <p>Description: {site.description}</p>}
-            {site.networkingCapabilities && <p>Networking Capabilities: {site.networkingCapabilities}</p>}
-            {site.resourcesOffered && <p>Resources Offered: {site.resourcesOffered}</p>}
-            {site.successRate && <p>Success Rate: {site.successRate}</p>}
-            {site.costOrFees && <p>Cost or Fees: {site.costOrFees}</p>}
-            {site.privacyAndSecurity && <p>Privacy and Security: {site.privacyAndSecurity}</p>}
-            {site.rating !== undefined && <p>Rating: {site.rating}</p>}
-            {site.reviews && <p>Reviews: {site.reviews}</p>}
-            {site.notes && <p>Notes: {site.notes}</p>}
-          </div>
+         {/* Professional Details Section */}
+<div className="section">
+  <h3>Professional Details</h3>
+  {site.responseRate && <>
+    <h3>Response Rate:</h3> <p>{site.responseRate}</p>
+  </>}
+  {site.description && <>
+    <h3>Description:</h3> <p>{site.description}</p>
+  </>}
+  {site.networkingCapabilities && <>
+    <h3>Networking Capabilities:</h3> <p>{site.networkingCapabilities}</p>
+  </>}
+  {site.resourcesOffered && <>
+    <h3>Resources Offered:</h3> <p>{site.resourcesOffered}</p>
+  </>}
+  {site.successRate && <>
+    <h3>Success Rate:</h3> <p>{site.successRate}</p>
+  </>}
+  {site.costOrFees && <>
+    <h3>Cost or Fees:</h3> <p>{site.costOrFees}</p>
+  </>}
+  {site.privacyAndSecurity && <>
+    <h3>Privacy and Security:</h3> <p>{site.privacyAndSecurity}</p>
+  </>}
+  {site.rating !== undefined && <>
+    <h3>Rating:</h3> <p>{site.rating}</p>
+  </>}
+  {site.reviews && <>
+    <h3>Reviews:</h3> <p>{site.reviews}</p>
+  </>}
+  {site.notes && <>
+    <h3>Notes:</h3> <p>{site.notes}</p>
+  </>}
+</div>
+
           
           <button
             className="edit-details-button"

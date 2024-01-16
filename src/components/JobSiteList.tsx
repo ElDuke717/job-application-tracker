@@ -26,15 +26,13 @@ type JobSiteEntry = {
 // JobSiteList component
 const JobSiteList = () => {
     const [jobSites, setJobSites] = useState<JobSiteEntry[]>([]);
-    const [activeJobSite, setActiveJobSite] = useState<JobSiteEntry | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const itemsPerPage = 20; 
 
     const [showModal, setShowModal] = useState(false); // State to control modal visibility
   
-    useEffect(() => {
-      const fetchJobSites = async () => {
+    const fetchJobSites = async () => {
         try {
           const response = await fetch('http://localhost:3001/job-site-list');
           const data: JobSiteEntry[] = await response.json();
@@ -46,7 +44,10 @@ const JobSiteList = () => {
         } catch (error) {
           console.error('Error fetching job sites:', error);
         }
-      };
+    };
+
+    useEffect(() => {
+      
   
       fetchJobSites();
     }, [currentPage]);
@@ -74,10 +75,28 @@ const JobSiteList = () => {
       };
   
       // Function to handle new job site submission
-      const handleAddJobSite = (newSite: JobSiteEntry) => {
-        setJobSites([...jobSites, newSite]);
+    const handleAddJobSite = async (newSite: JobSiteEntry) => {
+        // Add the new site to the server via API
+        // Assuming you have an endpoint to add a new site
+        try {
+            const response = await fetch('http://localhost:3001/add-job-site', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newSite),
+            });
+            if (!response.ok) throw new Error('Network response was not ok.');
+            
+            // Re-fetch job sites to update the list
+            await fetchJobSites();
+        } catch (error) {
+            console.error('Error adding new job site:', error);
+        }
+
+        // Close the modal
         handleCloseModal();
-      };
+    };
   
   
 
@@ -90,17 +109,17 @@ const JobSiteList = () => {
             <tr>
               <th>Site</th>
               <th>Rating</th>
-              <th>Type of Jobs</th>
-              <th>Quality of Listings</th>
+              <th>Success Rate</th>
+              <th>Notes</th>
             </tr>
           </thead>
           <tbody>
             {jobSites.map((site, index) => (
               <tr key={index}>
-                <td>{site.siteName}</td>
+                <td><a href={site.url} ><h2>{site.siteName}</h2></a></td>
                 <td>{site.rating}</td>
-                <td>{site.typeOfJobsListed}</td>
-                <td>{site.qualityOfListings}</td>
+                <td>{site.successRate}</td>
+                <td>{site.notes}</td>
                 <td>
                   <button onClick={() => goToDetails(site.id)}>
                     View Details

@@ -18,6 +18,7 @@ dist-ssr
 
 contacts.json
 jobApplications.json
+job-sites.json
 
 # Editor directories and files
 .vscode/*

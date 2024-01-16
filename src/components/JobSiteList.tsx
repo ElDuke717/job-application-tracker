@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import JobSiteForm from './JobSiteForm'; // Assume this is the form component you've created
+import JobSiteForm from './JobSiteForm'; 
+import { useNavigate } from "react-router-dom";
 
 // Define the type for the job site entry
 type JobSiteEntry = {
@@ -25,107 +26,90 @@ type JobSiteEntry = {
 // JobSiteList component
 const JobSiteList = () => {
     const [jobSites, setJobSites] = useState<JobSiteEntry[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [showModal, setShowModal] = useState<boolean>(false);
     const [activeJobSite, setActiveJobSite] = useState<JobSiteEntry | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const itemsPerPage = 20; 
   
     useEffect(() => {
       const fetchJobSites = async () => {
         try {
           const response = await fetch('http://localhost:3001/job-site-list');
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
           const data: JobSiteEntry[] = await response.json();
-          setJobSites(data);
+          setTotalPages(Math.ceil(data.length / itemsPerPage));
+          const startIndex = (currentPage - 1) * itemsPerPage;
+          const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
+          
+            setJobSites(paginatedData);
         } catch (error) {
-          setError('Failed to fetch job sites');
-        } finally {
-          setLoading(false);
+          console.error('Error fetching job sites:', error);
         }
       };
   
       fetchJobSites();
-    }, []);
+    }, [currentPage]);
   
-    // Function to close the modal
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-
-  // Function to handle form submission from the modal
-  const handleFormSubmit = (jobSite: JobSiteEntry) => {
-    if (activeJobSite) {
-      // Edit existing job site
-      setJobSites(
-        jobSites.map((site) => (site.id === jobSite.id ? jobSite : site))
-      );
-    } else {
-      // Add new job site
-      setJobSites([...jobSites, jobSite]);
-    }
-    setShowModal(false);
-    closeModal();
-  };
-
-  // Open modal to add a new job site
-  const handleAddNewJobSite = () => {
-    setActiveJobSite(null); // Ensure no active job site is set for new entries
-    setShowModal(true);
-    };
-    
-    // Open modal to edit an existing job site
-    const handleEditJobSite = (jobSite: JobSiteEntry) => {
-    setActiveJobSite(jobSite);
-    setShowModal(true);
+    const navigate = useNavigate(); // useNavigate hook for navigation
+  
+    const goToDetails = (siteId: string) => {
+      navigate(`/job-site-list/${siteId}`); // Navigate to contact details page
     };
 
-  if (loading) {
-    return <div>Loading job sites...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
+    const goToPage = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+    };
+  
 
   return (
-    <div>
-      <button onClick={handleAddNewJobSite}>Add Job Site</button>
-  
-      {/* Job Sites List */}
+    <div className="table-container">
       {jobSites.length > 0 ? (
-        <ul>
-          {jobSites.map((site) => (
-            <li key={site.id}>
-              <h3>{site.siteName}</h3>
-              {/* Display other details as needed */}
-              <button onClick={() => handleEditJobSite(site)}>Edit</button>
-            </li>
-          ))}
-        </ul>
+        <table className="job-sites-table">
+          <thead>
+            <tr>
+              <th>Site</th>
+              <th>Rating</th>
+              <th>Type of Jobs</th>
+              <th>Quality of Listings</th>
+            </tr>
+          </thead>
+          <tbody>
+            {jobSites.map((site, index) => (
+              <tr key={index}>
+                <td>{site.siteName}</td>
+                <td>{site.rating}</td>
+                <td>{site.typeOfJobsListed}</td>
+                <td>{site.qualityOfListings}</td>
+                <td>
+                  <button onClick={() => goToDetails(site.id)}>
+                    View Details
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       ) : (
-        <div>No Job Sites Listed</div>
+        <p>No sites found.</p>
       )}
-  
-      {/* Modal for JobSiteForm */}
-      {showModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={() => setShowModal(false)}>
-              &times;
-            </span>
-            <JobSiteForm
-                activeJobSite={activeJobSite}
-                handleFormSubmit={handleFormSubmit}
-                closeModal={closeModal} // Pass closeModal as a prop
-            />
-          </div>
-        </div>
-      )}
+      {/* Pagination Controls */}
+      <div className="pagination-container">
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+          (pageNumber) => (
+            <button
+              key={pageNumber}
+              onClick={() => goToPage(pageNumber)}
+              className={`pagination-btn ${
+                currentPage === pageNumber ? "active" : ""
+              }`}
+            >
+              {pageNumber}
+            </button>
+          )
+        )}
+      </div>
     </div>
   );
-  };
-  export default JobSiteList;
+};
+
+export default JobSiteList;
   

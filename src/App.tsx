@@ -9,6 +9,7 @@ import JobContactForm from "./components/JobContactForm";
 import ContactsList from "./components/ContactsList";
 import ContactDetails from "./components/ContactDetails";
 import JobSiteList from "./components/JobSiteList";
+import JobSiteDetails from "./components/JobSiteDetails";
 
 function App() {
   // Define a custom class for active links
@@ -58,6 +59,10 @@ function App() {
         <Route
           path="/contact-details/:contactId"
           element={<ContactDetails />}
+        />
+        <Route
+          path="/job-site-list/:siteId"
+          element={<JobSiteDetails />}
         />
       </Routes>
     </Router>

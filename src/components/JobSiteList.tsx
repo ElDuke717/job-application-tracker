@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import JobSiteForm from './JobSiteForm'; 
+import JobSiteFormModal from './JobSiteFormModal'; 
 import { useNavigate } from "react-router-dom";
 
 // Define the type for the job site entry
@@ -30,6 +30,8 @@ const JobSiteList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const itemsPerPage = 20; 
+
+    const [showModal, setShowModal] = useState(false); // State to control modal visibility
   
     useEffect(() => {
       const fetchJobSites = async () => {
@@ -58,9 +60,29 @@ const JobSiteList = () => {
     const goToPage = (pageNumber: number) => {
         setCurrentPage(pageNumber);
     };
+
+    // Modal Controls
+
+    // Function to open the modal
+    const handleOpenModal = () => {
+        setShowModal(true);
+      };
+  
+      // Function to close the modal
+      const handleCloseModal = () => {
+        setShowModal(false);
+      };
+  
+      // Function to handle new job site submission
+      const handleAddJobSite = (newSite: JobSiteEntry) => {
+        setJobSites([...jobSites, newSite]);
+        handleCloseModal();
+      };
+  
   
 
   return (
+    
     <div className="table-container">
       {jobSites.length > 0 ? (
         <table className="job-sites-table">
@@ -90,7 +112,7 @@ const JobSiteList = () => {
         </table>
       ) : (
         <p>No sites found.</p>
-      )}
+      )}  
       {/* Pagination Controls */}
       <div className="pagination-container">
         {Array.from({ length: totalPages }, (_, i) => i + 1).map(
@@ -107,6 +129,20 @@ const JobSiteList = () => {
           )
         )}
       </div>
+      {/* Button to open the modal */}
+      <button className="add-site-button"onClick={handleOpenModal}>Add New Job Site</button>
+
+        {/* Modal for adding new job site */}
+        {showModal && (
+        <div className="modal">
+            <div className="modal-content">
+            <JobSiteFormModal
+                closeModal={handleCloseModal}
+                onSave={handleAddJobSite}
+            />
+            </div>
+        </div>
+        )}
     </div>
   );
 };

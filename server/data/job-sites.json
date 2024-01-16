@@ -55,5 +55,24 @@
     "reviews": "",
     "rating": 1,
     "notes": "Smells"
+  },
+  {
+    "id": "adffecbf-1da4-4384-a99b-ab7150671509",
+    "siteName": "McDonald's",
+    "url": "https://mds.com",
+    "accountInfo": "",
+    "typeOfJobsListed": "",
+    "frequencyOfPosts": "",
+    "qualityOfListings": "",
+    "responseRate": "",
+    "description": "",
+    "networkingCapabilities": "",
+    "resourcesOffered": "",
+    "successRate": "",
+    "costOrFees": "",
+    "privacyAndSecurity": "",
+    "reviews": "",
+    "rating": 3,
+    "notes": "A place with good french fries."
   }
 ]

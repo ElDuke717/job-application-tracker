@@ -420,7 +420,8 @@ li a {
 
 /* Shared Styles for Contact and Site Details */
 
-.contact-details, .site-details {
+.contact-details,
+.site-details {
   text-align: left;
   max-width: 800px; /* Adjust as needed */
   margin: auto;
@@ -428,34 +429,38 @@ li a {
   border-radius: 5px;
 }
 
-.contact-details .section, .site-details .section {
+.contact-details .section,
+.site-details .section {
   margin-bottom: 20px;
 }
 
-.contact-details h3, .site-details h3 {
+.contact-details h3,
+.site-details h3 {
   margin-bottom: 10px;
   color: #333;
   font-size: 1.2em;
 }
 
-.contact-details p, .site-details p {
+.contact-details p,
+.site-details p {
   margin-left: 20px;
   margin-bottom: 5px;
 }
 
-.contact-details a, .site-details a {
+.contact-details a,
+.site-details a {
   color: var(--indigo-600);
   text-decoration: none;
 }
 
-.contact-details a:hover, .site-details a:hover {
+.contact-details a:hover,
+.site-details a:hover {
   text-decoration: underline;
 }
 
 .application-notes {
   font-size: 0.75em;
 }
-
 
 /* JobList Styles - Modal */
 
@@ -611,3 +616,10 @@ li a {
   text-decoration: none; /* Ensures underline doesn't appear on hover */
   color: var(--grey-050);
 }
+
+/* JobList Styles - Modal */
+
+.add-site-button {
+  margin: 20px;
+}
+

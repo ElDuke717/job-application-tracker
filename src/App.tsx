@@ -10,6 +10,7 @@ import ContactsList from "./components/ContactsList";
 import ContactDetails from "./components/ContactDetails";
 import JobSiteList from "./components/JobSiteList";
 import JobSiteDetails from "./components/JobSiteDetails";
+import JournalEntryForm from "./components/JournalEntryForm";
 
 function App() {
   // Define a custom class for active links
@@ -45,6 +46,9 @@ function App() {
           <li>
             <NavLink to="/metrics" className={({ isActive }) => isActive ? 'active-link' : undefined}>Metrics</NavLink>
           </li>
+          <li>
+            <NavLink to="/journal" className={({ isActive }) => isActive ? 'active-link' : undefined}>Journal</NavLink>
+          </li>
         </ul>
       </nav>
 
@@ -63,6 +67,10 @@ function App() {
         <Route
           path="/job-site-list/:siteId"
           element={<JobSiteDetails />}
+        />
+        <Route
+          path="/journal"
+          element={<JournalEntryForm />}
         />
       </Routes>
     </Router>

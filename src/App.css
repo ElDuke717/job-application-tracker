@@ -334,11 +334,14 @@ table {
   border-collapse: collapse; /* Collapse borders */
 }
 
-table, th, td {
+table,
+th,
+td {
   border: 1px solid #ddd; /* Add border to the table */
 }
 
-th, td {
+th,
+td {
   padding: 8px; /* Add padding to table cells */
   text-align: left; /* Left align text in cells */
 }
@@ -361,10 +364,10 @@ td:nth-child(2) {
   text-align: right; /* Align data values to the right */
 }
 
-
 /* JobContactForm Styles */
 
-.job-contact-form, .job-site-form {
+.job-contact-form,
+.job-site-form {
   max-width: 600px;
   margin: 20px auto;
   padding: 20px;
@@ -669,4 +672,10 @@ td:nth-child(2) {
 
 .add-site-button {
   margin: 20px;
+}
+
+/* Journal Styles */
+
+.journal-entry-content {
+  height: 400px;
 }

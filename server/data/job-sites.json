@@ -282,5 +282,18 @@
     "reviews": "",
     "rating": 1,
     "notes": "This is a VC firm job board."
+  },
+  {
+    "id": "972f3089-9ef0-4f58-9797-cd096d3865b4",
+    "siteName": "Y Combinator",
+    "haveIUsed": "Yes",
+    "url": "https://www.ycombinator.com/",
+    "accountInfo": "",
+    "responseRate": "",
+    "description": "A well known VC firm that helps start-ups.",
+    "reviews": "Many different companies have used Y Combinator.  Probably a good place to put in applications for start-ups.",
+    "rating": 1,
+    "notes": "This is probably a good site to start using.",
+    "networking": "Yes, probably."
   }
 ]

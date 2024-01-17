@@ -379,6 +379,114 @@ app.put("/job-site-list/:id", (req, res) => {
   });
 });
 
+// Journal Functionality
+// GET Journal Entries
+function getJournalEntries() {
+  try {
+    const filePath = path.join(process.cwd(), "data", "journalEntries.json");
+    const data = fs.readFileSync(filePath, "utf8");
+    return JSON.parse(data);
+  } catch (err) {
+    console.error("Error reading job contacts:", err);
+    throw err; // Rethrow the error to handle it in the endpoint
+  }
+}
+
+// GET site from journal site list
+app.get("/journal-entries", (req, res) => {
+  try {
+    const contacts = getJournalEntries();
+    res.json(contacts); 
+  } catch (error) {
+    res.status(500).send("Error retrieving journal entries");
+  }
+});
+
+// POST new journal entry
+// Appends site information to the job-site.json file.
+app.post("/journal-entries", (req, res) => {
+  const newEntry = req.body;
+  const filePath = path.join(process.cwd(), "data", "journalEntries.json");
+
+  // Read the existing data from the file
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading file", err);
+      return res.status(500).send("Error reading existing journal entries");
+    }
+
+    // Parse the data to JSON, append the new entry, then convert back to string
+    let entries = [];
+    try {
+      entries = JSON.parse(data);
+      if (!Array.isArray(entries)) {
+        entries = []; // Reset to an empty array if parsed data is not an array
+      }
+    } catch (parseErr) {
+      console.error("Error parsing JSON, starting with a new array", parseErr);
+      entries = []; // Reset to an empty array if there's a parsing error
+    }
+
+    entries.push(newEntry);
+
+    // Save the updated applications back to the file
+    fs.writeFile(
+      filePath,
+      JSON.stringify(entries, null, 2),
+      (writeErr) => {
+        if (writeErr) {
+          console.error("Error writing file", writeErr);
+          return res.status(500).send("Error saving entry");
+        }
+        res.send("Entry saved successfully");
+      }
+    );
+  });
+});
+
+// endpoint to edit an existing journal entry
+// Endpoint to update an existing job site  
+app.put("/journal-entries/:id", (req, res) => {
+  // Check for correct content type (optional but recommended)
+  if (req.headers['content-type'] !== 'application/json') {
+    return res.status(400).send('Incorrect content type');
+  }
+
+  const updatedEntry = req.body;
+  const entryId = req.params.id; // Extract ID from the request URL
+  const filePath = path.join(process.cwd(), "data", "journalEntries.json");
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    // Existing error handling...
+    
+    let entries;
+    try {
+      entries = JSON.parse(data);
+    } catch (parseErr) {
+      console.error("Error parsing JSON", parseErr);
+      return res.status(500).send("Error parsing entry data");
+    }
+
+    const index = sites.findIndex(entry => entry.id === entryId);
+    if (index === -1) {
+      return res.status(404).send("Entry not found");
+    }
+
+    // Update and validate entry
+    entries[index] = { ...entries[index], ...updatedEntry };
+    // Add validation here if needed
+
+    fs.writeFile(filePath, JSON.stringify(sites, null, 2), (writeErr) => {
+      if (writeErr) {
+        console.error("Error writing file", writeErr);
+        return res.status(500).send("Error updating entry");
+      }
+      res.status(200).send(entries[index]); // Explicitly send 200 status
+    });
+  });
+});
+
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

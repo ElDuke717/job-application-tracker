@@ -1,20 +1,50 @@
 [
   {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
     "date": "2024-01-17",
-    "content": "Test entry.",
-    "tags": [
-      "test",
-      "entry",
-      "journal"
-    ]
+    "content": "This is one test entry.  We'll keep it to act as a place holder.",
+    "tags": ["test", "entry", "journal"]
   },
   {
+    "id": "550e8400-e29b-41d4-a716-446655440001",
     "date": "2024-01-15",
     "content": "This is a fake entry to add to the journal page.",
-    "tags": [
-      "fake",
-      "entry",
-      "stuff"
-    ]
+    "tags": ["fake", "entry", "stuff"]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440002",
+    "date": "2024-01-09",
+    "content": "Dummy",
+    "tags": ["dumb"]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440003",
+    "date": "2024-01-10",
+    "content": "TEst",
+    "tags": ["test"]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440004",
+    "date": "2024-01-03",
+    "content": "Happy new year",
+    "tags": ["new year"]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440005",
+    "date": "2024-01-05",
+    "content": "I like turtles.",
+    "tags": ["turtles", "fun"]
+  },
+  {
+    "id": "3b7fba6c-051f-4c96-9daf-eca23fb96eb2",
+    "date": "2024-01-17",
+    "content": "Another dummy entry, I should include time of day so that entries are more accurately sorted.",
+    "tags": ["test", "sort", "stuff"]
+  },
+  {
+    "id": "f6f3991a-4754-4ede-9725-90f985e8fc37",
+    "date": "2024-01-17",
+    "content": "I started to use some of the new venture capitol sites that I found to place applications.  So far, I placed 6 applications today.  I feel pretty good about it, I also applied to a Y-combinator job posting.   I think that if I get started early enough, that I may be able to get more than five applications in in a day.\n\nI also added this journal feature today.  I'm pretty excited about it as it may help add more motivation to the job search and provide more context for each day's application session.\n\nI'd like to figure out a way to streamline applying for jobs, perhaps by developing some Python scripts to help automate the process.",
+    "tags": ["journal", "applications", "data"]
   }
 ]

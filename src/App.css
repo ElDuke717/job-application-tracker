@@ -679,3 +679,11 @@ td:nth-child(2) {
 .journal-entry-content {
   height: 400px;
 }
+
+.table-journal-content {
+  text-align: left; /* Align text to the left */
+  vertical-align: top; /* Align text to the top of the cell */
+  padding: 8px; /* Add some padding */
+  word-wrap: break-word; /* To ensure words break and wrap onto the next line */
+  white-space: pre-wrap; /* This will maintain any spaces and line bre*/
+}

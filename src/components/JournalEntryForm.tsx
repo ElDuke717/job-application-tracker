@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import JournalEntryModal from './JournalEntryModal';
+import { v4 as uuidv4 } from 'uuid';
 
 const JournalEntryForm = () => {
-    const [title, setTitle] = useState('');
     const [date, setDate] = useState('');
     const [content, setContent] = useState('');
     const [tags, setTags] = useState('');
@@ -11,6 +12,53 @@ const JournalEntryForm = () => {
     const [visibleEntries, setVisibleEntries] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [entriesToShow, setEntriesToShow] = useState(5);
+
+    // Modal state
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentEntry, setCurrentEntry] = useState(null);
+
+    const handleOpenModal = (entry) => {
+        setCurrentEntry(entry);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleSaveEntry = async (updatedEntry) => {
+        try {
+            const response = await fetch(`http://localhost:3001/journal-entries/${updatedEntry.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedEntry),
+            });
+    
+            if (response.ok) {
+                // Update journalEntries state
+                const updatedEntries = journalEntries.map(entry =>
+                    entry.id === updatedEntry.id ? updatedEntry : entry
+                );
+                setJournalEntries(updatedEntries);
+    
+                // Also update visibleEntries state if it includes the updated entry
+                const updatedVisibleEntries = visibleEntries.map(entry =>
+                    entry.id === updatedEntry.id ? updatedEntry : entry
+                );
+                setVisibleEntries(updatedVisibleEntries);
+            } else {
+                console.error('Error saving journal entry:', response);
+            }
+        } catch (error) {
+            console.error('Error saving journal entry:', error);
+        }
+        
+        handleCloseModal();
+    };
+    
+
 
     useEffect(() => {
         // Fetch journal entries when the component is mounted
@@ -34,6 +82,7 @@ const JournalEntryForm = () => {
         }
 
         const entry = {
+            id: uuidv4(),
             date,
             content,
             tags: tags.split(',').map(tag => tag.trim())
@@ -51,7 +100,6 @@ const JournalEntryForm = () => {
         if (response.ok) {
 
         // Clear the form
-        setTitle('');
         setContent('');
         setTags('');
     } else {
@@ -82,6 +130,7 @@ const JournalEntryForm = () => {
     };
 
     return (
+        
         <div className="journal-container">
             <div className="form-container">
                 <h2>Add a Journal Entry</h2>
@@ -112,24 +161,33 @@ const JournalEntryForm = () => {
                     placeholder="Search journal entries"
                 />
                 <h2>Journal Entries</h2>
-<table className="journal-entries-table">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Entry</th>
-            <th>Tags</th>
-        </tr>
-    </thead>
-    <tbody>
-        {visibleEntries.map((entry, index) => (
-            <tr key={index}>
-                <td>{entry.date}</td>
-                <td>{entry.content}</td>
-                <td>{entry.tags.join(', ')}</td>
-            </tr>
-        ))}
-    </tbody>
-</table>
+                { isModalOpen && <JournalEntryModal 
+                    entry={currentEntry}
+                    isOpen={isModalOpen}
+                    onClose={handleCloseModal}
+                    onSave={handleSaveEntry}
+                />}
+            <table className="journal-entries-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Entry</th>
+                        <th>Tags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {visibleEntries.map((entry, index) => (
+                        <tr key={entry.id}>
+                            <td>{entry.date}</td>
+                            <td className='table-journal-content'>{entry.content}</td>
+                            <td>{entry.tags.join(', ')}</td>
+                            <td>
+                                <button onClick={() => handleOpenModal(entry)}>View/Edit</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
 
                 {searchTerm === '' && (
                     <button onClick={handleLoadMore}>Load More</button>

@@ -467,7 +467,7 @@ app.put("/journal-entries/:id", (req, res) => {
       return res.status(500).send("Error parsing entry data");
     }
 
-    const index = sites.findIndex(entry => entry.id === entryId);
+    const index = entries.findIndex(entry => entry.id === entryId);
     if (index === -1) {
       return res.status(404).send("Entry not found");
     }
@@ -476,7 +476,7 @@ app.put("/journal-entries/:id", (req, res) => {
     entries[index] = { ...entries[index], ...updatedEntry };
     // Add validation here if needed
 
-    fs.writeFile(filePath, JSON.stringify(sites, null, 2), (writeErr) => {
+    fs.writeFile(filePath, JSON.stringify(entries, null, 2), (writeErr) => {
       if (writeErr) {
         console.error("Error writing file", writeErr);
         return res.status(500).send("Error updating entry");
@@ -485,6 +485,7 @@ app.put("/journal-entries/:id", (req, res) => {
     });
   });
 });
+
 
 
 const PORT = process.env.PORT || 3001;

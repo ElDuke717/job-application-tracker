@@ -1,8 +1,12 @@
+import React, { useState, useEffect } from 'react';
+
 const JournalEntryModal = ({ entry, isOpen, onClose, onSave }) => {
-    const [editedEntry, setEditedEntry] = useState(entry);
+    const [editedEntry, setEditedEntry] = useState(entry || { date: '', content: '', tags: [] });
 
     useEffect(() => {
+        if (!entry) {
         setEditedEntry(entry); // Set the edited entry when the entry prop changes
+        }
     }, [entry]);
 
     const handleSave = () => {
@@ -37,3 +41,5 @@ const JournalEntryModal = ({ entry, isOpen, onClose, onSave }) => {
         </div>
     );
 };
+
+export default JournalEntryModal;

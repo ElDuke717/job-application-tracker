@@ -137,47 +137,50 @@ const Metrics = () => {
 
   return (
     <>
-     <div className='metrics-container'>
-      <h1>Metrics</h1>
-      <p>Metrics are a great way to track your progress and help you stay motivated.</p>
-      </div>
-      <div className='metrics-notes'>
-          {/* Application Metrics */}
-          <h2>Application Metrics</h2>
-          <hr />
-          
-            <p>Applications Today: {metrics.applicationsToday}</p>
-            <p>Applications This Week: {metrics.applicationsThisWeek}</p>
-            <p>Application Rate: {metrics.applicationRate}</p>
-            <p className="application-notes">Application Rate is based on {metrics.weeklyApplicationRate} applications per week</p>
-            <p>Total Applications: {metrics.totalApplications}</p>
-            <p>Cover Letters: {metrics.coverLetters}</p>
-            <p>Total Rejections: {metrics.totalRejections}</p>
-            <p>Rejections to total applications: {Math.floor(metrics.totalRejections / metrics.totalApplications * 100)}%</p>
-            <p>Average Time to Response: {metrics.averageTimeToResponse} days</p>
-            <p>Max Time to Response: {metrics.maxTimeToResponse} days</p>
-            <p>Min Time to Response: {metrics.minTimeToResponse} days</p>
-            <p>Ghost Rate: {metrics.ghostRate}%</p>
-            <p className="application-notes">Ghost rate is based on applications that are older than two months and have not received an update or any response.</p>
-            
-            {/* Interview Metrics */}
-            <h2>Interview Metrics</h2>
-            <hr />
-            <p>Phone Screens: {metrics.phoneScreens}</p>
-            <p>Emails: {metrics.emails}</p>
-            <p>Interviews: {metrics.interviews}</p>
-            
-            <p className="application-notes">
-                Conventional target conversion rate from full CS style application to
-                phone screen is 20%.
-            </p>
-            <p className="application-notes">
-                You could possibly get {Math.floor(metrics.totalApplications * 0.2)} phone{" "}
-                {Math.floor(metrics.totalApplications * 0.2) > 1 ? "screens" : "screen"} with your current rate of
-                applications if they were all Codesmith style applications.
-            </p>
+      <div className='metrics-container'>
+        <h1>Metrics</h1>
+        <p>Metrics are a great way to track your progress and help you stay motivated.</p>
+    </div>
+    <div className='metrics-notes'>
+        {/* Application Metrics */}
+        <h2>Application Metrics</h2>
+        <hr />
+        <table>
+            <tbody>
+                <tr><td>Applications Today:</td><td>{metrics.applicationsToday}</td></tr>
+                <tr><td>Applications This Week:</td><td>{metrics.applicationsThisWeek}</td></tr>
+                <tr><td>Application Rate:</td><td>{metrics.applicationRate}</td></tr>
+                <tr><td>Total Applications:</td><td>{metrics.totalApplications}</td></tr>
+                <tr><td>Cover Letters:</td><td>{metrics.coverLetters}</td></tr>
+                <tr><td>Total Rejections:</td><td>{metrics.totalRejections}</td></tr>
+                <tr><td>Rejections to total applications:</td><td>{Math.floor(metrics.totalRejections / metrics.totalApplications * 100)}%</td></tr>
+                <tr><td>Average Time to Response:</td><td>{metrics.averageTimeToResponse} days</td></tr>
+                <tr><td>Max Time to Response:</td><td>{metrics.maxTimeToResponse} days</td></tr>
+                <tr><td>Min Time to Response:</td><td>{metrics.minTimeToResponse} days</td></tr>
+                <tr><td>Ghost Rate:</td><td>{metrics.ghostRate}%</td></tr>
+            </tbody>
+        </table>
+        <p className="application-notes">Application Rate is based on {metrics.weeklyApplicationRate} applications per week</p>
+        <p className="application-notes">Ghost rate is based on applications that are older than two months and have not received an update or any response.</p>
         
-        </div>
+        {/* Interview Metrics */}
+        <h2>Interview Metrics</h2>
+        <hr />
+        <table>
+            <tbody>
+                <tr><td>Phone Screens:</td><td>{metrics.phoneScreens}</td></tr>
+                <tr><td>Emails:</td><td>{metrics.emails}</td></tr>
+                <tr><td>Interviews:</td><td>{metrics.interviews}</td></tr>
+            </tbody>
+        </table>
+        <p className="application-notes">
+            Conventional target conversion rate from full CS style application to phone screen is 20%.
+        </p>
+        <p className="application-notes">
+            You could possibly get {Math.floor(metrics.totalApplications * 0.2)} phone{" "}
+            {Math.floor(metrics.totalApplications * 0.2) > 1 ? "screens" : "screen"} with your current rate of applications if they were all Codesmith style applications.
+        </p>
+    </div>
 
       <BarGraph
         totalApplications={metrics.totalApplications}

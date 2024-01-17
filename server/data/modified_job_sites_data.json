@@ -14,7 +14,7 @@
     "successRate": "Low",
     "costOrFees": "Annual Premium Membership - $254/year",
     "privacyAndSecurity": "You have to be careful, there seems like there's some funny business that could happen on this site.",
-    "haveIUsed": "Yes"
+    "haveIUsed": ""
   },
   {
     "id": "7efe7178-ba74-4584-976c-c6d0db0f01be",
@@ -31,7 +31,7 @@
     "successRate": "Low",
     "costOrFees": "None",
     "privacyAndSecurity": "Seems good",
-    "haveIUsed": "Yes"
+    "haveIUsed": ""
   },
   {
     "id": "8255fc0d-bed9-4810-b999-0e91e62bfb36",
@@ -48,7 +48,7 @@
     "successRate": "low",
     "costOrFees": "None",
     "privacyAndSecurity": "Seems like it could be low.",
-    "haveIUsed": "Yes"
+    "haveIUsed": ""
   },
   {
     "id": "4f783f42-7a50-4b19-9f88-3b08f1b6f5e6",
@@ -65,7 +65,7 @@
     "successRate": "very low",
     "costOrFees": "Yes - you buy a certain amount of credits to submit proposals for work.",
     "privacyAndSecurity": "It's not clear how good it is.",
-    "haveIUsed": "Yes"
+    "haveIUsed": ""
   },
   {
     "id": "8108b281-a845-42e0-b4f5-adbe43f3a058",
@@ -82,7 +82,7 @@
     "successRate": "Low",
     "costOrFees": "None",
     "privacyAndSecurity": "Seems good.",
-    "haveIUsed": "Yes"
+    "haveIUsed": ""
   },
   {
     "id": "8a8c3fd8-a84a-403a-ae31-a4d153bc4dd2",
@@ -93,7 +93,8 @@
     "description": "Indeed is a popular job search engine that aggregates job listings from thousands of websites, including job boards, staffing firms, associations, and company career pages. Users can upload their resumes, create profiles, and apply for jobs directly through Indeed. It also offers services like resume storage, job search alerts, and company reviews to help job seekers get a comprehensive understanding of the available opportunities and companies. Additionally, Indeed provides a variety of tools and resources, like salary comparisons and employment trend analyses, to assist job seekers in making informed career decisions. For employers, Indeed offers a platform for posting job openings and a suite of recruiting services to find and hire candidates.",
     "reviews": "",
     "rating": 1,
-    "notes": "I haven't used it yet, it didn't come up really in our Codesmith job search coaching.  I need to review what Codesmith said about it."
+    "notes": "I haven't used it yet, it didn't come up really in our Codesmith job search coaching.  I need to review what Codesmith said about it.",
+    "haveIUsed": ""
   },
   {
     "siteName": "PowerToFly",
@@ -109,7 +110,8 @@
     "resourcesOffered": "",
     "successRate": "",
     "costOrFees": "",
-    "privacyAndSecurity": ""
+    "privacyAndSecurity": "",
+    "haveIUsed": ""
   },
   {
     "siteName": "ITJobPro",
@@ -125,7 +127,8 @@
     "resourcesOffered": "",
     "successRate": "",
     "costOrFees": "",
-    "privacyAndSecurity": ""
+    "privacyAndSecurity": "",
+    "haveIUsed": ""
   },
   {
     "siteName": "F6S",
@@ -141,7 +144,8 @@
     "resourcesOffered": "",
     "successRate": "",
     "costOrFees": "",
-    "privacyAndSecurity": ""
+    "privacyAndSecurity": "",
+    "haveIUsed": ""
   },
   {
     "siteName": "Remotive",
@@ -157,7 +161,8 @@
     "resourcesOffered": "",
     "successRate": "",
     "costOrFees": "",
-    "privacyAndSecurity": ""
+    "privacyAndSecurity": "",
+    "haveIUsed": ""
   },
   {
     "siteName": "CrunchBoard",
@@ -173,7 +178,8 @@
     "resourcesOffered": "",
     "successRate": "",
     "costOrFees": "",
-    "privacyAndSecurity": ""
+    "privacyAndSecurity": "",
+    "haveIUsed": ""
   },
   {
     "siteName": "JustTechJobs",
@@ -189,7 +195,8 @@
     "resourcesOffered": "",
     "successRate": "",
     "costOrFees": "",
-    "privacyAndSecurity": ""
+    "privacyAndSecurity": "",
+    "haveIUsed": ""
   },
   {
     "siteName": "Android Jobs",
@@ -205,7 +212,8 @@
     "resourcesOffered": "",
     "successRate": "",
     "costOrFees": "",
-    "privacyAndSecurity": ""
+    "privacyAndSecurity": "",
+    "haveIUsed": ""
   },
   {
     "siteName": "Teal",
@@ -221,66 +229,7 @@
     "resourcesOffered": "",
     "successRate": "",
     "costOrFees": "",
-    "privacyAndSecurity": ""
-  },
-  {
-    "id": "d5317f04-7720-48f5-b7b8-e2ba4895f489",
-    "siteName": "Lightspeed Venture Partners ",
-    "haveIUsed": "No",
-    "url": "https://jobs.lsvp.com/jobs",
-    "accountInfo": "",
-    "responseRate": "",
-    "description": "",
-    "reviews": "",
-    "rating": 1,
-    "notes": "I haven't tried this site yet, but will in the near future."
-  },
-  {
-    "id": "33fccfcd-8d88-43f4-92b0-bbe067afe898",
-    "siteName": "Khosla Ventures",
-    "haveIUsed": "No",
-    "url": "https://jobs.khoslaventures.com/jobs",
-    "accountInfo": "",
-    "responseRate": "",
-    "description": "",
-    "reviews": "",
-    "rating": 1,
-    "notes": "It looks like there is a good amount of jobs posted here."
-  },
-  {
-    "id": "8f4158a8-38bd-4ad7-a3b0-eca48c23ce91",
-    "siteName": "General Catalyst ",
-    "haveIUsed": "No",
-    "url": "https://jobs.generalcatalyst.com/jobs",
-    "accountInfo": "",
-    "responseRate": "",
-    "description": "",
-    "reviews": "",
-    "rating": 1,
-    "notes": "This is another VC firm with a job board."
-  },
-  {
-    "id": "8f4158a8-38bd-4ad7-a3b0-eca48c23ce91",
-    "siteName": "Index Ventures",
-    "haveIUsed": "No",
-    "url": "https://www.indexventures.com/startup-jobs",
-    "accountInfo": "",
-    "responseRate": "",
-    "description": "",
-    "reviews": "",
-    "rating": 1,
-    "notes": "This is a venture capital firm job board."
-  },
-  {
-    "id": "78d7ea6f-409c-4955-be55-490fbe800baa",
-    "siteName": "Insight Partners",
-    "haveIUsed": "No",
-    "url": "https://jobs.insightpartners.com/jobs",
-    "accountInfo": "",
-    "responseRate": "",
-    "description": "",
-    "reviews": "",
-    "rating": 1,
-    "notes": "This is a VC firm job board."
+    "privacyAndSecurity": "",
+    "haveIUsed": ""
   }
 ]

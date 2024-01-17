@@ -258,6 +258,8 @@ const JobForm = () => {
               <option value="Traditional">Traditional</option>
               <option value="Codesmith style">Codesmith style</option>
               <option value="Workday application">Workday application</option>
+              <option value="Greenhouse application">
+                Greenhouse application</option>
               <option value="Wellfound">Wellfound application</option>
               <option value="Dice">Dice application</option>
               <option value="Other company system">Other company system</option>

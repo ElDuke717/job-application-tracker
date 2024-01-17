@@ -56,6 +56,16 @@ const JobSiteDetailsModal = ({ site, onClose, onSave }) => {
               onChange={handleChange}
             />
           </label>
+          {/* Have I used it? */}
+          <label>
+            Have I used it?:
+            <input
+              type="text"
+              name="haveIUsed"
+              value={updatedSite.haveIUsed}
+              onChange={handleChange}
+            />
+          </label>
           {/* Account Info */}
           <label>
             Account Info:

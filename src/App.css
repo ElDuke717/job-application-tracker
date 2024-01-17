@@ -220,25 +220,30 @@ li a {
   margin-top: 20px;
 }
 
-.job-table {
+.job-table,
+.job-sites-table {
   width: 100%;
   border-collapse: collapse;
 }
 
 .job-table th,
-.job-table td {
-  border: 1px solid #ddd;
+.job-table td,
+.job-sites-table th,
+.job-sites-table td {
+  border: 1px solid var(--grey-100);
   padding: 8px;
   text-align: left;
 }
 
-.job-table thead {
+.job-table thead,
+.job-sites-table thead {
   background-color: var(
     --grey-050
   ); /* Match this with the navbar background color */
 }
 
-.job-table th {
+.job-table th,
+.job-sites-table th {
   font-weight: bold;
   color: var(--grey-900);
 }
@@ -316,7 +321,7 @@ li a {
 
 /* JobContactForm Styles */
 
-.job-contact-form .job-site-form {
+.job-contact-form, .job-site-form {
   max-width: 600px;
   margin: 20px auto;
   padding: 20px;
@@ -622,4 +627,3 @@ li a {
 .add-site-button {
   margin: 20px;
 }
-

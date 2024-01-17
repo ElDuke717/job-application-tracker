@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 const initialFormState = {
   id: uuidv4(),
   siteName: '',
+  haveIUsed: '',
   url: '',
   accountInfo: '',
   responseRate: '',
@@ -87,6 +88,10 @@ const JobSiteForm = ({closeModal}) => {
             URL:
             <input type="url" name="url" value={formData.url} onChange={handleInputChange} required />
             {errors.url && <div className="error">{errors.url}</div>}
+        </label>
+        <label>
+            Have I Used This Site Before?
+            <input type="text" name="haveIUsed" value={formData.haveIUsed} onChange={handleInputChange} />
         </label>
         <label>
             Account Information:

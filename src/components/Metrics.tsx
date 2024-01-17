@@ -60,7 +60,52 @@ const Metrics = () => {
       const phoneScreens = jobApplications.filter(app => app.phoneScreen && app.phoneScreen.trim() !== '').length;
       const emails = jobApplications.filter(app => app.notesComments && app.notesComments.toLowerCase().includes('email')).length;
       const interviews = jobApplications.filter(app => app.notesComments && app.notesComments.toLowerCase().includes('interview')).length;
+
+      // Calculate the average time to response
+      const applicationsWithResponse = jobApplications.filter(app => app.updatedDate);
+      const totalResponseTime = applicationsWithResponse.reduce((total, app) => {
+          const dateSubmitted = new Date(app.dateSubmitted);
+          const updatedDate = new Date(app.updatedDate);
+          const timeDiff = updatedDate - dateSubmitted;
+          const daysDiff = timeDiff / (1000 * 3600 * 24); // Convert milliseconds to days
+          return total + daysDiff;
+      }, 0);
+      const averageTimeToResponse = applicationsWithResponse.length ? (totalResponseTime / applicationsWithResponse.length) : 0;
+
+      // Calculate the max and min time to response
+      // Initialize variables for max and min time to response
+      let maxTimeToResponse = 0;
+      let minTimeToResponse = Number.MAX_SAFE_INTEGER;
+
+      applicationsWithResponse.forEach(app => {
+          const dateSubmitted = new Date(app.dateSubmitted);
+          const updatedDate = new Date(app.updatedDate);
+          const timeDiff = updatedDate - dateSubmitted;
+          const daysDiff = timeDiff / (1000 * 3600 * 24); // Convert milliseconds to days
+
+          // Update max and min time to response
+          if (daysDiff > maxTimeToResponse) {
+              maxTimeToResponse = daysDiff;
+          }
+          if (daysDiff < minTimeToResponse) {
+              minTimeToResponse = daysDiff;
+          }
+      });
+
+      // Handle the case where there are no applications with response
+      if (applicationsWithResponse.length === 0) {
+          minTimeToResponse = 0;
+      }
        
+      // Calculate the ghost rate
+      const twoMonthsAgo = new Date();
+      twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2); // Set to two months ago
+
+      const ghostedApplications = jobApplications.filter(app => {
+          const dateSubmitted = new Date(app.dateSubmitted);
+          return !app.updatedDate && dateSubmitted < twoMonthsAgo;
+      });
+      const ghostRate = jobApplications.length ? (ghostedApplications.length / jobApplications.length * 100) : 0;
 
         // Set metrics state
         setMetrics({ 
@@ -73,7 +118,11 @@ const Metrics = () => {
             totalRejections, 
             phoneScreens,
             emails, 
-            interviews 
+            interviews,
+            averageTimeToResponse: averageTimeToResponse.toFixed(2), // Round to 2 decimal places
+            maxTimeToResponse: maxTimeToResponse.toFixed(2), // Round to 2 decimal places
+            minTimeToResponse: minTimeToResponse.toFixed(2), // Round to 2 decimal places
+            ghostRate: ghostRate.toFixed(2) // Round to 2 decimal places 
         });
         // set jobApplications state
         setJobApplications(jobApplications)
@@ -93,6 +142,7 @@ const Metrics = () => {
       <p>Metrics are a great way to track your progress and help you stay motivated.</p>
       </div>
       <div className='metrics-notes'>
+          {/* Application Metrics */}
           <h2>Application Metrics</h2>
           <hr />
           
@@ -104,7 +154,13 @@ const Metrics = () => {
             <p>Cover Letters: {metrics.coverLetters}</p>
             <p>Total Rejections: {metrics.totalRejections}</p>
             <p>Rejections to total applications: {Math.floor(metrics.totalRejections / metrics.totalApplications * 100)}%</p>
+            <p>Average Time to Response: {metrics.averageTimeToResponse} days</p>
+            <p>Max Time to Response: {metrics.maxTimeToResponse} days</p>
+            <p>Min Time to Response: {metrics.minTimeToResponse} days</p>
+            <p>Ghost Rate: {metrics.ghostRate}%</p>
+            <p className="application-notes">Ghost rate is based on applications that are older than two months and have not received an update or any response.</p>
             
+            {/* Interview Metrics */}
             <h2>Interview Metrics</h2>
             <hr />
             <p>Phone Screens: {metrics.phoneScreens}</p>

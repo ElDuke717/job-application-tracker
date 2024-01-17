@@ -8,9 +8,7 @@ type JobSiteEntry = {
     siteName: string;
     url: string;
     accountInfo: string;
-    typeOfJobsListed: string;
-    frequencyOfPosts: string;
-    qualityOfListings: string;
+    haveIUsed: string;
     responseRate: string;
     description: string;
     networkingCapabilities: string;
@@ -108,18 +106,19 @@ const JobSiteList = () => {
           <thead>
             <tr>
               <th>Site</th>
+              <th>Have I used it?</th>
               <th>Rating</th>
               <th>Success Rate</th>
-              <th>Notes</th>
+
             </tr>
           </thead>
           <tbody>
             {jobSites.map((site, index) => (
               <tr key={index}>
-                <td><a href={site.url} ><h2>{site.siteName}</h2></a></td>
+                <td><a href={site.url} ><h4>{site.siteName}</h4></a></td>
+                <td>{site.haveIUsed}</td>
                 <td>{site.rating}</td>
                 <td>{site.successRate}</td>
-                <td>{site.notes}</td>
                 <td>
                   <button onClick={() => goToDetails(site.id)}>
                     View Details

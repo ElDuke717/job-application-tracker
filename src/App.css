@@ -319,6 +319,49 @@ li a {
   color: var(--grey-900);
 }
 
+.metrics-container {
+  text-align: center; /* Center the metrics container */
+}
+
+.metrics-notes {
+  width: 80%; /* Adjust width as needed */
+  margin: auto; /* Center the container */
+}
+
+table {
+  width: 100%; /* Make the table occupy the full width of its container */
+  margin: 20px auto; /* Center the table and give some space around it */
+  border-collapse: collapse; /* Collapse borders */
+}
+
+table, th, td {
+  border: 1px solid #ddd; /* Add border to the table */
+}
+
+th, td {
+  padding: 8px; /* Add padding to table cells */
+  text-align: left; /* Left align text in cells */
+}
+
+th {
+  background-color: #f2f2f2; /* Background color for header */
+  font-weight: bold; /* Make header text bold */
+}
+
+.application-notes {
+  text-align: left; /* Left align application notes */
+  margin-top: 20px; /* Space above the notes */
+}
+
+td {
+  text-align: left; /* Align table data to the left */
+}
+
+td:nth-child(2) {
+  text-align: right; /* Align data values to the right */
+}
+
+
 /* JobContactForm Styles */
 
 .job-contact-form, .job-site-form {

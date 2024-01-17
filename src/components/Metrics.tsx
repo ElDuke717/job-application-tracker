@@ -107,6 +107,28 @@ const Metrics = () => {
       });
       const ghostRate = jobApplications.length ? (ghostedApplications.length / jobApplications.length * 100) : 0;
 
+      // Calculate the daily application rate for this week and last week
+      const getBusinessDaysInWeek = (jobApplications, startOfWeek) => {
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(endOfWeek.getDate() + 4); // Friday
+
+        const applicationsThisWeek = jobApplications.filter(app => {
+            const submittedDate = new Date(app.dateSubmitted);
+            return submittedDate >= startOfWeek && submittedDate <= endOfWeek && submittedDate.getDay() !== 0 && submittedDate.getDay() !== 6;
+        });
+
+        const applicationsPerDay = applicationsThisWeek.length / 5; // 5 business days in a week
+        return applicationsPerDay;
+    }
+
+      // Determine last Monday's date
+      const lastMonday = new Date(thisMonday);
+      lastMonday.setDate(lastMonday.getDate() - 7);
+      
+      const dailyApplicationRateThisWeek = getBusinessDaysInWeek(jobApplications, thisMonday);
+      const dailyApplicationRateLastWeek = getBusinessDaysInWeek(jobApplications, lastMonday);
+
+
         // Set metrics state
         setMetrics({ 
             applicationsToday,
@@ -122,7 +144,9 @@ const Metrics = () => {
             averageTimeToResponse: averageTimeToResponse.toFixed(2), // Round to 2 decimal places
             maxTimeToResponse: maxTimeToResponse.toFixed(2), // Round to 2 decimal places
             minTimeToResponse: minTimeToResponse.toFixed(2), // Round to 2 decimal places
-            ghostRate: ghostRate.toFixed(2) // Round to 2 decimal places 
+            ghostRate: ghostRate.toFixed(2), // Round to 2 decimal places
+            dailyApplicationRateThisWeek: dailyApplicationRateThisWeek.toFixed(2),
+            dailyApplicationRateLastWeek: dailyApplicationRateLastWeek.toFixed(2) 
         });
         // set jobApplications state
         setJobApplications(jobApplications)
@@ -150,6 +174,8 @@ const Metrics = () => {
                 <tr><td>Applications Today:</td><td>{metrics.applicationsToday}</td></tr>
                 <tr><td>Applications This Week:</td><td>{metrics.applicationsThisWeek}</td></tr>
                 <tr><td>Application Rate:</td><td>{metrics.applicationRate}</td></tr>
+                <tr><td>Daily Application Rate This Week:</td><td>{metrics.dailyApplicationRateThisWeek}</td></tr>
+                <tr><td>Daily Application Rate Last Week:</td><td>{metrics.dailyApplicationRateLastWeek}</td></tr>
                 <tr><td>Total Applications:</td><td>{metrics.totalApplications}</td></tr>
                 <tr><td>Cover Letters:</td><td>{metrics.coverLetters}</td></tr>
                 <tr><td>Total Rejections:</td><td>{metrics.totalRejections}</td></tr>

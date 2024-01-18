@@ -131,7 +131,7 @@ const Metrics = () => {
       const dailyApplicationRateThisWeek = getBusinessDaysInWeek(jobApplications, thisMonday);
       const dailyApplicationRateLastWeek = getBusinessDaysInWeek(jobApplications, lastMonday);
 
-
+      // Determine the most applications placed in a day
         // Set metrics state
         setMetrics({ 
             applicationsToday,
@@ -145,6 +145,7 @@ const Metrics = () => {
             phoneScreens,
             emails, 
             interviews,
+            ghostedApplications,
             averageTimeToResponse: averageTimeToResponse.toFixed(2), // Round to 2 decimal places
             maxTimeToResponse: maxTimeToResponse.toFixed(2), // Round to 2 decimal places
             minTimeToResponse: minTimeToResponse.toFixed(2), // Round to 2 decimal places
@@ -216,12 +217,13 @@ const Metrics = () => {
       <BarGraph
         totalApplications={metrics.totalApplications}
         coverLetters={metrics.coverLetters}
-        totalEmails={metrics.emails} // Assuming you have this metric
+        totalEmails={metrics.emails} 
         totalPhoneScreens={metrics.phoneScreens}
         totalInterviews={metrics.interviews}
         totalRejections={metrics.totalRejections}
-        totalAcceptances={metrics.totalAcceptances} // Assuming you have this metric
-        totalOffers={metrics.totalOffers} // Assuming you have this metric
+        totalAcceptances={metrics.totalAcceptances} 
+        totalOffers={metrics.totalOffers} 
+        // ghostedApplications={metrics.ghostedApplications}
         />
         <PieChart  data={jobApplications} groupByKey="applicationType" />
         

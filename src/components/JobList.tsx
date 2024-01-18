@@ -7,7 +7,8 @@ const JobList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [editingApplication, setEditingApplication] = useState<JobApplication | null>(null);
+  const [editingApplication, setEditingApplication] =
+    useState<JobApplication | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleEditClick = (application) => {
@@ -21,36 +22,38 @@ const JobList = () => {
   };
 
   const handleSaveChanges = async (updatedApplication) => {
-
     try {
-      const response = await fetch(`http://localhost:3001/update-application/${updatedApplication.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `http://localhost:3001/update-application/${updatedApplication.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(updatedApplication),
-          });
-          if (response.ok) {
-            const updatedApplications = jobApplications.map(app =>
-            app.id === updatedApplication.id ? updatedApplication : app
-          );
-          setJobApplications(updatedApplications);
-          } else {
-            console.error('Error saving job application:', response);
-          }
+        }
+      );
+      if (response.ok) {
+        const updatedApplications = jobApplications.map((app) =>
+          app.id === updatedApplication.id ? updatedApplication : app
+        );
+        setJobApplications(updatedApplications);
+      } else {
+        console.error("Error saving job application:", response);
+      }
     } catch (error) {
-      console.error('Error saving job application:', error);
+      console.error("Error saving job application:", error);
     }
-    
+
     handleCloseModal();
   };
-  
+
   // Filter job applications based on the search term
   const filteredApplications = jobApplications.filter(
     (application) =>
       application.jobTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
       application.company.toLowerCase().includes(searchTerm.toLowerCase())
-      // You can add more fields to filter by if necessary
+    // You can add more fields to filter by if necessary
   );
 
   // Add pagination logic here
@@ -60,7 +63,7 @@ const JobList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/job-applications'); // Adjust the URL as needed
+        const response = await fetch("http://localhost:3001/job-applications"); // Adjust the URL as needed
         const data = await response.json();
         setTotalPages(Math.ceil(data.length / itemsPerPage));
         const startIndex = (currentPage - 1) * itemsPerPage;
@@ -98,9 +101,6 @@ const JobList = () => {
     setCurrentPage(pageNumber);
   };
 
-
-  
-
   return (
     <div className="table-container">
       {/* Search Input */}
@@ -130,15 +130,33 @@ const JobList = () => {
             {filteredApplications.map((application) => (
               <tr key={application.id}>
                 <td>{application.dateSubmitted}</td>
-                <td>{application.updatedDate === '' ? 'No updates yet' : application.updatedDate}</td>
-                <td><a href={application.jobPostingURL} target="_blank" rel="noreferrer"> {application.jobTitle}</a></td>
+                <td>
+                  {application.updatedDate === ""
+                    ? "No updates yet"
+                    : application.updatedDate}
+                </td>
+                <td>
+                  <a
+                    href={application.jobPostingURL}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {" "}
+                    {application.jobTitle}
+                  </a>
+                </td>
                 <td>{application.company}</td>
                 <td>{application.applicationStatus}</td>
                 <td>{application.age}</td>
                 <td>{application.doubleDown ? "Yes" : "No"}</td>
                 <td>{application.notesComments}</td>
                 <td>
-                <button className="job-data-edit" onClick={() => handleEditClick(application)}>Edit</button>
+                  <button
+                    className="job-data-edit"
+                    onClick={() => handleEditClick(application)}
+                  >
+                    Edit
+                  </button>
                 </td>
               </tr>
             ))}
@@ -184,7 +202,7 @@ const EditJobApplicationModal = ({ application, onClose, onSave }) => {
 
   const handleInputChange = (e) => {
     const target = e.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
     setEditedApplication({ ...editedApplication, [name]: value });
@@ -196,37 +214,38 @@ const EditJobApplicationModal = ({ application, onClose, onSave }) => {
     onClose();
   };
 
-
   return (
     <div className="modal">
       <div className="modal-content">
-        <span className="close" onClick={onClose}>&times;</span>
+        <span className="close" onClick={onClose}>
+          &times;
+        </span>
         <h2>Edit Job Application</h2>
         <hr />
         <h2>{editedApplication.company}</h2>
         <h3>{editedApplication.jobTitle}</h3>
-        
-        <form onSubmit={handleSave}>
-            <div className="form-group">
-              <label htmlFor="dateSubmitted">Update Date</label>
-              <input
-                type="date"
-                id="updatedDate"
-                name="updatedDate"
-                value={editedApplication.updatedDate}
-                onChange={handleInputChange}
-              />
-            </div>
 
-            <div className="form-group">
-              <label htmlFor="applicationStatus">Application Status</label>
-              <select
-                id="applicationStatus"
-                name="applicationStatus"
-                className="drop-down"
-                value={editedApplication.applicationStatus}
-                onChange={handleInputChange}
-              >
+        <form onSubmit={handleSave}>
+          <div className="form-group">
+            <label htmlFor="dateSubmitted">Update Date</label>
+            <input
+              type="date"
+              id="updatedDate"
+              name="updatedDate"
+              value={editedApplication.updatedDate}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="applicationStatus">Application Status</label>
+            <select
+              id="applicationStatus"
+              name="applicationStatus"
+              className="drop-down"
+              value={editedApplication.applicationStatus}
+              onChange={handleInputChange}
+            >
               <option value="none">Select an option</option>
               <option value="Rejected">Rejected</option>
               <option value="Phone screen">Phone Screen</option>
@@ -237,34 +256,34 @@ const EditJobApplicationModal = ({ application, onClose, onSave }) => {
               <option value="Expired">Expired</option>
               <option value="Ghosted">Ghosted</option>
             </select>
-            </div>
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="doubleDown">Double Down</label>
-              <input
-                type="checkbox"
-                id="doubleDown"
-                name="doubleDown"
-                checked={editedApplication.doubleDown}
-                onChange={handleInputChange}
-              />
-            </div>
+          <div className="form-group">
+            <label htmlFor="doubleDown">Double Down</label>
+            <input
+              type="checkbox"
+              id="doubleDown"
+              name="doubleDown"
+              checked={editedApplication.doubleDown}
+              onChange={handleInputChange}
+            />
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="notesComments">Notes</label>
-              <textarea
-                id="notesComments"
-                name="notesComments"
-                className="notes-textarea"
-                value={editedApplication.notesComments}
-                onChange={handleInputChange}
-              />
-            </div>
+          <div className="form-group">
+            <label htmlFor="notesComments">Notes</label>
+            <textarea
+              id="notesComments"
+              name="notesComments"
+              className="notes-textarea"
+              value={editedApplication.notesComments}
+              onChange={handleInputChange}
+            />
+          </div>
 
-           <button className="submit-button" type="submit">Save Changes</button>
-            
-          </form>
-
+          <button className="submit-button" type="submit">
+            Save Changes
+          </button>
+        </form>
       </div>
     </div>
   );

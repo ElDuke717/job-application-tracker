@@ -13,6 +13,7 @@ type BarGraphProps = {
     totalRejections: number;
     totalAcceptances: number;
     totalOffers: number;
+    // ghostedApplications: number;
 };
 
 const BarGraph = ({
@@ -22,6 +23,7 @@ const BarGraph = ({
     totalPhoneScreens,
     totalInterviews,
     totalRejections,
+    ghostedApplications
     // totalAcceptances,
     // totalOffers
 }: BarGraphProps) => {
@@ -32,6 +34,7 @@ const BarGraph = ({
         { type: "Phone Screens", value: totalPhoneScreens },
         { type: "Interviews", value: totalInterviews },
         { type: "Rejections", value: totalRejections },
+        // { type: "Ghosted", value: ghostedApplications}
         // { type: "Acceptances", value: 0 },
         // { type: "Offers", value: 0 },
     ];

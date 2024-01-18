@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 const initialJobApplicationState: JobApplication = {
   dateSubmitted: new Date().toISOString().split("T")[0], // current date in YYYY-MM-DD format, type is a string rather than a Date object
   updatedDate: "",
-  id: uuidv4(), // generate a unique ID for each job application
+  id: "", 
   company: "",
   jobTitle: "",
   location: "",
@@ -112,12 +112,12 @@ const JobForm = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(jobApplication),
+          body: JSON.stringify({ ...jobApplication, id: uuidv4() }), // Generate a new UUID for each submission
         });
-
+  
         if (response.ok) {
-          // Reset the form to initial state
-          setJobApplication(initialJobApplicationState);
+          // Reset the form to initial state and generate a new UUID
+          setJobApplication({ ...initialJobApplicationState, id: uuidv4() });
           // Show modal
           setShowModal(true);
           // Hide modal after 3 seconds
@@ -132,6 +132,7 @@ const JobForm = () => {
       console.log("Validation errors", errors);
     }
   };
+  
 
   // JSX for modal 
   const modal = (

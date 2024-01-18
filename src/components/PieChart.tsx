@@ -31,7 +31,7 @@ const PieChartComponent = ({ data, groupByKey, width = 400, height = 400 }) => {
 
   const colorScale = scaleOrdinal({
     domain: pieData.map(d => d.label),
-    range: ['#102a43', '#911111', '#f7d070', '#4055a8', '#35469c', '#da4a91', '#e668a7'],
+    range: ['#102a43', '#911111', '#f7d070', '#4055a8', '#35469c', '#da4a91', '#e668a7', '#f1919a', '#f6b48f', '#f9d471', '#f5f3b6'],
   });
 
   const radius = Math.min(width, height) / 2;

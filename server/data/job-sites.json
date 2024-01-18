@@ -295,5 +295,17 @@
     "rating": 1,
     "notes": "This is probably a good site to start using.",
     "networking": "Yes, probably."
+  },
+  {
+    "id": "2b47b4b2-7d6b-4af8-9462-327057da1bdd",
+    "siteName": "TechFetch",
+    "haveIUsed": "Yes",
+    "url": "https://www.techfetch.com/",
+    "accountInfo": "",
+    "responseRate": "",
+    "description": "They look like they have many job postings - not clear how many remote positions are there though.",
+    "reviews": "",
+    "rating": 3,
+    "notes": "I need to use it more before I can give it a more detailed review/rating."
   }
 ]

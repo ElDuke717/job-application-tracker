@@ -61,6 +61,9 @@ const Metrics = () => {
       const emails = jobApplications.filter(app => app.notesComments && app.notesComments.toLowerCase().includes('email')).length;
       const interviews = jobApplications.filter(app => app.notesComments && app.notesComments.toLowerCase().includes('interview')).length;
 
+      // Calculate rejection rate   
+      const rejectionRate = totalApplications > 0 ? (totalRejections / totalApplications * 100).toFixed(2) : 0;
+
       // Calculate the average time to response
       const applicationsWithResponse = jobApplications.filter(app => app.updatedDate);
       const totalResponseTime = applicationsWithResponse.reduce((total, app) => {
@@ -137,7 +140,8 @@ const Metrics = () => {
             weeklyApplicationRate,
             totalApplications,
             coverLetters, 
-            totalRejections, 
+            totalRejections,
+            rejectionRate, 
             phoneScreens,
             emails, 
             interviews,
@@ -183,6 +187,7 @@ const Metrics = () => {
                 <tr><td>Average Time to Response:</td><td>{metrics.averageTimeToResponse} days</td></tr>
                 <tr><td>Max Time to Response:</td><td>{metrics.maxTimeToResponse} days</td></tr>
                 <tr><td>Min Time to Response:</td><td>{metrics.minTimeToResponse} days</td></tr>
+                <tr><td>Rejection Rate:</td><td>{metrics.rejectionRate}%</td></tr>
                 <tr><td>Ghost Rate:</td><td>{metrics.ghostRate}%</td></tr>
             </tbody>
         </table>

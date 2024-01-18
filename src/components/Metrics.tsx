@@ -132,6 +132,18 @@ const Metrics = () => {
       const dailyApplicationRateLastWeek = getBusinessDaysInWeek(jobApplications, lastMonday);
 
       // Determine the most applications placed in a day
+      const applicationsByDate = jobApplications.reduce((acc, app) => {
+        const date = new Date(app.dateSubmitted).toISOString().split('T')[0];
+        if (!acc[date]) {
+          acc[date] = 0;
+        }
+        acc[date]++;
+        return acc;
+      }, {});
+      
+      // Find the maximum number of applications submitted in a single day
+      const maxApplicationsInADay = Math.max(...Object.values(applicationsByDate));
+
         // Set metrics state
         setMetrics({ 
             applicationsToday,
@@ -151,7 +163,8 @@ const Metrics = () => {
             minTimeToResponse: minTimeToResponse.toFixed(2), // Round to 2 decimal places
             ghostRate: ghostRate.toFixed(2), // Round to 2 decimal places
             dailyApplicationRateThisWeek: dailyApplicationRateThisWeek.toFixed(2),
-            dailyApplicationRateLastWeek: dailyApplicationRateLastWeek.toFixed(2) 
+            dailyApplicationRateLastWeek: dailyApplicationRateLastWeek.toFixed(2),
+            maxApplicationsInADay 
         });
         // set jobApplications state
         setJobApplications(jobApplications)
@@ -179,8 +192,9 @@ const Metrics = () => {
                 <tr><td>Applications Today:</td><td>{metrics.applicationsToday}</td></tr>
                 <tr><td>Applications This Week:</td><td>{metrics.applicationsThisWeek}</td></tr>
                 <tr><td>Application Rate:</td><td>{metrics.applicationRate}</td></tr>
+                <tr><td>Weekly Application Rate:</td><td>{metrics.weeklyApplicationRate}</td></tr>
                 <tr><td>Daily Application Rate This Week:</td><td>{metrics.dailyApplicationRateThisWeek}</td></tr>
-                <tr><td>Daily Application Rate Last Week:</td><td>{metrics.dailyApplicationRateLastWeek}</td></tr>
+                <tr><td>Most Applications in a Day:</td><td>{metrics.maxApplicationsInADay}</td></tr>
                 <tr><td>Total Applications:</td><td>{metrics.totalApplications}</td></tr>
                 <tr><td>Cover Letters:</td><td>{metrics.coverLetters}</td></tr>
                 <tr><td>Total Rejections:</td><td>{metrics.totalRejections}</td></tr>

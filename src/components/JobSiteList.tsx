@@ -115,7 +115,7 @@ const JobSiteList = () => {
           <tbody>
             {jobSites.map((site, index) => (
               <tr key={index}>
-                <td><a href={site.url} ><h4>{site.siteName}</h4></a></td>
+                <td><a href={site.url} target="_blank" ><h4>{site.siteName}</h4></a></td>
                 <td>{site.haveIUsed}</td>
                 <td>{site.rating}</td>
                 <td>{site.successRate}</td>

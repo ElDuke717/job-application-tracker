@@ -55,7 +55,7 @@ const Metrics = () => {
 
       // Calculate metrics
       const totalApplications = jobApplications.length;
-      const coverLetters = jobApplications.filter(app => app.coverLetter && app.coverLetter.trim() !== '' && app.coverLetter.trim() !== 'none').length;
+      const coverLetters = jobApplications.filter(app => app.coverLetter && app.coverLetter.trim() !== '' && app.coverLetter.slice(0,4) !== 'none').length;
       const totalRejections = jobApplications.filter(app => app.applicationStatus && app.applicationStatus.toLowerCase() === 'rejected').length;
       const phoneScreens = jobApplications.filter(app => app.phoneScreen && app.phoneScreen.trim() !== '').length;
       const emails = jobApplications.filter(app => app.notesComments && app.notesComments.toLowerCase().includes('email')).length;

@@ -248,6 +248,7 @@ const EditJobApplicationModal = ({ application, onClose, onSave }) => {
             >
               <option value="none">Select an option</option>
               <option value="Rejected">Rejected</option>
+              <option value="Email">Email</option>
               <option value="Phone screen">Phone Screen</option>
               <option value="Interview">Interview</option>
               <option value="Offer">Offer</option>

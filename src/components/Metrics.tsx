@@ -204,6 +204,7 @@ const Metrics = () => {
                 <tr><td>Min Time to Response:</td><td>{metrics.minTimeToResponse} days</td></tr>
                 <tr><td>Rejection Rate:</td><td>{metrics.rejectionRate}%</td></tr>
                 <tr><td>Ghost Rate:</td><td>{metrics.ghostRate}%</td></tr>
+                <tr><td>Potential Pending</td><td>{(metrics.ghostRate - metrics.rejectionRate).toFixed()}%</td></tr>
             </tbody>
         </table>
         <p className="application-notes">Application Rate is based on {metrics.weeklyApplicationRate} applications per week</p>

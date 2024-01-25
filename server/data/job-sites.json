@@ -7,8 +7,8 @@
     "responseRate": "OK",
     "description": "This is the primary site to network on and also they have job postings.  They have a system to take in job applications with LinkedIn Easy Apply.  They are also a business-oriented social media site",
     "reviews": "It's good for professional networking, not everyone likes it.",
-    "rating": 4,
-    "notes": "I've spent a lot of time applying for jobs and trying to network and build posts on this site.   I haven't gotten any serious inquiries off this site yet, though it has been my main place to ",
+    "rating": "3",
+    "notes": "It's saturated and maybe should not be as high priority for finding jobs?\n\nI've spent a lot of time applying for jobs and trying to network and build posts on this site.   I haven't gotten any serious inquiries off this site yet, though it has been my main place to ",
     "networking": "Yes, this is probably the best site for professional networking",
     "resourcesOffered": "educational videos with premium membership",
     "successRate": "Low",
@@ -307,5 +307,42 @@
     "reviews": "",
     "rating": 3,
     "notes": "I need to use it more before I can give it a more detailed review/rating."
+  },
+  {
+    "id": "bdb6f4ea-1d13-4033-8dcc-523449122787",
+    "siteName": "CyberCoders",
+    "haveIUsed": "Yes",
+    "url": "https://www.cybercoders.com/jobs/",
+    "accountInfo": "",
+    "responseRate": "",
+    "description": "This is another site that takes your profile information and sends you job postings.",
+    "reviews": "",
+    "rating": 3,
+    "notes": "I just started using this site in January 2024.",
+    "costOrFees": "none"
+  },
+  {
+    "id": "58b8db21-ec20-4b86-b16c-c20adaf1e0a5",
+    "siteName": "Eliassen Group",
+    "haveIUsed": "I've applied to jobs they've listed on other sites.",
+    "url": "https://careers.eliassen.com/search?missing_job=true&SiteID=TNALERT_JobsNearYou&documentId=J3Q4ZR77N0LZKWGWT7L",
+    "accountInfo": "",
+    "responseRate": "",
+    "description": "",
+    "reviews": "",
+    "rating": 3,
+    "notes": "There seem to be a lot of jobs posted in Virginia."
+  },
+  {
+    "id": "b7866953-54f5-4c2c-9aa2-edf0af66ce85",
+    "siteName": "Otta",
+    "haveIUsed": "No",
+    "url": "https://otta.com/",
+    "accountInfo": "",
+    "responseRate": "",
+    "description": "Only tech jobs",
+    "reviews": "",
+    "rating": 3,
+    "notes": "Seems good, they screen through relevant postings."
   }
 ]

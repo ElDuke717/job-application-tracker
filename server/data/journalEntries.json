@@ -107,5 +107,29 @@
       "Bad Applications",
       "Scribd"
     ]
+  },
+  {
+    "id": "86c78729-2871-42ab-83a7-8f143a505358",
+    "date": "2024-01-23",
+    "content": "There weren't as many good postings today and I spent a good amount of time trying to figure out how to use an ics file to structure my calendar across my mac, google and proton.  I signed up for two separate job posting sites, CyberCoders and Hackajob.  They seem like a waste of time, but at least I have accounts on there.\n\nI'm not feeling good about the job application process, it seems like a lot of work without a lot of benefit.  But this is always the feeling when applying for jobs online, it's a black hole of work and not a lot of feedback or output.",
+    "tags": [
+      "cybercoders",
+      "hackajob",
+      "5 applications",
+      "no good listings"
+    ]
+  },
+  {
+    "id": "ceff8f68-98a5-4aaa-860d-86fa00a71acf",
+    "date": "2024-01-25",
+    "content": "It seems like there are much fewer applications available when I screen out the ones that are older than a week or LinkedIn says \"over 100 applicants\".  I haven't really been using LinkedIn lately after seeing a message between Thad and Shahmar that LinkedIn is saturated.  Instead, I'm focusing on Y-combinator, Indeed, VC sites and others.\n\nIt's a bit hard to stay motivated.  The job search is daunting and it seems like no one is hiring or interested in even talking to me.  \n\nI came up with a a plan of action earlier today to address some holes are problems in my resume - basically I need to build out the job application tracker that I've put together so that it's hosted (it's linked to a databased and people can use it).  I probably should go ahead and add it to my resume in place of StyleGPT.  Also, I need to get Goal Keeper up and working so that it looks good on my resume and people can be steered towards it.  \n\nThe other component is focusing on getting the AWS SAA certification done.",
+    "tags": [
+      "Otta",
+      "Y-combinator",
+      "AWS",
+      "SAA",
+      "focus",
+      "apps"
+    ]
   }
 ]

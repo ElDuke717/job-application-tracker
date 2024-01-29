@@ -1,3 +1,4 @@
+import './JobForm.css';
 import React, { useState, ChangeEventHandler } from "react";
 import { JobApplication } from "../types/jobApplication";
 import { v4 as uuidv4 } from "uuid";
@@ -158,9 +159,9 @@ const JobForm = () => {
     // JSX form
     <>
       {modal}
-      <div className="form-container">
-        <h1>Job Application Form</h1>
-        <h2>Enter Job Application Details Here</h2>
+      <div className="application-form form-container">
+        <h1 className="form-title">Job Application Form</h1>
+        <h2 className="component-subtitle">Enter Job Application Details Here</h2>
         <form onSubmit={handleSubmit}>
           {/* Company field */}
           <div>

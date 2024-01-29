@@ -3,6 +3,10 @@ import JobForm from '../../../components/JobForm';
 
 export default createBoard({
     name: 'JobForm',
-    Board: () => <JobForm />,
+    Board: () => <JobForm  key={null}/>,
     isSnippet: true,
+    environmentProps: {
+canvasWidth: 776,
+windowWidth: 1140
+}
 });

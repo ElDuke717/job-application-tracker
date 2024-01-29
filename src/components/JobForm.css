@@ -1,0 +1,13 @@
+.application-form {
+    overflow: auto;
+    max-width: 600px;
+    margin: 20px;
+    font-family: Avenir;
+    box-shadow: 0.71px 0.71px 2px black;
+    text-align: center;
+    align-self: start;
+    font-weight: 400;
+    display: inline-block;
+}
+
+.form-container {}

@@ -68,6 +68,8 @@
   --yellow-700: #a27c1a;
   --yellow-800: #7c5e10;
   --yellow-900: #513c06;
+
+  --main-font: "Avenir", sans-serif;
 }
 
 #root {
@@ -76,6 +78,7 @@
   padding: 2rem;
   text-align: center;
   color: var(--grey-900);
+  font-family: var(--main-font);
 }
 
 .logo {

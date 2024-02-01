@@ -271,6 +271,7 @@ const JobForm = () => {
               <option value="Ashby">Ashby</option>
               <option value="Indeed">Indeed</option>
               <option value="Otta">Otta</option>
+              <option value="Ziprecruiter">Ziprecruiter</option>
               <option value="Other company system">Other company system</option>
               <option value="Other">Other</option>
             </select>

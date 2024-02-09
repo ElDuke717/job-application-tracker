@@ -104,22 +104,36 @@ app.post("/save-application", (req, res) => {
 
 // Endpoint to get all job data
 // Define a function to read job applications from file
-function getJobApplications() {
+function getJobApplications(searchTerm = '') {
   try {
     const filePath = path.join(process.cwd(), "data", "jobApplications.json");
     const data = fs.readFileSync(filePath, "utf8");
-    return JSON.parse(data);
+    const applications = JSON.parse(data);
+
+    // If a search term is provided, filter applications by that term
+    if (searchTerm) {
+      const lowerCaseSearchTerm = searchTerm.toLowerCase();
+      return applications.filter(application =>
+        application.jobTitle.toLowerCase().includes(lowerCaseSearchTerm) ||
+        application.company.toLowerCase().includes(lowerCaseSearchTerm)
+        // More filters could be added if necessary - Job Title and Compnay should work for now.
+      );
+    }
+
+    return applications;
   } catch (err) {
     console.error("Error reading job applications:", err);
     throw err; // Rethrow the error to handle it in the endpoint
   }
 }
 
-// Define a GET endpoint to retrieve all job applications
+// Define a GET endpoint to retrieve all job applications. Accepts search term to search for a specific job listing
 app.get("/job-applications", (req, res) => {
   try {
-    const applications = getJobApplications();
-    res.json(applications); // Send the job applications data as JSON
+    // Get the search term from query parameters if it exists
+    const searchTerm = req.query.search || '';
+    const applications = getJobApplications(searchTerm);
+    res.json(applications);
   } catch (error) {
     res.status(500).send("Error retrieving job applications");
   }

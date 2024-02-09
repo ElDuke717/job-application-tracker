@@ -59,43 +59,42 @@ const JobList = () => {
   // Add pagination logic here
   const itemsPerPage = 20;
 
-  // Get the job application data from the server
+  // Get the job application data from the server - include the search term in the request
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3001/job-applications"); // Adjust the URL as needed
+        // Include the search term in the request
+        const url = new URL("http://localhost:3001/job-applications");
+        if (searchTerm) {
+          url.searchParams.append("search", searchTerm); // Assuming your API accepts `search` as a query parameter
+        }
+  
+        const response = await fetch(url); // Use the URL with the search parameter
         const data = await response.json();
+  
         setTotalPages(Math.ceil(data.length / itemsPerPage));
         const startIndex = (currentPage - 1) * itemsPerPage;
         const sortedData = data.sort(
-          (
-            a: { dateSubmitted: string | number | Date },
-            b: { dateSubmitted: string | number | Date }
-          ) =>
-            new Date(b.dateSubmitted).getTime() -
-            new Date(a.dateSubmitted).getTime()
+          (a, b) =>
+            new Date(b.dateSubmitted).getTime() - new Date(a.dateSubmitted).getTime()
         );
-        const paginatedData = sortedData.slice(
-          startIndex,
-          startIndex + itemsPerPage
-        );
-
+        const paginatedData = sortedData.slice(startIndex, startIndex + itemsPerPage);
+  
         // Add age to each job application
-        const dataWithAge = paginatedData.map(
-          (app: { dateSubmitted: string }) => ({
-            ...app,
-            age: getApplicationAgeInDays(app.dateSubmitted),
-          })
-        );
-
+        const dataWithAge = paginatedData.map((app) => ({
+          ...app,
+          age: getApplicationAgeInDays(app.dateSubmitted),
+        }));
+  
         setJobApplications(dataWithAge);
       } catch (error) {
         console.error("Error fetching job applications:", error);
       }
     };
-
+  
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, searchTerm]); // Add searchTerm as a dependency
+  
 
   const goToPage = (pageNumber: React.SetStateAction<number>) => {
     setCurrentPage(pageNumber);

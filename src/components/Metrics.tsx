@@ -158,12 +158,12 @@ const Metrics = () => {
             emails, 
             interviews,
             ghostedApplications,
-            averageTimeToResponse: averageTimeToResponse.toFixed(2), // Round to 2 decimal places
-            maxTimeToResponse: maxTimeToResponse.toFixed(2), // Round to 2 decimal places
-            minTimeToResponse: minTimeToResponse.toFixed(2), // Round to 2 decimal places
-            ghostRate: ghostRate.toFixed(2), // Round to 2 decimal places
-            dailyApplicationRateThisWeek: dailyApplicationRateThisWeek.toFixed(2),
-            dailyApplicationRateLastWeek: dailyApplicationRateLastWeek.toFixed(2),
+            averageTimeToResponse: averageTimeToResponse.toFixed(), // Round to 2 decimal places
+            maxTimeToResponse: maxTimeToResponse.toFixed(), // Round to 2 decimal places
+            minTimeToResponse: minTimeToResponse.toFixed(), // Round to 2 decimal places
+            ghostRate: ghostRate.toFixed(), // Round to 2 decimal places
+            dailyApplicationRateThisWeek: dailyApplicationRateThisWeek.toFixed(),
+            dailyApplicationRateLastWeek: dailyApplicationRateLastWeek.toFixed(),
             maxApplicationsInADay 
         });
         // set jobApplications state

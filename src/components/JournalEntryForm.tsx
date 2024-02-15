@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import JournalEntryModal from './JournalEntryModal';
 import { v4 as uuidv4 } from 'uuid';
+import Footer from './Footer';
 
 const JournalEntryForm = () => {
     const [date, setDate] = useState('');
@@ -130,7 +131,7 @@ const JournalEntryForm = () => {
     };
 
     return (
-        
+        <>
         <div className="journal-container">
             <div className="form-container">
                 <h2>Add a Journal Entry</h2>
@@ -194,6 +195,8 @@ const JournalEntryForm = () => {
                 )}
             </div>
         </div>
+        <Footer />
+        </>
     );
 };
 

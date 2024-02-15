@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { JobApplication } from "../types/jobApplication";
 import getApplicationAgeInDays from "../utils/getApplicationAgeInDays";
+import Footer from "./Footer";
 
 const JobList = () => {
   const [jobApplications, setJobApplications] = useState<JobApplication[]>([]);
@@ -101,6 +102,7 @@ const JobList = () => {
   };
 
   return (
+    <>
     <div className="table-container">
       {/* Search Input */}
       <input
@@ -188,6 +190,8 @@ const JobList = () => {
         )}
       </div>
     </div>
+     <Footer />
+    </>
   );
 };
 
@@ -285,6 +289,7 @@ const EditJobApplicationModal = ({ application, onClose, onSave }) => {
           </button>
         </form>
       </div>
+      
     </div>
   );
 };

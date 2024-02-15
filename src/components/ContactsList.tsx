@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Footer from "./Footer";
 
 // Define the contact interface based on your JSON structure
 interface Contact {
@@ -58,6 +59,7 @@ const ContactsList: React.FC = () => {
   };
 
   return (
+    <>
     <div className="table-container">
       {contacts.length > 0 ? (
         <table className="contacts-table">
@@ -105,6 +107,8 @@ const ContactsList: React.FC = () => {
         )}
       </div>
     </div>
+    <Footer />
+    </>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import JobSiteFormModal from './JobSiteFormModal'; 
 import { useNavigate } from "react-router-dom";
+import Footer from './Footer';
 
 // Define the type for the job site entry
 type JobSiteEntry = {
@@ -99,7 +100,7 @@ const JobSiteList = () => {
   
 
   return (
-    
+    <>
     <div className="table-container">
       {jobSites.length > 0 ? (
         <table className="job-sites-table">
@@ -162,6 +163,8 @@ const JobSiteList = () => {
         </div>
         )}
     </div>
+    <Footer />
+    </>
   );
 };
 

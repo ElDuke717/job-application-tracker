@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import BarGraph from './BarGraph';
 import PieChart from './PieChart';
+import Footer from './Footer';
 
 const Metrics = () => {
   const [metrics, setMetrics] = useState({
@@ -241,7 +242,7 @@ const Metrics = () => {
         // ghostedApplications={metrics.ghostedApplications}
         />
         <PieChart  data={jobApplications} groupByKey="applicationType" />
-        
+        <Footer />
     </>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import Footer from './Footer';
 
 const initialContactState = {
   id: uuidv4(),
@@ -284,6 +285,7 @@ const JobContactForm = ({ initialData = initialContactState }) => {
 
       <button type="submit">Save Contact</button>
     </form>
+    <Footer />
 </>
   );
 };

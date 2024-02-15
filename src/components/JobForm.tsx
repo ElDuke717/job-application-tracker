@@ -2,6 +2,7 @@ import './JobForm.css';
 import React, { useState, ChangeEventHandler } from "react";
 import { JobApplication } from "../types/jobApplication";
 import { v4 as uuidv4 } from "uuid";
+import Footer from './Footer';
 
 // initial state for form
 const initialJobApplicationState: JobApplication = {
@@ -402,6 +403,7 @@ const JobForm = () => {
           <button className="submit-button" type="submit">Submit</button>
         </form>
       </div>
+      <Footer />
     </>
   );
 };

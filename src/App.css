@@ -690,3 +690,27 @@ td:nth-child(2) {
   word-wrap: break-word; /* To ensure words break and wrap onto the next line */
   white-space: pre-wrap; /* This will maintain any spaces and line bre*/
 }
+
+footer {
+  max-width: 600px;
+  margin: 20px auto;
+  /* padding: 20px; */
+  background: var(--grey-050);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.github_logo {
+  height: 50px;
+  margin: 20px;
+  cursor: pointer;
+}
+
+.github_logo:hover {
+  filter: drop-shadow(0 0 2em var(--indigo-400));
+  cursor: pointer;
+}

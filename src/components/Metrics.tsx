@@ -62,7 +62,7 @@ const Metrics = () => {
       const interviews = jobApplications.filter(app => app.notesComments && app.notesComments.toLowerCase().includes('interview')).length;
 
       // Calculate rejection rate   
-      const rejectionRate = totalApplications > 0 ? (totalRejections / totalApplications * 100).toFixed(2) : 0;
+      const rejectionRate = totalApplications > 0 ? (totalRejections / totalApplications * 100).toFixed() : 0;
 
       // Calculate the average time to response
       const applicationsWithResponse = jobApplications.filter(app => app.updatedDate);

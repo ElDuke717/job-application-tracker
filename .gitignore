@@ -21,6 +21,11 @@ jobApplications.json
 job-sites.json
 database.sqlite
 /server/data/database.sqlite
+journalEntries.json
+/server/data/journalEntries.json
+modified_job_sites_data.json
+/server/data/modified_job_sites_data.json
+
 
 # Editor directories and files
 .vscode/*

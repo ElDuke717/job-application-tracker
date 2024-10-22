@@ -130,11 +130,12 @@ const JobList = () => {
           <tbody>
             {filteredApplications.map((application) => (
               <tr key={application.id}>
-                <td>{application.dateSubmitted}</td>
+               
+                <td>{new Date(application.dateSubmitted).toLocaleDateString()}</td>
                 <td>
-                  {application.updatedDate === ""
+                  {application.updatedDate === null
                     ? "No updates yet"
-                    : application.updatedDate}
+                    : new Date(application.updatedDate).toLocaleDateString()}
                 </td>
                 <td>
                   <a

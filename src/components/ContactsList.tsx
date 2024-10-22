@@ -77,7 +77,7 @@ const ContactsList: React.FC = () => {
                 <td>{contact.name}</td>
                 <td>{contact.title}</td>
                 <td>{contact.company}</td>
-                <td>{contact.lastContactDate}</td>
+                <td>{new Date(contact.lastContactDate).toLocaleDateString()}</td>
                 <td>
                   <button onClick={() => goToDetails(contact.id)}>
                     View Details

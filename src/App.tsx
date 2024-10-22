@@ -1,6 +1,6 @@
 import logo from "./assets/job-app-logo.png";
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes, Link, NavLink } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, NavLink } from "react-router-dom";
 import JobForm from "./components/JobForm";
 import JobList from "./components/JobList";
 import Metrics from "./components/Metrics";
@@ -13,11 +13,7 @@ import JobSiteDetails from "./components/JobSiteDetails";
 import JournalEntryForm from "./components/JournalEntryForm";
 
 function App() {
-  // Define a custom class for active links
-  const activeStyle = {
-    color: 'blue', // Example active color
-    textDecoration: 'underline' // Example styling for active link
-  };
+    
 
   return (
     <Router>

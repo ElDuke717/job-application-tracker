@@ -22,6 +22,7 @@ interface Contact {
   links: string;
   sharedDocuments: string;
   id: string;
+  company: string;
 }
 
 const ContactsList: React.FC = () => {

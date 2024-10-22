@@ -1,4 +1,3 @@
-import React from "react";
 import { Group } from "@visx/group";
 import { Bar } from "@visx/shape";
 import { scaleLinear, scaleBand } from "@visx/scale";
@@ -23,7 +22,7 @@ const BarGraph = ({
     totalPhoneScreens,
     totalInterviews,
     totalRejections,
-    ghostedApplications
+    // ghostedApplications
     // totalAcceptances,
     // totalOffers
 }: BarGraphProps) => {

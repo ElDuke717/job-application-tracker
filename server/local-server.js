@@ -1,50 +1,58 @@
-// local-server.js, not adapted to work with a database
+// local-server.js (refactored to work with Sequelize models)
+
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import fs from "fs";
-import path from "path";
-import process from "process";
 import cron from "node-cron";
+import { v4 as uuidv4 } from "uuid";
+
+// Import Sequelize and models
+import sequelize from './database.js';
+import JobApplication from './models/JobApplication.js';
+import Contact from './models/Contact.js';
+import JobSite from './models/JobSite.js';
+import JournalEntry from './models/JournalEntry.js';
+import { Op } from 'sequelize'; // Import Op for query operators
+
+// Synchronize models
+sequelize.sync({ alter: true }).then(() => {
+  console.log('Database & tables created!');
+});
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 
-// Serve static files from the server/data directory
-const dirname = path.dirname(new URL(import.meta.url).pathname);
-app.use("/data", express.static(path.join(dirname, "data")));
+// Remove file system imports and operations since we're using the database
+// import fs from "fs";
+// import path from "path";
+// import process from "process";
+
+// Remove serving static files from the server/data directory if not needed
+// const dirname = path.dirname(new URL(import.meta.url).pathname);
+// app.use("/data", express.static(path.join(dirname, "data")));
 
 // Functionality to update applications that are older than two months
-// Read job applications from file
-function readJobApplications() {
-  const data = fs.readFileSync(filePath, "utf8");
-  return JSON.parse(data);
-}
 
-// Write job applications to file
-function writeJobApplications(applications) {
-  fs.writeFileSync(filePath, JSON.stringify(applications, null, 2));
-}
-
-// Update job applications status
-function updateJobApplications() {
-  const applications = readJobApplications();
+async function updateJobApplications() {
   const twoMonthsAgo = new Date();
   twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
 
-  const updatedApplications = applications.map((app) => {
-    if (
-      new Date(app.dateSubmitted) < twoMonthsAgo &&
-      app.applicationStatus !== "Rejected"
-    ) {
-      return { ...app, applicationStatus: "Older than two months" };
-    }
-    return app;
-  });
-
-  writeJobApplications(updatedApplications);
+  try {
+    await JobApplication.update(
+      { applicationStatus: "Older than two months" },
+      {
+        where: {
+          dateSubmitted: { [Op.lt]: twoMonthsAgo },
+          applicationStatus: { [Op.ne]: "Rejected" },
+        },
+      }
+    );
+    console.log("Job applications updated successfully");
+  } catch (error) {
+    console.error("Error updating job applications:", error);
+  }
 }
 
 // Schedule the update job to run once a day
@@ -60,447 +68,231 @@ cron.schedule(
   }
 );
 
-
-// will append the JSON file
-app.post("/save-application", (req, res) => {
-  const newApplication = req.body;
-  const filePath = path.join(process.cwd(), "data", "jobApplications.json");
-
-  // Read the existing data from the file
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file", err);
-      return res.status(500).send("Error reading existing applications");
-    }
-
-    // Parse the data to JSON, append the new application, then convert back to string
-    let applications = [];
-    try {
-      applications = JSON.parse(data);
-      if (!Array.isArray(applications)) {
-        applications = []; // Reset to an empty array if parsed data is not an array
-      }
-    } catch (parseErr) {
-      console.error("Error parsing JSON, starting with a new array", parseErr);
-      applications = []; // Reset to an empty array if there's a parsing error
-    }
-
-    applications.push(newApplication);
-
-    // Save the updated applications back to the file
-    fs.writeFile(
-      filePath,
-      JSON.stringify(applications, null, 2),
-      (writeErr) => {
-        if (writeErr) {
-          console.error("Error writing file", writeErr);
-          return res.status(500).send("Error saving application");
-        }
-        res.send("Application saved successfully");
-      }
-    );
-  });
+// Endpoint to save a new job application
+app.post("/save-application", async (req, res) => {
+  try {
+    const newApplicationData = req.body;
+    const newApplication = await JobApplication.create({
+      id: uuidv4(),
+      ...newApplicationData,
+    });
+    res.status(201).json(newApplication);
+  } catch (error) {
+    console.error("Error saving application:", error);
+    res.status(500).send("Error saving application");
+  }
 });
 
-// Endpoint to get all job data
-// Define a function to read job applications from file
-function getJobApplications(searchTerm = '') {
+// Endpoint to get all job applications (with optional search term)
+app.get("/job-applications", async (req, res) => {
   try {
-    const filePath = path.join(process.cwd(), "data", "jobApplications.json");
-    const data = fs.readFileSync(filePath, "utf8");
-    const applications = JSON.parse(data);
+    const searchTerm = req.query.search || '';
+    let applications;
 
-    // If a search term is provided, filter applications by that term
     if (searchTerm) {
       const lowerCaseSearchTerm = searchTerm.toLowerCase();
-      return applications.filter(application =>
-        application.jobTitle.toLowerCase().includes(lowerCaseSearchTerm) ||
-        application.company.toLowerCase().includes(lowerCaseSearchTerm)
-        // More filters could be added if necessary - Job Title and Compnay should work for now.
-      );
+      applications = await JobApplication.findAll({
+        where: {
+          [Op.or]: [
+            sequelize.where(
+              sequelize.fn('lower', sequelize.col('jobTitle')),
+              { [Op.like]: `%${lowerCaseSearchTerm}%` }
+            ),
+            sequelize.where(
+              sequelize.fn('lower', sequelize.col('company')),
+              { [Op.like]: `%${lowerCaseSearchTerm}%` }
+            ),
+          ],
+        },
+      });
+    } else {
+      applications = await JobApplication.findAll();
     }
 
-    return applications;
-  } catch (err) {
-    console.error("Error reading job applications:", err);
-    throw err; // Rethrow the error to handle it in the endpoint
-  }
-}
-
-// Define a GET endpoint to retrieve all job applications. Accepts search term to search for a specific job listing
-app.get("/job-applications", (req, res) => {
-  try {
-    // Get the search term from query parameters if it exists
-    const searchTerm = req.query.search || '';
-    const applications = getJobApplications(searchTerm);
     res.json(applications);
   } catch (error) {
+    console.error("Error retrieving job applications:", error);
     res.status(500).send("Error retrieving job applications");
   }
 });
 
-
 // Endpoint to update an existing job application
-app.put("/update-application/:id", (req, res) => {
+app.put("/update-application/:id", async (req, res) => {
   const updatedApplication = req.body;
-  const applicationId = req.params.id;  // Extract ID from the request URL
-  const filePath = path.join(process.cwd(), "data", "jobApplications.json");
+  const applicationId = req.params.id;
 
-  // Read the existing data from the file
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file", err);
-      return res.status(500).send("Error reading applications");
-    }
+  try {
+    const [updatedRows] = await JobApplication.update(updatedApplication, {
+      where: { id: applicationId },
+    });
 
-    // Parse the data to JSON
-    let applications;
-    try {
-      applications = JSON.parse(data);
-    } catch (parseErr) {
-      console.error("Error parsing JSON", parseErr);
-      return res.status(500).send("Error parsing applications data");
-    }
-
-    // Find the index of the application to update
-    const index = applications.findIndex(app => app.id === applicationId);
-    if (index === -1) {
+    if (updatedRows === 0) {
       return res.status(404).send("Application not found");
     }
 
-    // Update the application at the found index
-    applications[index] = { ...applications[index], ...updatedApplication };
-
-    // Save the updated applications back to the file
-    fs.writeFile(filePath, JSON.stringify(applications, null, 2), (writeErr) => {
-      if (writeErr) {
-        console.error("Error writing file", writeErr);
-        return res.status(500).send("Error updating application");
-      }
-      res.send(applications[index]);  // Return the updated application
-    });
-  });
-});
-
-
-// Endpoint to get all job data
-// Define a function to read job applications from file
-function getContacts() {
-  try {
-    const filePath = path.join(process.cwd(), "data", "contacts.json");
-    const data = fs.readFileSync(filePath, "utf8");
-    return JSON.parse(data);
-  } catch (err) {
-    console.error("Error reading job contacts:", err);
-    throw err; // Rethrow the error to handle it in the endpoint
-  }
-}
-// GET contacts
-app.get("/contacts", (req, res) => {
-  try {
-    const contacts = getContacts();
-    res.json(contacts); // Send the job applications data as JSON
+    const updatedApp = await JobApplication.findByPk(applicationId);
+    res.json(updatedApp);
   } catch (error) {
-    res.status(500).send("Error retrieving job applications");
+    console.error("Error updating application:", error);
+    res.status(500).send("Error updating application");
   }
 });
 
+// Endpoint to get all contacts
+app.get("/contacts", async (req, res) => {
+  try {
+    const contacts = await Contact.findAll();
+    res.json(contacts);
+  } catch (error) {
+    console.error("Error retrieving contacts:", error);
+    res.status(500).send("Error retrieving contacts");
+  }
+});
 
-// Appends contact information to the contacts.json file.
-app.post("/save-contact", (req, res) => {
-  const newContact = req.body;
-  const filePath = path.join(process.cwd(), "data", "contacts.json");
-
-  // Read the existing data from the file
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file", err);
-      return res.status(500).send("Error reading existing applications");
-    }
-
-    // Parse the data to JSON, append the new application, then convert back to string
-    let contacts = [];
-    try {
-      contacts = JSON.parse(data);
-      if (!Array.isArray(contacts)) {
-        contacts = []; // Reset to an empty array if parsed data is not an array
-      }
-    } catch (parseErr) {
-      console.error("Error parsing JSON, starting with a new array", parseErr);
-      contacts = []; // Reset to an empty array if there's a parsing error
-    }
-
-    contacts.push(newContact);
-
-    // Save the updated applications back to the file
-    fs.writeFile(
-      filePath,
-      JSON.stringify(contacts, null, 2),
-      (writeErr) => {
-        if (writeErr) {
-          console.error("Error writing file", writeErr);
-          return res.status(500).send("Error saving contact");
-        }
-        res.send("Contact saved successfully");
-      }
-    );
-  });
+// Endpoint to save a new contact
+app.post("/save-contact", async (req, res) => {
+  try {
+    const newContactData = req.body;
+    const newContact = await Contact.create({
+      id: uuidv4(),
+      ...newContactData,
+    });
+    res.status(201).json(newContact);
+  } catch (error) {
+    console.error("Error saving contact:", error);
+    res.status(500).send("Error saving contact");
+  }
 });
 
 // Endpoint to update an existing contact
-app.put("/contacts/:id", (req, res) => {
-  // Check for correct content type (optional but recommended)
+app.put("/contacts/:id", async (req, res) => {
   if (req.headers['content-type'] !== 'application/json') {
     return res.status(400).send('Incorrect content type');
   }
 
   const updatedContact = req.body;
-  const contactId = req.params.id; // Extract ID from the request URL
-  const filePath = path.join(process.cwd(), "data", "contacts.json");
+  const contactId = req.params.id;
 
-  fs.readFile(filePath, "utf8", (err, data) => {
-    // Existing error handling...
-    
-    let contacts;
-    try {
-      contacts = JSON.parse(data);
-    } catch (parseErr) {
-      console.error("Error parsing JSON", parseErr);
-      return res.status(500).send("Error parsing contacts data");
-    }
+  try {
+    const [updatedRows] = await Contact.update(updatedContact, {
+      where: { id: contactId },
+    });
 
-    const index = contacts.findIndex(contact => contact.id === contactId);
-    if (index === -1) {
+    if (updatedRows === 0) {
       return res.status(404).send("Contact not found");
     }
 
-    // Update and validate contact
-    contacts[index] = { ...contacts[index], ...updatedContact };
-    // Add validation here if needed
-
-    fs.writeFile(filePath, JSON.stringify(contacts, null, 2), (writeErr) => {
-      if (writeErr) {
-        console.error("Error writing file", writeErr);
-        return res.status(500).send("Error updating contact");
-      }
-      res.status(200).send(contacts[index]); // Explicitly send 200 status
-    });
-  });
+    const updatedCont = await Contact.findByPk(contactId);
+    res.status(200).json(updatedCont);
+  } catch (error) {
+    console.error("Error updating contact:", error);
+    res.status(500).send("Error updating contact");
+  }
 });
 
-// Job List Details
-// Define a function to read job site data from file
-function getJobSites() {
+// Endpoint to get all job sites
+app.get("/job-site-list", async (req, res) => {
   try {
-    const filePath = path.join(process.cwd(), "data", "job-sites.json");
-    const data = fs.readFileSync(filePath, "utf8");
-    return JSON.parse(data);
-  } catch (err) {
-    console.error("Error reading job contacts:", err);
-    throw err; // Rethrow the error to handle it in the endpoint
-  }
-}
-
-// GET site from job site list
-app.get("/job-site-list", (req, res) => {
-  try {
-    const contacts = getJobSites();
-    res.json(contacts); 
+    const sites = await JobSite.findAll();
+    res.json(sites);
   } catch (error) {
+    console.error("Error retrieving job sites:", error);
     res.status(500).send("Error retrieving job sites");
   }
 });
 
-// Appends site information to the job-site.json file.
-app.post("/save-job-site", (req, res) => {
-  const newSite = req.body;
-  const filePath = path.join(process.cwd(), "data", "job-sites.json");
-
-  // Read the existing data from the file
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file", err);
-      return res.status(500).send("Error reading existing job sites");
-    }
-
-    // Parse the data to JSON, append the new site, then convert back to string
-    let sites = [];
-    try {
-      sites = JSON.parse(data);
-      if (!Array.isArray(sites)) {
-        sites = []; // Reset to an empty array if parsed data is not an array
-      }
-    } catch (parseErr) {
-      console.error("Error parsing JSON, starting with a new array", parseErr);
-      sites = []; // Reset to an empty array if there's a parsing error
-    }
-
-    sites.push(newSite);
-
-    // Save the updated applications back to the file
-    fs.writeFile(
-      filePath,
-      JSON.stringify(sites, null, 2),
-      (writeErr) => {
-        if (writeErr) {
-          console.error("Error writing file", writeErr);
-          return res.status(500).send("Error saving site");
-        }
-        res.send("Site saved successfully");
-      }
-    );
-  });
+// Endpoint to save a new job site
+app.post("/save-job-site", async (req, res) => {
+  try {
+    const newSiteData = req.body;
+    const newSite = await JobSite.create({
+      id: uuidv4(),
+      ...newSiteData,
+    });
+    res.status(201).json(newSite);
+  } catch (error) {
+    console.error("Error saving site:", error);
+    res.status(500).send("Error saving site");
+  }
 });
 
-// Endpoint to update an existing job site  
-app.put("/job-site-list/:id", (req, res) => {
-  // Check for correct content type (optional but recommended)
+// Endpoint to update an existing job site
+app.put("/job-site-list/:id", async (req, res) => {
   if (req.headers['content-type'] !== 'application/json') {
     return res.status(400).send('Incorrect content type');
   }
 
   const updatedSite = req.body;
-  const siteId = req.params.id; // Extract ID from the request URL
-  const filePath = path.join(process.cwd(), "data", "job-sites.json");
+  const siteId = req.params.id;
 
-  fs.readFile(filePath, "utf8", (err, data) => {
-    // Existing error handling...
-    
-    let sites;
-    try {
-      sites = JSON.parse(data);
-    } catch (parseErr) {
-      console.error("Error parsing JSON", parseErr);
-      return res.status(500).send("Error parsing sites data");
-    }
-
-    const index = sites.findIndex(site => site.id === siteId);
-    if (index === -1) {
-      return res.status(404).send("Contact not found");
-    }
-
-    // Update and validate contact
-    sites[index] = { ...sites[index], ...updatedSite };
-    // Add validation here if needed
-
-    fs.writeFile(filePath, JSON.stringify(sites, null, 2), (writeErr) => {
-      if (writeErr) {
-        console.error("Error writing file", writeErr);
-        return res.status(500).send("Error updating site");
-      }
-      res.status(200).send(sites[index]); // Explicitly send 200 status
+  try {
+    const [updatedRows] = await JobSite.update(updatedSite, {
+      where: { id: siteId },
     });
-  });
+
+    if (updatedRows === 0) {
+      return res.status(404).send("Site not found");
+    }
+
+    const updatedJobSite = await JobSite.findByPk(siteId);
+    res.status(200).json(updatedJobSite);
+  } catch (error) {
+    console.error("Error updating site:", error);
+    res.status(500).send("Error updating site");
+  }
 });
 
-// Journal Functionality
-// GET Journal Entries
-function getJournalEntries() {
+// Endpoint to get all journal entries
+app.get("/journal-entries", async (req, res) => {
   try {
-    const filePath = path.join(process.cwd(), "data", "journalEntries.json");
-    const data = fs.readFileSync(filePath, "utf8");
-    return JSON.parse(data);
-  } catch (err) {
-    console.error("Error reading job contacts:", err);
-    throw err; // Rethrow the error to handle it in the endpoint
-  }
-}
-
-// GET site from journal site list
-app.get("/journal-entries", (req, res) => {
-  try {
-    const contacts = getJournalEntries();
-    res.json(contacts); 
+    const entries = await JournalEntry.findAll();
+    res.json(entries);
   } catch (error) {
+    console.error("Error retrieving journal entries:", error);
     res.status(500).send("Error retrieving journal entries");
   }
 });
 
-// POST new journal entry
-// Appends site information to the job-site.json file.
-app.post("/journal-entries", (req, res) => {
-  const newEntry = req.body;
-  const filePath = path.join(process.cwd(), "data", "journalEntries.json");
-
-  // Read the existing data from the file
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file", err);
-      return res.status(500).send("Error reading existing journal entries");
-    }
-
-    // Parse the data to JSON, append the new entry, then convert back to string
-    let entries = [];
-    try {
-      entries = JSON.parse(data);
-      if (!Array.isArray(entries)) {
-        entries = []; // Reset to an empty array if parsed data is not an array
-      }
-    } catch (parseErr) {
-      console.error("Error parsing JSON, starting with a new array", parseErr);
-      entries = []; // Reset to an empty array if there's a parsing error
-    }
-
-    entries.push(newEntry);
-
-    // Save the updated applications back to the file
-    fs.writeFile(
-      filePath,
-      JSON.stringify(entries, null, 2),
-      (writeErr) => {
-        if (writeErr) {
-          console.error("Error writing file", writeErr);
-          return res.status(500).send("Error saving entry");
-        }
-        res.send("Entry saved successfully");
-      }
-    );
-  });
+// Endpoint to save a new journal entry
+app.post("/journal-entries", async (req, res) => {
+  try {
+    const newEntryData = req.body;
+    const newEntry = await JournalEntry.create({
+      id: uuidv4(),
+      ...newEntryData,
+    });
+    res.status(201).json(newEntry);
+  } catch (error) {
+    console.error("Error saving journal entry:", error);
+    res.status(500).send("Error saving journal entry");
+  }
 });
 
-// endpoint to edit an existing journal entry
-// Endpoint to update an existing job site  
-app.put("/journal-entries/:id", (req, res) => {
-  // Check for correct content type (optional but recommended)
+// Endpoint to update an existing journal entry
+app.put("/journal-entries/:id", async (req, res) => {
   if (req.headers['content-type'] !== 'application/json') {
     return res.status(400).send('Incorrect content type');
   }
 
   const updatedEntry = req.body;
-  const entryId = req.params.id; // Extract ID from the request URL
-  const filePath = path.join(process.cwd(), "data", "journalEntries.json");
+  const entryId = req.params.id;
 
-  fs.readFile(filePath, "utf8", (err, data) => {
-    // Existing error handling...
-    
-    let entries;
-    try {
-      entries = JSON.parse(data);
-    } catch (parseErr) {
-      console.error("Error parsing JSON", parseErr);
-      return res.status(500).send("Error parsing entry data");
-    }
+  try {
+    const [updatedRows] = await JournalEntry.update(updatedEntry, {
+      where: { id: entryId },
+    });
 
-    const index = entries.findIndex(entry => entry.id === entryId);
-    if (index === -1) {
+    if (updatedRows === 0) {
       return res.status(404).send("Entry not found");
     }
 
-    // Update and validate entry
-    entries[index] = { ...entries[index], ...updatedEntry };
-    // Add validation here if needed
-
-    fs.writeFile(filePath, JSON.stringify(entries, null, 2), (writeErr) => {
-      if (writeErr) {
-        console.error("Error writing file", writeErr);
-        return res.status(500).send("Error updating entry");
-      }
-      res.status(200).send(entries[index]); // Explicitly send 200 status
-    });
-  });
+    const updatedJournalEntry = await JournalEntry.findByPk(entryId);
+    res.status(200).json(updatedJournalEntry);
+  } catch (error) {
+    console.error("Error updating journal entry:", error);
+    res.status(500).send("Error updating journal entry");
+  }
 });
-
-
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

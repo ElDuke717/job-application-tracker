@@ -19,6 +19,8 @@ dist-ssr
 contacts.json
 jobApplications.json
 job-sites.json
+database.sqlite
+/server/data/database.sqlite
 
 # Editor directories and files
 .vscode/*

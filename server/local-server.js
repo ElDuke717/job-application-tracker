@@ -24,14 +24,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Remove file system imports and operations since we're using the database
-// import fs from "fs";
-// import path from "path";
-// import process from "process";
-
-// Remove serving static files from the server/data directory if not needed
-// const dirname = path.dirname(new URL(import.meta.url).pathname);
-// app.use("/data", express.static(path.join(dirname, "data")));
 
 // Functionality to update applications that are older than two months
 

@@ -30,19 +30,19 @@ const JobContactForm = ({ initialData = initialContactState }) => {
   // state variable for showing modal
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (event) => {
     const { name, value } = event.target;
     setContact({ ...contact, [name]: value });
   };
 
-  const handleSubmit = (event: { preventDefault: () => void; }) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     onSaveContact(contact);
     setContact(initialContactState); // Reset form after submission
   };
 
   useEffect(() => {
-    let timer: number | undefined;
+    let timer;
     if (showModal) {
       timer = setTimeout(() => setShowModal(false), 3000);
     }
@@ -50,7 +50,7 @@ const JobContactForm = ({ initialData = initialContactState }) => {
   }, [showModal]);
   
 
-  const onSaveContact = async (contactData: ContactData) => {
+  const onSaveContact = async (contactData) => {
     
 
     // Generate a unique ID for a new contact

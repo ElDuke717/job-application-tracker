@@ -1,12 +1,11 @@
 import './JobForm.css';
-import React, { useState, ChangeEventHandler } from "react";
-import { JobApplication } from "../types/jobApplication";
+import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Footer from './Footer';
 
-// initial state for form
-const initialJobApplicationState: JobApplication = {
-  dateSubmitted: new Date().toISOString().split("T")[0], // current date in YYYY-MM-DD format, type is a string rather than a Date object
+// Initial state for form
+const initialJobApplicationState = {
+  dateSubmitted: new Date().toISOString().split("T")[0], // current date in YYYY-MM-DD format
   updatedDate: "",
   id: "", 
   company: "",
@@ -27,20 +26,16 @@ const initialJobApplicationState: JobApplication = {
 // JobForm component
 const JobForm = () => {
   // jobApplication state variable
-  const [jobApplication, setJobApplication] = useState<JobApplication>(
-    initialJobApplicationState
-  );
+  const [jobApplication, setJobApplication] = useState(initialJobApplicationState);
 
   // state variable for form errors
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [errors, setErrors] = useState({});
 
   // state variable for showing modal
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState(false);
 
-  // update state when user types in input fields
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  // Update state when user types in input fields
+  const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
     if (type === "checkbox") {
       setJobApplication((prevState) => ({ ...prevState, [name]: checked }));
@@ -49,9 +44,9 @@ const JobForm = () => {
     }
   };
 
-  // validate form errors
-  const validateForm = (): boolean => {
-    const newErrors: { [key: string]: string } = {};
+  // Validate form errors
+  const validateForm = () => {
+    const newErrors = {};
 
     // Required field validation
     const requiredFields = [
@@ -65,34 +60,22 @@ const JobForm = () => {
     ];
     requiredFields.forEach((field) => {
       if (!jobApplication[field].trim()) {
-        newErrors[field] = `${
-          field.charAt(0).toUpperCase() + field.slice(1)
-        } is required`;
+        newErrors[field] = `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
       }
     });
 
     // Email format validation
     if (jobApplication.internalContactEmail) {
-      if (
-        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
-          jobApplication.internalContactEmail
-        )
-      ) {
+      const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+      if (!emailRegex.test(jobApplication.internalContactEmail)) {
         newErrors.internalContactEmail = "Invalid email format";
       }
-    } else {
-      // If the email field is blank, do not add an error (assuming it's optional)
-      // If the email field is mandatory, you can add an error here
-      // newErrors.internalContactEmail = 'Email is required';
     }
 
     // URL validation for jobPostingURL
     const urlFields = ["jobPostingURL"];
     urlFields.forEach((field) => {
-      if (
-        jobApplication[field] &&
-        !/^https?:\/\/.+/.test(jobApplication[field])
-      ) {
+      if (jobApplication[field] && !/^https?:\/\/.+/.test(jobApplication[field])) {
         newErrors[field] = `Invalid URL format for ${field}`;
       }
     });
@@ -103,8 +86,8 @@ const JobForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // handle form submission and save data to local databbase
-  const handleSubmit = async (event: React.FormEvent) => {
+  // Handle form submission and save data to local database
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const isValid = validateForm();
     if (isValid) {
@@ -126,15 +109,17 @@ const JobForm = () => {
           setTimeout(() => setShowModal(false), 3000);
         } else {
           console.log("Failed to save application");
+          // Optionally, set an error state here to inform the user
         }
       } catch (error) {
         console.error("Network error:", error);
+        // Optionally, set an error state here to inform the user
       }
     } else {
       console.log("Validation errors", errors);
+      // Optionally, you can focus the first error field or scroll to the error messages
     }
   };
-  
 
   // JSX for modal 
   const modal = (
@@ -150,6 +135,7 @@ const JobForm = () => {
         borderRadius: "5px",
         boxShadow: "0px 0px 10px rgba(0,0,0,0.5)",
         color: "black",
+        zIndex: 1000, // Ensure the modal appears above other elements
       }}
     >
       <p>Application saved successfully!</p>
@@ -157,7 +143,6 @@ const JobForm = () => {
   );
 
   return (
-    // JSX form
     <>
       {modal}
       <div className="application-form form-container">
@@ -165,7 +150,7 @@ const JobForm = () => {
         <h2 className="component-subtitle">Enter Job Application Details Here</h2>
         <form onSubmit={handleSubmit}>
           {/* Company field */}
-          <div>
+          <div className="form-group">
             <label htmlFor="company">Company:</label>
             <input
               type="text"
@@ -173,14 +158,15 @@ const JobForm = () => {
               name="company"
               value={jobApplication.company}
               onChange={handleInputChange}
+              className={errors.company ? "input-error" : ""}
             />
             {errors.company && (
-              <div style={{ color: "red" }}>{errors.company}</div>
+              <div className="error-message">{errors.company}</div>
             )}
           </div>
 
           {/* Job Title field */}
-          <div>
+          <div className="form-group">
             <label htmlFor="jobTitle">Job Title:</label>
             <input
               type="text"
@@ -188,14 +174,15 @@ const JobForm = () => {
               name="jobTitle"
               value={jobApplication.jobTitle}
               onChange={handleInputChange}
+              className={errors.jobTitle ? "input-error" : ""}
             />
             {errors.jobTitle && (
-              <div style={{ color: "red" }}>{errors.jobTitle}</div>
+              <div className="error-message">{errors.jobTitle}</div>
             )}
           </div>
 
           {/* Date Submitted field */}
-          <div>
+          <div className="form-group">
             <label htmlFor="dateSubmitted">Date Submitted:</label>
             <input
               type="date"
@@ -203,14 +190,15 @@ const JobForm = () => {
               name="dateSubmitted"
               value={jobApplication.dateSubmitted}
               onChange={handleInputChange}
+              className={errors.dateSubmitted ? "input-error" : ""}
             />
             {errors.dateSubmitted && (
-              <div style={{ color: "red" }}>{errors.dateSubmitted}</div>
+              <div className="error-message">{errors.dateSubmitted}</div>
             )}
           </div>
 
           {/* Location field */}
-          <div>
+          <div className="form-group">
             <label htmlFor="location">Location:</label>
             <input
               type="text"
@@ -218,14 +206,15 @@ const JobForm = () => {
               name="location"
               value={jobApplication.location}
               onChange={handleInputChange}
+              className={errors.location ? "input-error" : ""}
             />
             {errors.location && (
-              <div style={{ color: "red" }}>{errors.location}</div>
+              <div className="error-message">{errors.location}</div>
             )}
           </div>
 
           {/* Application Status field */}
-          <div>
+          <div className="form-group">
             <label htmlFor="applicationStatus">Application Status:</label>
             <select
               id="applicationStatus"
@@ -241,12 +230,12 @@ const JobForm = () => {
               <option value="Move to interview">Move to interview</option>
             </select>
             {errors.applicationStatus && (
-              <div style={{ color: "red" }}>{errors.applicationStatus}</div>
+              <div className="error-message">{errors.applicationStatus}</div>
             )}
           </div>
 
           {/* Application Type field */}
-          <div>
+          <div className="form-group">
             <label htmlFor="applicationType">Application Type:</label>
             <select
               id="applicationType"
@@ -255,14 +244,13 @@ const JobForm = () => {
               value={jobApplication.applicationType}
               onChange={handleInputChange}
             >
-              <option value="choose one">Choose One</option>
+              <option value="">Choose One</option>
               <option value="LinkedIn Easy Apply">LinkedIn Easy Apply</option>
               <option value="Quick apply">Quick apply</option>
               <option value="Traditional">Traditional</option>
               <option value="Codesmith style">Codesmith style</option>
               <option value="Workday application">Workday</option>
-              <option value="Greenhouse application">
-                Greenhouse</option>
+              <option value="Greenhouse application">Greenhouse</option>
               <option value="Wellfound">Wellfound</option>
               <option value="Dice">Dice</option>
               <option value="Y-combinator">Y-combinator</option>
@@ -277,12 +265,12 @@ const JobForm = () => {
               <option value="Other">Other</option>
             </select>
             {errors.applicationType && (
-              <div style={{ color: "red" }}>{errors.applicationType}</div>
+              <div className="error-message">{errors.applicationType}</div>
             )}
           </div>
 
           {/* Resume field */}
-          <div>
+          <div className="form-group">
             <label htmlFor="resume">Resume Version:</label>
             <input
               type="text"
@@ -290,14 +278,15 @@ const JobForm = () => {
               name="resume"
               value={jobApplication.resume}
               onChange={handleInputChange}
+              className={errors.resume ? "input-error" : ""}
             />
             {errors.resume && (
-              <div style={{ color: "red" }}>{errors.resume}</div>
+              <div className="error-message">{errors.resume}</div>
             )}
           </div>
 
           {/* Cover Letter field */}
-          <div>
+          <div className="form-group">
             <label htmlFor="coverLetter">
               Cover Letter? (n/a or filename if included):
             </label>
@@ -307,14 +296,15 @@ const JobForm = () => {
               name="coverLetter"
               value={jobApplication.coverLetter}
               onChange={handleInputChange}
+              className={errors.coverLetter ? "input-error" : ""}
             />
             {errors.coverLetter && (
-              <div style={{ color: "red" }}>{errors.coverLetter}</div>
+              <div className="error-message">{errors.coverLetter}</div>
             )}
           </div>
 
           {/* Job Posting URL field */}
-          <div>
+          <div className="form-group">
             <label htmlFor="jobPostingURL">Job Posting URL:</label>
             <input
               type="text"
@@ -322,14 +312,15 @@ const JobForm = () => {
               name="jobPostingURL"
               value={jobApplication.jobPostingURL}
               onChange={handleInputChange}
+              className={errors.jobPostingURL ? "input-error" : ""}
             />
             {errors.jobPostingURL && (
-              <div style={{ color: "red" }}>{errors.jobPostingURL}</div>
+              <div className="error-message">{errors.jobPostingURL}</div>
             )}
           </div>
 
           {/* Internal Contact Name field */}
-          <div>
+          <div className="form-group">
             <label htmlFor="internalContactName">Internal Contact Name:</label>
             <input
               type="text"
@@ -342,7 +333,7 @@ const JobForm = () => {
           </div>
 
           {/* Internal Contact Title field */}
-          <div>
+          <div className="form-group">
             <label htmlFor="internalContactTitle">
               Internal Contact Title:
             </label>
@@ -357,24 +348,25 @@ const JobForm = () => {
           </div>
 
           {/* Internal Contact Email field */}
-          <div>
+          <div className="form-group">
             <label htmlFor="internalContactEmail">
               Internal Contact Email:
             </label>
             <input
-              type="text"
+              type="email"
               id="internalContactEmail"
               name="internalContactEmail"
               value={jobApplication.internalContactEmail}
               onChange={handleInputChange}
+              className={errors.internalContactEmail ? "input-error" : ""}
             />
             {errors.internalContactEmail && (
-              <div style={{ color: "red" }}>{errors.internalContactEmail}</div>
+              <div className="error-message">{errors.internalContactEmail}</div>
             )}
           </div>
 
           {/* Double Down field */}
-          <div>
+          <div className="form-group checkbox-group">
             <label htmlFor="doubleDown">Double Down:</label>
             <input
               type="checkbox"
@@ -387,16 +379,14 @@ const JobForm = () => {
           </div>
 
           {/* Notes/Comments field */}
-          <div>
+          <div className="form-group">
             <label htmlFor="notesComments">Notes/Comments:</label>
             <textarea
               id="notesComments"
               name="notesComments"
               className="notes-textarea"
               value={jobApplication.notesComments}
-              onChange={
-                handleInputChange as unknown as ChangeEventHandler<HTMLTextAreaElement>
-              }
+              onChange={handleInputChange}
             />
           </div>
 

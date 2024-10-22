@@ -166,7 +166,7 @@ const EditContactDetailsModal = ({ contact, onClose, onSave }) => {
             <input
               type="date"
               name="lastContactDate"
-              value={updatedContact.lastContactDate || ""}
+              value={new Date(updatedContact.lastContactDate).toLocaleDateString() || ""}
               onChange={handleChange}
             />
           </label>

@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import EditContactDetailsModal from "./EditContactDetailsModal";
 
 const ContactDetails = () => {
   const [contact, setContact] = useState(null);
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState(false);
   const { contactId } = useParams(); // Extract UUID from the URL
 
   useEffect(() => {
@@ -30,38 +30,37 @@ const ContactDetails = () => {
     setShowModal(true);
   };
 
-    // Function to handle closing the modal
-    const handleCloseModal = () => {
-        setShowModal(false);
-    };
+  // Function to handle closing the modal
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  // Function to handle saving changes
+  const handleSaveChanges = async (updatedContact) => {
+    try {
+      const response = await fetch(`http://localhost:3001/contacts/${updatedContact.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedContact),
+      });
+      if (response.ok) {
+        setContact(updatedContact);
+      } else {
+        console.error("Error saving contact:", response);
+      }
+    } catch (error) {
+      console.error("Error saving contact:", error);
+    }
+
+    handleCloseModal();
+  };
 
   if (!contact) {
     return <div>Loading...</div>;
   }
 
-  // Function to handle saving changes
-    const handleSaveChanges = async (updatedContact) => {
-        try {
-        const response = await fetch(`http://localhost:3001/contacts/${updatedContact.id}`, {
-            method: 'PUT',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedContact),
-            });
-            if (response.ok) {
-                setContact(updatedContact);
-            } else {
-                console.error('Error saving contact:', response);
-            }
-        } catch (error) {
-        console.error('Error saving contact:', error);
-        }
-        
-        handleCloseModal();
-    };
-
-    
   return (
     <div className="contact-details">
       <h2>Contact Details</h2>
@@ -111,21 +110,19 @@ const ContactDetails = () => {
           <p>Shared Documents: {contact.sharedDocuments}</p>
         )}
       </div>
-      <button
-        className="edit-details-button"
-        onClick={handleOpenModal}
-        > Edit Details 
-        </button>
-        <Link to="/job-contact-list" className="back-to-contacts">
-      Back to Contacts List
-    </Link>
-        {showModal && (
+      <button className="edit-details-button" onClick={handleOpenModal}>
+        Edit Details
+      </button>
+      <Link to="/job-contact-list" className="back-to-contacts">
+        Back to Contacts List
+      </Link>
+      {showModal && (
         <EditContactDetailsModal
           contact={contact}
           onClose={handleCloseModal}
           onSave={handleSaveChanges}
-        /> 
-        )}
+        />
+      )}
     </div>
   );
 };
